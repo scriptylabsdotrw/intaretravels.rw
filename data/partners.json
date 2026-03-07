@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "name": "RwandAir",
+    "logo": "/airlines/rwandair.svg",
+    "description": "Rwanda's national carrier",
+    "active": true
+  },
+  {
+    "id": "2",
+    "name": "Emirates",
+    "logo": "/airlines/emirates.svg",
+    "description": "Luxury Middle East flights",
+    "active": true
+  },
+  {
+    "id": "3",
+    "name": "Kenya Airways",
+    "logo": "/airlines/kenya-airways.svg",
+    "description": "East African connections",
+    "active": true
+  }
+]

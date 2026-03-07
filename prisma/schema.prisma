@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tour {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  description     String
+  price           Float
+  currency        String   @default("USD")
+  duration        String
+  image           String
+  highlights      String[]
+  included        String[]
+  featured        Boolean  @default(false)
+  seoTitle        String?
+  seoDescription  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([featured])
+}
+
+model Apartment {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  description     String
+  pricePerNight   Float
+  currency        String   @default("USD")
+  bedrooms        Int
+  bathrooms       Int
+  maxGuests       Int
+  image           String
+  amenities       String[]
+  address         String
+  featured        Boolean  @default(false)
+  seoTitle        String?
+  seoDescription  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([featured])
+}
+
+model Promotion {
+  id          String   @id @default(cuid())
+  destination String
+  price       Float
+  discount    String
+  airline     String
+  validUntil  String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active])
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  name        String
+  logo        String
+  description String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active])
+}

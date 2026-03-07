@@ -1,0 +1,282 @@
+[
+  {
+    "id": "1",
+    "slug": "angola-7-day-adventure",
+    "name": "7-Day Angola Adventure",
+    "description": "Experience the best of Angola from Luanda's beaches to Lubango's mountains. Romantic sunsets, dramatic cliffs, and unforgettable moments.",
+    "price": 1925,
+    "currency": "USD",
+    "duration": "7 days",
+    "image": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=800",
+    "highlights": [
+      "Ilha do Mussulo beach & sunset cocktails",
+      "Mira Douro da Lua dramatic cliffs",
+      "Tundavala Gap heart-racing views",
+      "Benguela beach escape & snorkeling",
+      "Candlelight dinners & couples massage"
+    ],
+    "included": [
+      "Hotels (6 nights)",
+      "All meals & drinks",
+      "Transport & activities",
+      "Guided tours"
+    ],
+    "featured": true,
+    "seoTitle": "7-Day Angola Tour - Beaches, Mountains & Romance",
+    "seoDescription": "Explore Angola's stunning landscapes from Luanda beaches to Lubango mountains. Perfect romantic getaway with adventure and relaxation.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival in Luanda",
+        "activities": ["Arrival & check-in", "Ilha do Mussulo beach", "Sunset cocktails", "Candlelight seafood dinner"]
+      },
+      {
+        "day": 2,
+        "title": "Cliffs, Culture & Fire",
+        "activities": ["Fortaleza de São Miguel", "Mira Douro da Lua", "Rooftop dinner with city lights"]
+      },
+      {
+        "day": 3,
+        "title": "Into the Mountains (Lubango)",
+        "activities": ["Transfer to Lubango", "Christ the King statue", "Golden-hour photos", "Fireplace dinner"]
+      },
+      {
+        "day": 4,
+        "title": "Tundavala Gap & Waterfall",
+        "activities": ["Tundavala cliffs", "Waterfall swim & picnic", "Wine & couples massage"]
+      },
+      {
+        "day": 5,
+        "title": "Benguela Beach Escape",
+        "activities": ["Transfer to Benguela", "Praia Morena beach", "Beachfront dinner"]
+      },
+      {
+        "day": 6,
+        "title": "Sea Adventure",
+        "activities": ["Boat ride & snorkeling", "Couples massage", "Farewell dinner"]
+      },
+      {
+        "day": 7,
+        "title": "Soft Goodbye",
+        "activities": ["Morning coffee by the sea", "Journaling together", "Departure"]
+      }
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "slug": "zambia-victoria-falls-7-days",
+    "name": "7-Day Zambia Victoria Falls Experience",
+    "description": "Discover the magic of Victoria Falls with sunset cruises, safari adventures, and adrenaline activities. Perfect blend of romance and excitement.",
+    "price": 1440,
+    "currency": "USD",
+    "duration": "7 days",
+    "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800",
+    "highlights": [
+      "Victoria Falls guided walk with rainbows",
+      "Zambezi sunset cruise",
+      "Sunrise safari & river canoe",
+      "Ziplining & white-water rafting",
+      "Local village cultural visit"
+    ],
+    "included": [
+      "Hotels (6 nights)",
+      "All meals & drinks",
+      "Transport & activities",
+      "Safari experiences"
+    ],
+    "featured": true,
+    "seoTitle": "7-Day Zambia Victoria Falls Safari & Adventure Tour",
+    "seoDescription": "Experience Victoria Falls, safari adventures, and romantic Zambezi sunsets. Perfect 7-day Zambia tour with culture and adrenaline.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival & River Romance",
+        "activities": ["Arrival & hotel transfer", "Pool time", "Zambezi sunset cruise", "Candlelight dinner"]
+      },
+      {
+        "day": 2,
+        "title": "Victoria Falls Magic",
+        "activities": ["Guided walk at Victoria Falls", "Rainbow photos", "Sunset viewpoint", "Rooftop dinner"]
+      },
+      {
+        "day": 3,
+        "title": "Adrenaline Bonding",
+        "activities": ["Ziplining/Gorge swing/Rafting", "Spa relaxation", "Poolside sunset"]
+      },
+      {
+        "day": 4,
+        "title": "Safari Love",
+        "activities": ["Sunrise safari", "River canoe safari", "Fire-lit dinner"]
+      },
+      {
+        "day": 5,
+        "title": "Culture & Slow Love",
+        "activities": ["Local village visit", "Traditional lunch", "Sunset photos", "Dress-up dinner"]
+      },
+      {
+        "day": 6,
+        "title": "Last Adventure Day",
+        "activities": ["Helicopter flight", "Souvenir shopping", "Farewell dinner"]
+      },
+      {
+        "day": 7,
+        "title": "Soft Goodbye",
+        "activities": ["River breakfast", "Check-out & departure"]
+      }
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "slug": "malawi-lake-paradise-7-days",
+    "name": "7-Day Malawi Lake Paradise",
+    "description": "Relax on the shores of Lake Malawi with beach walks, water activities, and stunning sunsets. Perfect romantic escape in the warm heart of Africa.",
+    "price": 1525,
+    "currency": "USD",
+    "duration": "7 days",
+    "image": "https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=800",
+    "highlights": [
+      "Cape Maclear beach paradise",
+      "Kayaking & snorkeling on Lake Malawi",
+      "Nkhata Bay sunset boat cruise",
+      "Romantic lakeside picnics",
+      "Couples spa experience"
+    ],
+    "included": [
+      "Hotels (6 nights)",
+      "All meals & drinks",
+      "Lake activities",
+      "Scenic transfers"
+    ],
+    "featured": true,
+    "seoTitle": "7-Day Malawi Lake Tour - Beach Paradise & Romance",
+    "seoDescription": "Discover Lake Malawi's crystal waters with kayaking, snorkeling, and romantic sunsets. Perfect 7-day beach escape.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival to Lilongwe",
+        "activities": ["Check-in at MalVille Boutique Hotel", "Dinner", "Evening stroll"]
+      },
+      {
+        "day": 2,
+        "title": "Travel to Cape Maclear",
+        "activities": ["Transfer to Latitude 13 Degrees", "Beach walks", "Sunset cocktails"]
+      },
+      {
+        "day": 3,
+        "title": "Lake Activities",
+        "activities": ["Kayak or paddleboard", "Snorkeling/scuba diving", "Romantic picnic lunch"]
+      },
+      {
+        "day": 4,
+        "title": "Drive to Nkhata Bay",
+        "activities": ["Scenic lakeside transfer", "Lake-view terrace", "Sunset over the bay"]
+      },
+      {
+        "day": 5,
+        "title": "Chill on Lake",
+        "activities": ["Boat cruise at sunset", "Beach time", "Local hike"]
+      },
+      {
+        "day": 6,
+        "title": "Return to Lilongwe",
+        "activities": ["Transfer back", "Couple spa", "Dinner"]
+      },
+      {
+        "day": 7,
+        "title": "Departure",
+        "activities": ["Breakfast", "Gift shopping", "Airport transfer"]
+      }
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "slug": "mauritius-island-escape-3-days",
+    "name": "3-Day Mauritius Island Escape",
+    "description": "Experience paradise with white sand beaches, dolphin watching, and stunning waterfalls. Perfect tropical getaway with luxury and adventure.",
+    "price": 800,
+    "currency": "USD",
+    "duration": "3 days",
+    "image": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800",
+    "highlights": [
+      "Île aux Cerfs white sand beaches",
+      "Dolphin watching in Tamarin Bay",
+      "Seven Coloured Earths & Chamarel Waterfall",
+      "Le Morne Brabant sunset",
+      "Colonial mansion & rum tasting"
+    ],
+    "included": [
+      "Hotels (3 nights at Oceanic Villa)",
+      "All meals & drinks",
+      "Transport & activities",
+      "Speedboat transfers"
+    ],
+    "featured": false,
+    "seoTitle": "3-Day Mauritius Tour - Island Paradise & Adventure",
+    "seoDescription": "Explore Mauritius beaches, waterfalls, and wildlife. Perfect 3-day tropical escape with dolphins and stunning landscapes.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival & North Coast",
+        "activities": ["Airport transfer to Oceanic Villa", "Château de Labourdonnais visit", "Rum tasting", "Mont Choisy Beach sunset", "Seafood dinner in Grand Baie"]
+      },
+      {
+        "day": 2,
+        "title": "East & South Adventure",
+        "activities": ["Speedboat to Île aux Cerfs", "Parasailing & swimming", "Trou aux Cerfs", "Seven Coloured Earths", "Chamarel Waterfall", "Le Morne sunset"]
+      },
+      {
+        "day": 3,
+        "title": "West Coast & Wildlife",
+        "activities": ["Dolphin watching in Tamarin Bay", "Black River Gorges National Park", "Alexandra Falls", "Airport transfer"]
+      }
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "id": "5",
+    "slug": "ghana-cultural-heritage-3-days",
+    "name": "3-Day Ghana Cultural Heritage Tour",
+    "description": "Discover Ghana's rich history with UNESCO castles, canopy walks, and vibrant markets. Perfect cultural immersion in West Africa.",
+    "price": 617,
+    "currency": "USD",
+    "duration": "3 days",
+    "image": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=800",
+    "highlights": [
+      "Cape Coast Castle UNESCO site",
+      "Kakum National Park Canopy Walk",
+      "Kwame Nkrumah Mausoleum",
+      "Elmina Castle historical tour",
+      "Makola Market experience"
+    ],
+    "included": [
+      "Hotels (3 nights)",
+      "All meals & drinks",
+      "Transport & activities",
+      "Guided tours"
+    ],
+    "featured": false,
+    "seoTitle": "3-Day Ghana Cultural Tour - Castles, History & Nature",
+    "seoDescription": "Explore Ghana's UNESCO castles, Kakum canopy walk, and vibrant culture. Perfect 3-day historical adventure.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival in Accra",
+        "activities": ["Airport transfer to Lou-Ralph Hotel", "Kwame Nkrumah Mausoleum", "Independence Arch", "Makola Market", "Ghanaian dinner"]
+      },
+      {
+        "day": 2,
+        "title": "Cape Coast Historical Adventure",
+        "activities": ["Drive to Cape Coast", "Cape Coast Castle tour", "Elmina Castle visit", "Kakum National Park", "Canopy Walk", "Beach lunch"]
+      },
+      {
+        "day": 3,
+        "title": "Cultural & Relaxation",
+        "activities": ["Aburi Botanical Gardens OR Labadi Beach", "Arts Centre shopping", "Airport transfer"]
+      }
+    ],
+    "createdAt": "2026-03-01T00:00:00.000Z"
+  }
+]

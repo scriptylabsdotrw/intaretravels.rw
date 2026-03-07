@@ -1,0 +1,32 @@
+# Image Placeholders
+
+Add these images to the public folder:
+
+## Hero
+- /hero-rwanda.jpg (1920x1080) - Main hero background
+
+## Features (for feature cards)
+- /features/gorilla.jpg (600x400)
+- /features/kigali.jpg (600x400)
+- /features/kivu.jpg (600x400)
+- /features/flights.jpg (600x400)
+
+## Tours
+- /tours/kigali-city.jpg (800x600)
+- /tours/volcanoes.jpg (800x600)
+- /tours/lake-kivu.jpg (800x600)
+
+## Apartments
+- /apartments/downtown.jpg (800x600)
+
+## Airlines
+- /airlines/rwandair.svg
+- /airlines/emirates.svg
+- /airlines/kenya-airways.svg
+
+You can use free stock photos from:
+- Unsplash.com
+- Pexels.com
+- Pixabay.com
+
+Search for: "Rwanda", "Kigali", "Gorilla", "Lake Kivu", "African landscape"

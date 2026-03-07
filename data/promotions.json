@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "destination": "Dubai",
+    "price": 599,
+    "discount": "30% OFF",
+    "airline": "Emirates",
+    "validUntil": "2026-06-30",
+    "active": true
+  },
+  {
+    "id": "2",
+    "destination": "Nairobi",
+    "price": 199,
+    "discount": "25% OFF",
+    "airline": "RwandAir",
+    "validUntil": "2026-05-31",
+    "active": true
+  }
+]
