@@ -68,7 +68,7 @@
     "slug": "zambia-victoria-falls-7-days",
     "name": "7-Day Zambia Victoria Falls Experience",
     "description": "Discover the magic of Victoria Falls with sunset cruises, safari adventures, and adrenaline activities. Perfect blend of romance and excitement.",
-    "price": 1440,
+    "price": 2880,
     "currency": "USD",
     "duration": "7 days",
     "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800",
@@ -80,10 +80,10 @@
       "Local village cultural visit"
     ],
     "included": [
-      "Hotels (6 nights)",
-      "All meals & drinks",
-      "Transport & activities",
-      "Safari experiences"
+      "Hotels (6 nights) - $700",
+      "Food & drinks - $350",
+      "Transport & activities - $550",
+      "Flight tickets - $1,280"
     ],
     "featured": true,
     "seoTitle": "7-Day Zambia Victoria Falls Safari & Adventure Tour",
@@ -92,37 +92,74 @@
       {
         "day": 1,
         "title": "Arrival & River Romance",
-        "activities": ["Arrival & hotel transfer", "Pool time", "Zambezi sunset cruise", "Candlelight dinner"]
+        "activities": [
+          "09:00–11:00 – Arrival + transfer to hotel",
+          "12:30–14:00 – Light lunch + freshen up",
+          "15:30–17:00 – Pool time + rest",
+          "17:30–19:00 – Zambezi sunset cruise",
+          "19:30–21:30 – Candlelight dinner by the river"
+        ]
       },
       {
         "day": 2,
         "title": "Victoria Falls Magic",
-        "activities": ["Guided walk at Victoria Falls", "Rainbow photos", "Sunset viewpoint", "Rooftop dinner"]
+        "activities": [
+          "08:00–10:30 – Guided walk at Victoria Falls",
+          "11:00–13:00 – Coffee + photos with rainbows",
+          "14:00–16:30 – Nap + relaxation",
+          "17:30–18:30 – Sunset viewpoint",
+          "19:30–21:30 – Rooftop dinner"
+        ]
       },
       {
         "day": 3,
         "title": "Adrenaline Bonding",
-        "activities": ["Ziplining/Gorge swing/Rafting", "Spa relaxation", "Poolside sunset"]
+        "activities": [
+          "08:00–11:00 – Ziplining / Gorge swing / White-water rafting",
+          "12:30–14:00 – Lunch + laughs",
+          "15:00–17:00 – Spa or rest",
+          "17:30–18:30 – Poolside sunset",
+          "19:30–21:30 – Quiet dinner"
+        ]
       },
       {
         "day": 4,
         "title": "Safari Love",
-        "activities": ["Sunrise safari", "River canoe safari", "Fire-lit dinner"]
+        "activities": [
+          "06:00–09:00 – Sunrise safari",
+          "11:00–13:00 – Breakfast + nap",
+          "15:30–17:30 – River canoe safari",
+          "19:30–21:30 – Fire-lit dinner"
+        ]
       },
       {
         "day": 5,
         "title": "Culture & Slow Love",
-        "activities": ["Local village visit", "Traditional lunch", "Sunset photos", "Dress-up dinner"]
+        "activities": [
+          "08:30–11:00 – Local village visit",
+          "12:30–14:00 – Traditional lunch",
+          "15:30–17:30 – Pool + reading",
+          "18:00–19:00 – Sunset photos",
+          "20:00–22:00 – Dress-up dinner"
+        ]
       },
       {
         "day": 6,
         "title": "Last Adventure Day",
-        "activities": ["Helicopter flight", "Souvenir shopping", "Farewell dinner"]
+        "activities": [
+          "08:00–11:00 – Helicopter or microlight flight (if budget allows)",
+          "12:30–14:00 – Lunch",
+          "15:30–17:30 – Souvenir shopping",
+          "19:30–22:00 – Farewell dinner"
+        ]
       },
       {
         "day": 7,
         "title": "Soft Goodbye",
-        "activities": ["River breakfast", "Check-out & departure"]
+        "activities": [
+          "08:00–10:00 – River breakfast",
+          "11:00 – Check-out"
+        ]
       }
     ],
     "createdAt": "2026-03-01T00:00:00.000Z"
@@ -278,5 +315,329 @@
       }
     ],
     "createdAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "id": "6",
+    "slug": "kigali-half-day-experience",
+    "name": "Kigali Half-Day Cultural Experience",
+    "description": "Discover Kigali's rich history and vibrant culture in just half a day. Visit the Genocide Memorial, explore local life at Nyamirambo, and learn about Rwanda's past.",
+    "price": 85,
+    "currency": "USD",
+    "duration": "6-12 hours",
+    "image": "https://images.unsplash.com/photo-1609137144813-7d9921338f24?q=80&w=800",
+    "highlights": [
+      "Kigali Genocide Memorial visit",
+      "Kandt House Museum exploration",
+      "Nyamirambo Women's Center Tour",
+      "Local craft workshops",
+      "Traditional cooking class"
+    ],
+    "included": [
+      "Professional guide",
+      "All entrance fees",
+      "Transport within Kigali",
+      "Bottled water"
+    ],
+    "featured": false,
+    "seoTitle": "Half-Day Kigali Cultural Tour - History & Local Life",
+    "seoDescription": "Experience Kigali's culture and history in half a day. Visit memorial sites, explore local neighborhoods, and discover Rwandan traditions.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Cultural & Historical Highlights",
+        "activities": [
+          "Kigali Genocide Memorial - A moving tribute to Rwanda's history",
+          "Kandt House Museum - Explore Rwanda's natural history and colonial past",
+          "Nyamirambo Women's Center Tour - Discover local life through guided walks",
+          "Cooking classes and craft workshops"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "7",
+    "slug": "kigali-full-day-experience",
+    "name": "Kigali Full-Day Complete Experience",
+    "description": "Immerse yourself in Kigali's culture, history, and art scene. From memorial sites to vibrant markets and art centers, experience the best of Rwanda's capital.",
+    "price": 150,
+    "currency": "USD",
+    "duration": "12-24 hours",
+    "image": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=800",
+    "highlights": [
+      "Airport pick-up and drop-off",
+      "Kigali Genocide Memorial sites",
+      "Nyamirambo walking tour",
+      "Traditional Rwandan lunch",
+      "Inema Arts Center & craft markets"
+    ],
+    "included": [
+      "Airport transfers",
+      "Professional guide",
+      "Traditional lunch",
+      "All entrance fees",
+      "Private transport"
+    ],
+    "featured": true,
+    "seoTitle": "Full-Day Kigali City Tour - Culture, Art & History",
+    "seoDescription": "Complete Kigali experience with memorial sites, local neighborhoods, art centers, and traditional cuisine. Perfect introduction to Rwanda.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Complete Kigali Experience",
+        "activities": [
+          "Airport pick-up",
+          "Kigali Genocide Memorial sites",
+          "Nyamirambo walking tour - local life & women-led initiatives",
+          "Traditional Rwandan lunch",
+          "Visit to Inema Arts Center and craft markets",
+          "Airport drop-off"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "8",
+    "slug": "kigali-3-day-city-culture",
+    "name": "3-Day Kigali City & Culture Package",
+    "description": "Explore Kigali's urban parks, wildlife sanctuaries, and cultural sites. Visit Akagera National Park for safari adventure and enjoy Kigali's vibrant nightlife.",
+    "price": 650,
+    "currency": "USD",
+    "duration": "3 days",
+    "image": "https://images.unsplash.com/photo-1534177616072-ef7dc120449d?q=80&w=800",
+    "highlights": [
+      "Nyandungu Eco-Park & Umusambi Village",
+      "Mount Kigali panoramic viewpoint",
+      "Akagera National Park safari",
+      "Presidential Palace Museum",
+      "Coffee tasting experience"
+    ],
+    "included": [
+      "Accommodation (2 nights)",
+      "All meals & entry fees",
+      "Professional guide",
+      "Private transport",
+      "Kigali night tour"
+    ],
+    "featured": true,
+    "seoTitle": "3-Day Kigali & Akagera Safari Package",
+    "seoDescription": "Discover Kigali's culture and wildlife with city tours, Akagera safari, and local experiences. Perfect 3-day Rwanda adventure.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Kigali City & Culture Tour",
+        "activities": [
+          "Professional guide",
+          "Traditional Rwandan lunch",
+          "Nyandungu Eco-Park - Urban wetland with walking trails and birdwatching",
+          "Umusambi Village - Wildlife sanctuary for rescued crowned cranes",
+          "Mount Kigali Viewpoint - Panoramic views and photo ops"
+        ]
+      },
+      {
+        "day": 2,
+        "title": "Akagera National Park Safari",
+        "activities": [
+          "Full-day trip to Akagera National Park",
+          "Game drives and wildlife viewing",
+          "Kigali night tour or cultural dance performance",
+          "Accommodation included"
+        ]
+      },
+      {
+        "day": 3,
+        "title": "Cultural Sites & Departure",
+        "activities": [
+          "Visit to Bugesera reconciliation village",
+          "Presidential Palace Museum",
+          "Rwanda cooking class or artisan workshop",
+          "Coffee tasting experience at local roastery",
+          "Leisure time in Kigali"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "9",
+    "slug": "gorilla-trekking-volcanoes",
+    "name": "Gorilla Trekking Day Tour - Volcanoes National Park",
+    "description": "Once-in-a-lifetime experience trekking mountain gorillas in their natural habitat. Includes cultural village visit and all permits.",
+    "price": 2145,
+    "currency": "USD",
+    "duration": "1 day",
+    "image": "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?q=80&w=800",
+    "highlights": [
+      "Mountain gorilla trekking (4-6 hours)",
+      "Gorilla permit included ($1,500)",
+      "Iby'Iwacu Cultural Village visit",
+      "Professional guide & transport",
+      "Once-in-a-lifetime photos"
+    ],
+    "included": [
+      "Gorilla trekking permit ($1,500)",
+      "Meals & drinks",
+      "Private car & driver",
+      "Activities & entrance fees",
+      "Pick-up from Kigali"
+    ],
+    "featured": true,
+    "seoTitle": "Gorilla Trekking Rwanda - Volcanoes National Park Day Tour",
+    "seoDescription": "Trek mountain gorillas in Volcanoes National Park. Includes permit, guide, transport, and cultural village visit. Unforgettable Rwanda experience.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Gorilla Trekking Adventure",
+        "activities": [
+          "04:30 AM - Pick up from designated place in Kigali",
+          "07:30 AM - Stop at Crema Café",
+          "07:50 AM - Arrive at park headquarters for briefing",
+          "08:00 AM - Begin Gorilla Trekking (4-6 hours depending on location)",
+          "Hike through lush rainforest",
+          "Observe gorilla family up close",
+          "Take once-in-a-lifetime photos",
+          "Afternoon - Visit Iby'Iwacu Community Village",
+          "Explore traditional rural life of Rwandans",
+          "06:30 PM - Journey back to Kigali"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "10",
+    "slug": "rwanda-discovery-6-days",
+    "name": "6-Day Rwanda Discovery Package",
+    "description": "Complete Rwanda experience from Kigali culture to Nyungwe canopy walks and volcano hikes. Includes spa, coffee tours, and fine dining.",
+    "price": 775,
+    "currency": "USD",
+    "duration": "6 days",
+    "image": "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?q=80&w=800",
+    "highlights": [
+      "Nyungwe Forest canopy walkway",
+      "Mount Bisoke crater lake hike",
+      "Coffee farm experience with tasting",
+      "King's Palace in Nyanza",
+      "Spa sessions & fine dining"
+    ],
+    "included": [
+      "Accommodation (5 nights at Senita B&B)",
+      "All park/museum entries & guide fees",
+      "Coffee tour & canopy walk",
+      "Private transport for full trip",
+      "Airport transfers",
+      "Daily coordination & driver assistance"
+    ],
+    "featured": true,
+    "seoTitle": "6-Day Rwanda Discovery - Culture, Nature & Adventure",
+    "seoDescription": "Explore Rwanda's best: Kigali culture, Nyungwe forest, volcano hikes, and royal history. Complete 6-day package with accommodation.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Arrival & Welcome to Kigali",
+        "activities": [
+          "Airport or city pickup & hotel check-in",
+          "Evening walk around Kigali Heights or Convention Center",
+          "Optional dinner at Chillax Lounge"
+        ]
+      },
+      {
+        "day": 2,
+        "title": "Kigali Culture & Relaxation",
+        "activities": [
+          "Nyamirambo walking tour by local women",
+          "Kigali Genocide Memorial",
+          "Kandt House Museum visit",
+          "Evening spa session at Le Spa Kigali"
+        ]
+      },
+      {
+        "day": 3,
+        "title": "Coffee Tour & Fine Dining",
+        "activities": [
+          "Full-day Coffee Farm Experience",
+          "Coffee tasting & picnic lunch",
+          "Guided farm visit",
+          "Evening fine dining at Bugesera Lodge"
+        ]
+      },
+      {
+        "day": 4,
+        "title": "Nyungwe National Park",
+        "activities": [
+          "Depart Kigali early morning",
+          "Canopy Walkway in Nyungwe Forest",
+          "Scenic forest hike and photography",
+          "Picnic lunch included",
+          "Return to Kigali late evening"
+        ]
+      },
+      {
+        "day": 5,
+        "title": "Northern Adventure - Volcano Views",
+        "activities": [
+          "Early trip to Musanze region",
+          "Guided hike to Mount Bisoke Crater Lake",
+          "Cultural visit to Iby'iwacu Cultural Village",
+          "Lunch at Migano Café",
+          "Return to Kigali in evening"
+        ]
+      },
+      {
+        "day": 6,
+        "title": "Nyanza Kingdom Tour & Departure",
+        "activities": [
+          "Drive to Nyanza (2 hours)",
+          "Explore King's Palace and Rwesero Museum",
+          "Light local lunch",
+          "Stop at Caplaki Craft Village for shopping",
+          "Airport transfer / departure"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "11",
+    "slug": "akagera-safari-day-tour",
+    "name": "Akagera National Park Day Safari",
+    "description": "Full-day safari adventure in Akagera National Park. Experience Rwanda's big five and stunning savanna landscapes with expert guides.",
+    "price": 175,
+    "currency": "USD",
+    "duration": "1 day",
+    "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800",
+    "highlights": [
+      "Full-day game drives",
+      "Big five wildlife viewing",
+      "Savanna & lake landscapes",
+      "Expert guide included",
+      "All entrance fees covered"
+    ],
+    "included": [
+      "Transport to and from Kigali",
+      "Expert guidance",
+      "Park entrance fees",
+      "Bottled water",
+      "Game drive"
+    ],
+    "featured": false,
+    "seoTitle": "Akagera National Park Safari - Full Day Tour from Kigali",
+    "seoDescription": "Experience Rwanda's wildlife on a full-day Akagera safari. See the big five, enjoy game drives, and explore stunning landscapes.",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Akagera Safari Adventure",
+        "activities": [
+          "05:00 AM - Pick up from hotel in Kigali",
+          "08:00 AM - Arrival at Akagera National Park",
+          "Morning game drive - wildlife viewing",
+          "Lunch break (packed lunch or at park restaurant)",
+          "Afternoon game drive - explore different park areas",
+          "06:00 PM - Journey back to Kigali"
+        ]
+      }
+    ],
+    "createdAt": "2026-03-12T00:00:00.000Z"
   }
 ]

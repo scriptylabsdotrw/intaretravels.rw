@@ -6,6 +6,8 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   href?: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export function Button({ 
@@ -13,7 +15,9 @@ export function Button({
   variant = 'primary', 
   size = 'md', 
   className = '',
-  href 
+  href,
+  onClick,
+  type = 'button'
 }: ButtonProps) {
   const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 transform hover:scale-105';
   
@@ -39,5 +43,9 @@ export function Button({
     );
   }
 
-  return <button className={classes}>{children}</button>;
+  return (
+    <button type={type} onClick={onClick} className={classes}>
+      {children}
+    </button>
+  );
 }

@@ -10,3 +10,4 @@ export * from './components/Navbar';
 export * from './components/Footer';
 export * from './components/BookingModal';
 export * from './components/Accordion';
+export * from './components/TourBookingModal';

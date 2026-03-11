@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={sen.variable}>
-      <body>
+      <body className="font-sans">
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -7,17 +7,19 @@ import { Section, Grid, Card, Button, Breadcrumb } from '@tourism/ui';
 import toursData from '../../../../../data/tours.json';
 
 const countries = [
-  { name: 'All', flag: '🌍', code: '' },
-  { name: 'Angola', flag: '🇦🇴', code: 'AO' },
-  { name: 'Zambia', flag: '🇿🇲', code: 'ZM' },
-  { name: 'Malawi', flag: '🇲🇼', code: 'MW' },
-  { name: 'Mauritius', flag: '🇲🇺', code: 'MU' },
-  { name: 'Ghana', flag: '🇬🇭', code: 'GH' },
+  { name: 'All', flag: '🌍', code: '', flagUrl: 'https://flagcdn.com/w40/un.png' },
+  { name: 'Rwanda', flag: '🇷🇼', code: 'RW', flagUrl: 'https://flagcdn.com/w40/rw.png' },
+  { name: 'Angola', flag: '🇦🇴', code: 'AO', flagUrl: 'https://flagcdn.com/w40/ao.png' },
+  { name: 'Zambia', flag: '🇿🇲', code: 'ZM', flagUrl: 'https://flagcdn.com/w40/zm.png' },
+  { name: 'Malawi', flag: '🇲🇼', code: 'MW', flagUrl: 'https://flagcdn.com/w40/mw.png' },
+  { name: 'Mauritius', flag: '🇲🇺', code: 'MU', flagUrl: 'https://flagcdn.com/w40/mu.png' },
+  { name: 'Ghana', flag: '🇬🇭', code: 'GH', flagUrl: 'https://flagcdn.com/w40/gh.png' },
 ];
-const durations = ['All', '3 days', '7 days'];
+const durations = ['All', '1 day', '3 days', '6 days', '7 days'];
 const priceRanges = [
   { label: 'All Prices', min: 0, max: Infinity },
-  { label: 'Under $1000', min: 0, max: 1000 },
+  { label: 'Under $200', min: 0, max: 200 },
+  { label: '$200 - $1000', min: 200, max: 1000 },
   { label: '$1000 - $2000', min: 1000, max: 2000 },
   { label: 'Over $2000', min: 2000, max: Infinity },
 ];
@@ -27,6 +29,7 @@ export default function ToursPage() {
   const [selectedDuration, setSelectedDuration] = useState('All');
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [sortBy, setSortBy] = useState('featured');
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
 
   // Filter tours
   let filteredTours = toursData.filter(tour => {
@@ -52,15 +55,30 @@ export default function ToursPage() {
 
   return (
     <>
-      <div className="bg-neutral-900 text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+      <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=2000"
+            alt="African landscape"
+            fill
+            className="object-cover opacity-40"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/50 to-neutral-900/80" />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
           <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Tours' }]} theme="dark" />
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 mt-8">
-            Discover Africa
-          </h1>
-          <p className="text-xl text-neutral-300 max-w-3xl">
-            Handcrafted tours across five incredible destinations. From Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
-          </p>
+          <div className="mt-8 max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Discover Africa
+            </h1>
+            <p className="text-xl md:text-2xl text-neutral-200 leading-relaxed">
+              Handcrafted tours across five incredible destinations. From Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -76,18 +94,82 @@ export default function ToursPage() {
             </div>
             
             {/* Sort */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 relative">
               <label className="text-sm font-medium text-neutral-700">Sort by:</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              <button
+                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white min-w-[200px] flex items-center justify-between hover:border-neutral-400 transition-colors"
               >
-                <option value="featured">Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="duration">Duration</option>
-              </select>
+                <span>
+                  {sortBy === 'featured' && 'Featured'}
+                  {sortBy === 'price-low' && 'Price: Low to High'}
+                  {sortBy === 'price-high' && 'Price: High to Low'}
+                  {sortBy === 'duration' && 'Duration'}
+                </span>
+                <svg 
+                  className={`w-5 h-5 text-neutral-600 transition-transform ${sortDropdownOpen ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {sortDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setSortDropdownOpen(false)}
+                  />
+                  <div className="absolute top-full right-0 mt-2 w-[200px] bg-white border border-neutral-200 rounded-lg shadow-lg z-20 overflow-hidden">
+                    <button
+                      onClick={() => {
+                        setSortBy('featured');
+                        setSortDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
+                        sortBy === 'featured' ? 'bg-neutral-100 font-medium text-primary-700' : ''
+                      }`}
+                    >
+                      Featured
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSortBy('price-low');
+                        setSortDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
+                        sortBy === 'price-low' ? 'bg-neutral-100 font-medium text-primary-700' : ''
+                      }`}
+                    >
+                      Price: Low to High
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSortBy('price-high');
+                        setSortDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
+                        sortBy === 'price-high' ? 'bg-neutral-100 font-medium text-primary-700' : ''
+                      }`}
+                    >
+                      Price: High to Low
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSortBy('duration');
+                        setSortDropdownOpen(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
+                        sortBy === 'duration' ? 'bg-neutral-100 font-medium text-primary-700' : ''
+                      }`}
+                    >
+                      Duration
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -107,15 +189,18 @@ export default function ToursPage() {
                         : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200 hover:scale-105'
                     }`}
                   >
-                    <span 
-                      className="text-2xl w-9 h-9 flex items-center justify-center rounded-full bg-white shadow-sm"
-                      style={{ 
-                        fontSize: '1.5rem', 
-                        lineHeight: '1',
-                        fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif'
-                      }}
-                    >
-                      {country.flag}
+                    <span className="w-9 h-9 flex items-center justify-center rounded-full bg-white shadow-sm overflow-hidden">
+                      {country.name === 'All' ? (
+                        <svg className="w-6 h-6 text-primary-700" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                      ) : (
+                        <img 
+                          src={country.flagUrl} 
+                          alt={`${country.name} flag`}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </span>
                     {country.code && (
                       <span className="font-bold text-sm tracking-wide">{country.code}</span>
@@ -173,15 +258,25 @@ export default function ToursPage() {
                 <div className="flex flex-wrap gap-2">
                   {selectedCountry !== 'All' && selectedCountryData && (
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
-                      <span 
-                        className="text-lg w-6 h-6 flex items-center justify-center rounded-full bg-white shadow-sm"
-                        style={{ 
-                          fontSize: '1rem', 
-                          lineHeight: '1',
-                          fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif'
-                        }}
-                      >
-                        {selectedCountryData.flag}
+                      <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white shadow-sm overflow-hidden">
+                        {selectedCountryData.flagUrl ? (
+                          <img 
+                            src={selectedCountryData.flagUrl} 
+                            alt={`${selectedCountryData.name} flag`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span 
+                            className="text-lg"
+                            style={{ 
+                              fontSize: '1rem', 
+                              lineHeight: '1',
+                              fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif'
+                            }}
+                          >
+                            {selectedCountryData.flag}
+                          </span>
+                        )}
                       </span>
                       {selectedCountryData.code && (
                         <span className="font-bold text-xs">{selectedCountryData.code}</span>

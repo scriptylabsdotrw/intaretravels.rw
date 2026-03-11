@@ -38,15 +38,30 @@ export default function TicketingPage() {
 
   return (
     <>
-      <div className="bg-neutral-900 text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+      <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000"
+            alt="Airplane in flight"
+            fill
+            className="object-cover opacity-40"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/50 to-neutral-900/80" />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
           <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Flight Deals' }]} theme="dark" />
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 mt-8">
-            Exclusive Flight Deals
-          </h1>
-          <p className="text-xl text-neutral-300 max-w-3xl">
-            Partner with top airlines for unbeatable prices across Africa and beyond
-          </p>
+          <div className="mt-8 max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Exclusive Flight Deals
+            </h1>
+            <p className="text-xl md:text-2xl text-neutral-200 leading-relaxed">
+              Partner with top airlines for unbeatable prices across Africa and beyond
+            </p>
+          </div>
         </div>
       </div>
 

@@ -9,6 +9,7 @@
   
   body {
     @apply bg-white text-neutral-900;
+    font-family: var(--font-sen), 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', system-ui, sans-serif;
   }
 }
 

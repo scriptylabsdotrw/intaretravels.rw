@@ -33,6 +33,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sen)', 'system-ui', 'sans-serif'],
+        emoji: ['Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'sans-serif'],
       },
       spacing: {
         '18': '4.5rem',

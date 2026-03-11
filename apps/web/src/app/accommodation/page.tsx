@@ -15,20 +15,27 @@ export const metadata: Metadata = generateSEO({
 export default function AccommodationPage() {
   return (
     <>
-      <div className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20 md:py-32 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+      <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2000"
+            alt="Luxury accommodation"
+            fill
+            className="object-cover opacity-40"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/50 to-neutral-900/80" />
         </div>
-        
+
+        {/* Content */}
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
           <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Accommodation' }]} theme="dark" />
           <div className="mt-8 max-w-4xl">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
               Luxury Accommodation
             </h1>
-            <p className="text-xl md:text-2xl text-primary-100 leading-relaxed">
+            <p className="text-xl md:text-2xl text-neutral-200 leading-relaxed">
               Our exclusive properties offer the perfect blend of comfort, style, and location for your African adventure.
             </p>
             <div className="flex flex-wrap gap-4 mt-8">
