@@ -73,7 +73,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/ticketing" className="text-neutral-300 hover:text-primary-500 transition-colors">
-                  Flight Deals
+                  Book Flights
                 </Link>
               </li>
             </ul>

@@ -27,7 +27,7 @@ export function Navbar() {
               Accommodation
             </Link>
             <Link href="/ticketing" className="text-neutral-700 hover:text-primary-700 font-medium transition-colors">
-              Flight Deals
+              Book Flights
             </Link>
             <Link href="/about" className="text-neutral-700 hover:text-primary-700 font-medium transition-colors">
               About

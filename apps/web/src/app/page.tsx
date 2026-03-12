@@ -15,7 +15,7 @@ export default function HomePage() {
       <StructuredData data={schema} />
       
       {/* Hero Section */}
-      <div className="relative h-screen">
+      <div className="relative h-screen min-h-[700px]">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
@@ -26,64 +26,77 @@ export default function HomePage() {
             priority
             quality={95}
           />
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
         </div>
 
         {/* Content */}
         <div className="relative h-full flex items-center">
           <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-            <div className="max-w-3xl">
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                Explore Africa's
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 mb-6 px-5 py-2.5 bg-red-700/95 backdrop-blur-sm rounded-full shadow-lg">
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="text-white font-semibold text-sm tracking-wide">IATA ACCREDITED AGENCY</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-[1.1]">
+                Your Gateway to
                 <br />
-                Hidden Gems
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
+                  African Adventures
+                </span>
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed">
-                Discover unforgettable experiences across five incredible destinations
+              
+              <p className="text-xl md:text-2xl text-white/95 mb-10 leading-relaxed max-w-2xl font-light">
+                From Rwanda's misty mountains to Victoria Falls' thundering waters. Experience Africa like never before with expert guidance and unmatched service.
               </p>
+              
               <div className="flex flex-wrap gap-4">
-                <Button href="/tours" size="lg" className="bg-primary-700 text-white hover:bg-primary-800">
-                  View Tours
-                </Button>
-                <Button href="/contact" size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10">
-                  Contact Us
-                </Button>
+                <Link 
+                  href="/tours"
+                  className="group px-8 py-4 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-xl hover:from-red-800 hover:to-red-950 transition-all shadow-2xl font-semibold text-lg flex items-center gap-2"
+                >
+                  Explore Tours
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+                <Link 
+                  href="/ticketing"
+                  className="px-8 py-4 bg-white/10 backdrop-blur-md border-2 border-white/50 text-white rounded-xl hover:bg-white/20 hover:border-white transition-all font-semibold text-lg"
+                >
+                  Flight Deals
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Featured Quick Links */}
-      <div className="relative -mt-32 z-20 mb-16">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <Grid cols={4} gap={6}>
-            <FeatureCard
-              title="Angola Adventures"
-              image="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=800"
-              href="/tours/angola-7-day-adventure"
-            />
-            <FeatureCard
-              title="Victoria Falls"
-              image="https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800"
-              href="/tours/zambia-victoria-falls-7-days"
-            />
-            <FeatureCard
-              title="Lake Malawi"
-              image="https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=800"
-              href="/tours/malawi-lake-paradise-7-days"
-            />
-            <FeatureCard
-              title="Mauritius Paradise"
-              image="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800"
-              href="/tours/mauritius-island-escape-3-days"
-            />
-          </Grid>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="flex flex-col items-center gap-2 animate-bounce">
+            <span className="text-white/80 text-xs font-medium">Scroll to explore</span>
+            <svg className="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </div>
         </div>
       </div>
 
       {/* Featured Tours */}
-      <Section title="Featured Tours" subtitle="Handpicked experiences across Africa">
+      <Section title="Featured Tours" subtitle="Handpicked experiences across Africa" className="pt-24 relative">
+        {/* Imigongo Pattern on Left Margin */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 opacity-20 pointer-events-none hidden lg:block">
+          <Image
+            src="/imigongo_bg.jpg"
+            alt=""
+            fill
+            className="object-cover object-left"
+            sizes="128px"
+          />
+        </div>
+        
         <Grid cols={3}>
           {featuredTours.map((tour) => (
             <Link key={tour.id} href={`/tours/${tour.slug}`} className="group">

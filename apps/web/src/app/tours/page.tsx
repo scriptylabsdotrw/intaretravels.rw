@@ -30,6 +30,8 @@ export default function ToursPage() {
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [sortBy, setSortBy] = useState('featured');
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const toursPerPage = 9;
 
   // Filter tours
   let filteredTours = toursData.filter(tour => {
@@ -52,6 +54,18 @@ export default function ToursPage() {
     if (sortBy === 'duration') return parseInt(a.duration) - parseInt(b.duration);
     return 0;
   });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredTours.length / toursPerPage);
+  const indexOfLastTour = currentPage * toursPerPage;
+  const indexOfFirstTour = indexOfLastTour - toursPerPage;
+  const currentTours = filteredTours.slice(indexOfFirstTour, indexOfLastTour);
+
+  // Reset to page 1 when filters change
+  const handleFilterChange = (filterSetter: Function, value: any) => {
+    filterSetter(value);
+    setCurrentPage(1);
+  };
 
   return (
     <>
@@ -182,7 +196,7 @@ export default function ToursPage() {
                 {countries.map((country) => (
                   <button
                     key={country.name}
-                    onClick={() => setSelectedCountry(country.name)}
+                    onClick={() => handleFilterChange(setSelectedCountry, country.name)}
                     className={`px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2.5 ${
                       selectedCountry === country.name
                         ? 'bg-primary-700 text-white shadow-lg scale-105'
@@ -218,7 +232,7 @@ export default function ToursPage() {
                 {durations.map((duration) => (
                   <button
                     key={duration}
-                    onClick={() => setSelectedDuration(duration)}
+                    onClick={() => handleFilterChange(setSelectedDuration, duration)}
                     className={`px-6 py-3 rounded-xl font-medium transition-all hover:scale-105 ${
                       selectedDuration === duration
                         ? 'bg-primary-700 text-white shadow-lg scale-105'
@@ -238,7 +252,7 @@ export default function ToursPage() {
                 {priceRanges.map((range, index) => (
                   <button
                     key={index}
-                    onClick={() => setSelectedPriceRange(index)}
+                    onClick={() => handleFilterChange(setSelectedPriceRange, index)}
                     className={`px-6 py-3 rounded-xl font-medium transition-all hover:scale-105 ${
                       selectedPriceRange === index
                         ? 'bg-primary-700 text-white shadow-lg scale-105'
@@ -321,8 +335,9 @@ export default function ToursPage() {
 
         {/* Tours Grid */}
         {filteredTours.length > 0 ? (
-          <Grid cols={3}>
-            {filteredTours.map((tour) => (
+          <>
+            <Grid cols={3}>
+              {currentTours.map((tour) => (
               <Link key={tour.id} href={`/tours/${tour.slug}`} className="group">
                 <Card hover>
                   <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden">
@@ -368,6 +383,44 @@ export default function ToursPage() {
               </Link>
             ))}
           </Grid>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-12 flex items-center justify-center gap-2">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Previous
+              </button>
+              
+              <div className="flex gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                      currentPage === page
+                        ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md'
+                        : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
         ) : (
           <div className="text-center py-16">
             <svg className="w-16 h-16 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

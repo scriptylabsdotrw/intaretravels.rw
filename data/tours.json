@@ -28,37 +28,67 @@
       {
         "day": 1,
         "title": "Arrival in Luanda",
-        "activities": ["Arrival & check-in", "Ilha do Mussulo beach", "Sunset cocktails", "Candlelight seafood dinner"]
+        "activities": [
+          "Arrival & check-in",
+          "Ilha do Mussulo beach",
+          "Sunset cocktails",
+          "Candlelight seafood dinner"
+        ]
       },
       {
         "day": 2,
         "title": "Cliffs, Culture & Fire",
-        "activities": ["Fortaleza de São Miguel", "Mira Douro da Lua", "Rooftop dinner with city lights"]
+        "activities": [
+          "Fortaleza de São Miguel",
+          "Mira Douro da Lua",
+          "Rooftop dinner with city lights"
+        ]
       },
       {
         "day": 3,
         "title": "Into the Mountains (Lubango)",
-        "activities": ["Transfer to Lubango", "Christ the King statue", "Golden-hour photos", "Fireplace dinner"]
+        "activities": [
+          "Transfer to Lubango",
+          "Christ the King statue",
+          "Golden-hour photos",
+          "Fireplace dinner"
+        ]
       },
       {
         "day": 4,
         "title": "Tundavala Gap & Waterfall",
-        "activities": ["Tundavala cliffs", "Waterfall swim & picnic", "Wine & couples massage"]
+        "activities": [
+          "Tundavala cliffs",
+          "Waterfall swim & picnic",
+          "Wine & couples massage"
+        ]
       },
       {
         "day": 5,
         "title": "Benguela Beach Escape",
-        "activities": ["Transfer to Benguela", "Praia Morena beach", "Beachfront dinner"]
+        "activities": [
+          "Transfer to Benguela",
+          "Praia Morena beach",
+          "Beachfront dinner"
+        ]
       },
       {
         "day": 6,
         "title": "Sea Adventure",
-        "activities": ["Boat ride & snorkeling", "Couples massage", "Farewell dinner"]
+        "activities": [
+          "Boat ride & snorkeling",
+          "Couples massage",
+          "Farewell dinner"
+        ]
       },
       {
         "day": 7,
         "title": "Soft Goodbye",
-        "activities": ["Morning coffee by the sea", "Journaling together", "Departure"]
+        "activities": [
+          "Morning coffee by the sea",
+          "Journaling together",
+          "Departure"
+        ]
       }
     ],
     "createdAt": "2026-03-01T00:00:00.000Z"
@@ -193,37 +223,65 @@
       {
         "day": 1,
         "title": "Arrival to Lilongwe",
-        "activities": ["Check-in at MalVille Boutique Hotel", "Dinner", "Evening stroll"]
+        "activities": [
+          "Check-in at MalVille Boutique Hotel",
+          "Dinner",
+          "Evening stroll"
+        ]
       },
       {
         "day": 2,
         "title": "Travel to Cape Maclear",
-        "activities": ["Transfer to Latitude 13 Degrees", "Beach walks", "Sunset cocktails"]
+        "activities": [
+          "Transfer to Latitude 13 Degrees",
+          "Beach walks",
+          "Sunset cocktails"
+        ]
       },
       {
         "day": 3,
         "title": "Lake Activities",
-        "activities": ["Kayak or paddleboard", "Snorkeling/scuba diving", "Romantic picnic lunch"]
+        "activities": [
+          "Kayak or paddleboard",
+          "Snorkeling/scuba diving",
+          "Romantic picnic lunch"
+        ]
       },
       {
         "day": 4,
         "title": "Drive to Nkhata Bay",
-        "activities": ["Scenic lakeside transfer", "Lake-view terrace", "Sunset over the bay"]
+        "activities": [
+          "Scenic lakeside transfer",
+          "Lake-view terrace",
+          "Sunset over the bay"
+        ]
       },
       {
         "day": 5,
         "title": "Chill on Lake",
-        "activities": ["Boat cruise at sunset", "Beach time", "Local hike"]
+        "activities": [
+          "Boat cruise at sunset",
+          "Beach time",
+          "Local hike"
+        ]
       },
       {
         "day": 6,
         "title": "Return to Lilongwe",
-        "activities": ["Transfer back", "Couple spa", "Dinner"]
+        "activities": [
+          "Transfer back",
+          "Couple spa",
+          "Dinner"
+        ]
       },
       {
         "day": 7,
         "title": "Departure",
-        "activities": ["Breakfast", "Gift shopping", "Airport transfer"]
+        "activities": [
+          "Breakfast",
+          "Gift shopping",
+          "Airport transfer"
+        ]
       }
     ],
     "createdAt": "2026-03-01T00:00:00.000Z"
@@ -257,61 +315,35 @@
       {
         "day": 1,
         "title": "Arrival & North Coast",
-        "activities": ["Airport transfer to Oceanic Villa", "Château de Labourdonnais visit", "Rum tasting", "Mont Choisy Beach sunset", "Seafood dinner in Grand Baie"]
+        "activities": [
+          "Airport transfer to Oceanic Villa",
+          "Château de Labourdonnais visit",
+          "Rum tasting",
+          "Mont Choisy Beach sunset",
+          "Seafood dinner in Grand Baie"
+        ]
       },
       {
         "day": 2,
         "title": "East & South Adventure",
-        "activities": ["Speedboat to Île aux Cerfs", "Parasailing & swimming", "Trou aux Cerfs", "Seven Coloured Earths", "Chamarel Waterfall", "Le Morne sunset"]
+        "activities": [
+          "Speedboat to Île aux Cerfs",
+          "Parasailing & swimming",
+          "Trou aux Cerfs",
+          "Seven Coloured Earths",
+          "Chamarel Waterfall",
+          "Le Morne sunset"
+        ]
       },
       {
         "day": 3,
         "title": "West Coast & Wildlife",
-        "activities": ["Dolphin watching in Tamarin Bay", "Black River Gorges National Park", "Alexandra Falls", "Airport transfer"]
-      }
-    ],
-    "createdAt": "2026-03-01T00:00:00.000Z"
-  },
-  {
-    "id": "5",
-    "slug": "ghana-cultural-heritage-3-days",
-    "name": "3-Day Ghana Cultural Heritage Tour",
-    "description": "Discover Ghana's rich history with UNESCO castles, canopy walks, and vibrant markets. Perfect cultural immersion in West Africa.",
-    "price": 617,
-    "currency": "USD",
-    "duration": "3 days",
-    "image": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=800",
-    "highlights": [
-      "Cape Coast Castle UNESCO site",
-      "Kakum National Park Canopy Walk",
-      "Kwame Nkrumah Mausoleum",
-      "Elmina Castle historical tour",
-      "Makola Market experience"
-    ],
-    "included": [
-      "Hotels (3 nights)",
-      "All meals & drinks",
-      "Transport & activities",
-      "Guided tours"
-    ],
-    "featured": false,
-    "seoTitle": "3-Day Ghana Cultural Tour - Castles, History & Nature",
-    "seoDescription": "Explore Ghana's UNESCO castles, Kakum canopy walk, and vibrant culture. Perfect 3-day historical adventure.",
-    "itinerary": [
-      {
-        "day": 1,
-        "title": "Arrival in Accra",
-        "activities": ["Airport transfer to Lou-Ralph Hotel", "Kwame Nkrumah Mausoleum", "Independence Arch", "Makola Market", "Ghanaian dinner"]
-      },
-      {
-        "day": 2,
-        "title": "Cape Coast Historical Adventure",
-        "activities": ["Drive to Cape Coast", "Cape Coast Castle tour", "Elmina Castle visit", "Kakum National Park", "Canopy Walk", "Beach lunch"]
-      },
-      {
-        "day": 3,
-        "title": "Cultural & Relaxation",
-        "activities": ["Aburi Botanical Gardens OR Labadi Beach", "Arts Centre shopping", "Airport transfer"]
+        "activities": [
+          "Dolphin watching in Tamarin Bay",
+          "Black River Gorges National Park",
+          "Alexandra Falls",
+          "Airport transfer"
+        ]
       }
     ],
     "createdAt": "2026-03-01T00:00:00.000Z"

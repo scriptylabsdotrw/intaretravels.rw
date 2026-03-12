@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, TourBookingModal } from '@tourism/ui';
+import { Button } from '@tourism/ui';
+import { TourBookingModal } from '../../../../../../packages/ui/components/TourBookingModal';
 
 interface TourBookingProps {
   tourName: string;

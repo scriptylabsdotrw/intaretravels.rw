@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Section, Grid, Card, Button, Badge, Breadcrumb, BookingModal } from '@tourism/ui';
+import { Section, Grid, Card, Button, Badge, Breadcrumb } from '@tourism/ui';
+import Link from 'next/link';
 
-const promotions = [
-  { id: 1, destination: 'Nairobi', price: 199, discount: '25% OFF', airline: 'RwandAir', logo: '/RwandAir.jpg', validUntil: '2026-05-31', image: 'https://images.unsplash.com/photo-1611348524140-53c9a25263d6?q=80&w=800' },
-  { id: 2, destination: 'Dubai', price: 599, discount: '30% OFF', airline: 'Qatar Airways', logo: '/aerolineas-images_0009_QatarAirways.png', validUntil: '2026-06-30', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800' },
-  { id: 3, destination: 'Johannesburg', price: 299, discount: '20% OFF', airline: 'Kenya Airways', logo: '/Kenya_Airways-Logo.wine.png', validUntil: '2026-06-15', image: 'https://images.unsplash.com/photo-1577948000111-9c970dfe3743?q=80&w=800' },
-  { id: 4, destination: 'Lagos', price: 349, discount: '25% OFF', airline: 'Ethiopian Airlines', logo: '/ethiopian-airlines-logo-png_seeklogo-49734.png', validUntil: '2026-07-01', image: 'https://images.unsplash.com/photo-1568632234157-ce7aecd03d0d?q=80&w=800' },
-  { id: 5, destination: 'Addis Ababa', price: 279, discount: '30% OFF', airline: 'Ethiopian Airlines', logo: '/ethiopian-airlines-logo-png_seeklogo-49734.png', validUntil: '2026-06-20', image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=800' },
-  { id: 6, destination: 'Dar es Salaam', price: 189, discount: '20% OFF', airline: 'RwandAir', logo: '/RwandAir.jpg', validUntil: '2026-05-25', image: 'https://images.unsplash.com/photo-1568632234157-ce7aecd03d0d?q=80&w=800' },
+const cities = [
+  'All Cities',
+  'Kigali',
+  'Nairobi', 
+  'Dar es Salaam',
+  'Johannesburg',
+  'Dubai',
+  'Lagos',
+  'Addis Ababa'
 ];
 
 const partners = [
@@ -28,12 +31,75 @@ const faqs = [
 ];
 
 export default function TicketingPage() {
-  const [selectedFlight, setSelectedFlight] = useState<typeof promotions[0] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [promotions, setPromotions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fromCity, setFromCity] = useState('All Cities');
+  const [toCity, setToCity] = useState('All Cities');
+  const [fromDropdownOpen, setFromDropdownOpen] = useState(false);
+  const [toDropdownOpen, setToDropdownOpen] = useState(false);
+  const [fromSearchQuery, setFromSearchQuery] = useState('');
+  const [toSearchQuery, setToSearchQuery] = useState('');
+  const [tripType, setTripType] = useState<'return' | 'oneway' | 'multicity'>('return');
+  const [departureDate, setDepartureDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+  const [passengers, setPassengers] = useState(1);
+  const [directFlightsOnly, setDirectFlightsOnly] = useState(false);
+  const [passengersDropdownOpen, setPassengersDropdownOpen] = useState(false);
+  const promotionsPerPage = 6;
 
-  const handleBookNow = (promo: typeof promotions[0]) => {
-    setSelectedFlight(promo);
-    setIsModalOpen(true);
+  useEffect(() => {
+    fetchPromotions();
+  }, []);
+
+  const fetchPromotions = async () => {
+    try {
+      const response = await fetch('/api/promotions');
+      const data = await response.json();
+      // Only show active promotions on the client side
+      setPromotions(data.filter((p: any) => p.active));
+    } catch (error) {
+      console.error('Failed to fetch promotions:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Filter cities based on search query
+  const filteredFromCities = cities.filter(city => 
+    city.toLowerCase().includes(fromSearchQuery.toLowerCase())
+  );
+  
+  const filteredToCities = cities.filter(city => 
+    city.toLowerCase().includes(toSearchQuery.toLowerCase())
+  );
+
+  // Filter promotions based on search
+  const filteredPromotions = promotions.filter(promo => {
+    const fromMatch = fromCity === 'All Cities' || promo.from === fromCity;
+    const toMatch = toCity === 'All Cities' || promo.destination === toCity;
+    return fromMatch && toMatch;
+  });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredPromotions.length / promotionsPerPage);
+  const indexOfLastPromotion = currentPage * promotionsPerPage;
+  const indexOfFirstPromotion = indexOfLastPromotion - promotionsPerPage;
+  const currentPromotions = filteredPromotions.slice(indexOfFirstPromotion, indexOfLastPromotion);
+
+  // Reset to page 1 when filters change
+  const handleFromChange = (city: string) => {
+    setFromCity(city);
+    setCurrentPage(1);
+    setFromDropdownOpen(false);
+    setFromSearchQuery('');
+  };
+
+  const handleToChange = (city: string) => {
+    setToCity(city);
+    setCurrentPage(1);
+    setToDropdownOpen(false);
+    setToSearchQuery('');
   };
 
   return (
@@ -65,9 +131,384 @@ export default function TicketingPage() {
         </div>
       </div>
 
-      <Section title="Current Flight Promotions" subtitle="Limited-time offers on popular destinations">
-        <Grid cols={3}>
-          {promotions.map((promo) => (
+      {/* Flight Search Section */}
+      <div className="relative -mt-16 z-20 mb-16">
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-visible">
+            {/* Header with Title */}
+            <div className="bg-white px-6 py-6 border-b border-neutral-200">
+              <h2 className="text-2xl md:text-3xl font-bold text-center text-neutral-900">Search Flights</h2>
+            </div>
+
+            <div className="p-6 md:p-8">
+              {/* Trip Type Selection */}
+              <div className="flex items-center gap-6 mb-6">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <div 
+                    onClick={() => setTripType('return')}
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                      tripType === 'return' ? 'border-red-700 bg-red-700' : 'border-neutral-300 bg-white'
+                    }`}
+                  >
+                    {tripType === 'return' && (
+                      <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    )}
+                  </div>
+                  <span className="font-medium text-neutral-700">Return</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <div 
+                    onClick={() => setTripType('oneway')}
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                      tripType === 'oneway' ? 'border-red-700 bg-red-700' : 'border-neutral-300 bg-white'
+                    }`}
+                  >
+                    {tripType === 'oneway' && (
+                      <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    )}
+                  </div>
+                  <span className="font-medium text-neutral-700">One way</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <div 
+                    onClick={() => setTripType('multicity')}
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                      tripType === 'multicity' ? 'border-red-700 bg-red-700' : 'border-neutral-300 bg-white'
+                    }`}
+                  >
+                    {tripType === 'multicity' && (
+                      <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+                    )}
+                  </div>
+                  <span className="font-medium text-neutral-700">Multi-city</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer ml-auto">
+                  <div 
+                    onClick={() => setDirectFlightsOnly(!directFlightsOnly)}
+                    className={`w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                      directFlightsOnly ? 'border-red-700 bg-red-700' : 'border-neutral-300 bg-white'
+                    }`}
+                  >
+                    {directFlightsOnly && (
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="font-medium text-neutral-700">Direct flights only</span>
+                </label>
+              </div>
+
+              {/* Search Form */}
+              <div className="grid md:grid-cols-12 gap-4">
+                {/* From - 3 columns */}
+                <div className="md:col-span-3 relative">
+                  <label className="flex items-center gap-2 text-sm font-medium text-neutral-600 mb-2">
+                    <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Origin
+                  </label>
+                  <button
+                    onClick={() => {
+                      setFromDropdownOpen(!fromDropdownOpen);
+                      setToDropdownOpen(false);
+                    }}
+                    className="w-full px-4 py-3 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  >
+                    <div>
+                      <div className="text-xs text-neutral-500">Where from?</div>
+                      <div className="font-semibold text-neutral-900">{fromCity}</div>
+                    </div>
+                    <svg className={`w-5 h-5 text-red-700 transition-transform ${fromDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {fromDropdownOpen && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => setFromDropdownOpen(false)} />
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
+                        <div className="p-3 border-b border-neutral-200">
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={fromSearchQuery}
+                              onChange={(e) => setFromSearchQuery(e.target.value)}
+                              placeholder="Search cities..."
+                              className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="max-h-64 overflow-y-auto">
+                          {filteredFromCities.length > 0 ? (
+                            filteredFromCities.map((city) => (
+                              <button
+                                key={city}
+                                onClick={() => handleFromChange(city)}
+                                className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
+                                  fromCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
+                                }`}
+                              >
+                                {city}
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Swap Button */}
+                <div className="md:col-span-1 flex items-end justify-center pb-3">
+                  <button
+                    onClick={() => {
+                      const temp = fromCity;
+                      handleFromChange(toCity);
+                      handleToChange(temp);
+                    }}
+                    className="p-3 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* To - 3 columns */}
+                <div className="md:col-span-3 relative">
+                  <label className="flex items-center gap-2 text-sm font-medium text-neutral-600 mb-2">
+                    <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Destination
+                  </label>
+                  <button
+                    onClick={() => {
+                      setToDropdownOpen(!toDropdownOpen);
+                      setFromDropdownOpen(false);
+                    }}
+                    className="w-full px-4 py-3 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  >
+                    <div>
+                      <div className="text-xs text-neutral-500">Where to?</div>
+                      <div className="font-semibold text-neutral-900">{toCity}</div>
+                    </div>
+                    <svg className={`w-5 h-5 text-red-700 transition-transform ${toDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {toDropdownOpen && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => setToDropdownOpen(false)} />
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
+                        <div className="p-3 border-b border-neutral-200">
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={toSearchQuery}
+                              onChange={(e) => setToSearchQuery(e.target.value)}
+                              placeholder="Search cities..."
+                              className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="max-h-64 overflow-y-auto">
+                          {filteredToCities.length > 0 ? (
+                            filteredToCities.map((city) => (
+                              <button
+                                key={city}
+                                onClick={() => handleToChange(city)}
+                                className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
+                                  toCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
+                                }`}
+                              >
+                                {city}
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Departure Date - 2 columns */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-neutral-600 mb-2">Departure Date</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={departureDate}
+                      onFocus={(e) => e.target.type = 'date'}
+                      onBlur={(e) => {
+                        if (!e.target.value) e.target.type = 'text';
+                      }}
+                      onChange={(e) => setDepartureDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                      placeholder="Select date"
+                      className="w-full px-4 py-3 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                    />
+                    <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Return Date - 2 columns */}
+                {tripType === 'return' && (
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-neutral-600 mb-2">Return Date</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={returnDate}
+                        onFocus={(e) => e.target.type = 'date'}
+                        onBlur={(e) => {
+                          if (!e.target.value) e.target.type = 'text';
+                        }}
+                        onChange={(e) => setReturnDate(e.target.value)}
+                        min={departureDate || new Date().toISOString().split('T')[0]}
+                        placeholder="Select date"
+                        className="w-full px-4 py-3 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                      />
+                      <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </div>
+                )}
+
+                {/* Passengers - 1 column */}
+                <div className={tripType === 'return' ? 'md:col-span-1' : 'md:col-span-3'}>
+                  <label className="block text-sm font-medium text-neutral-600 mb-2">Passengers</label>
+                  <div className="relative">
+                    <button
+                      onClick={() => setPassengersDropdownOpen(!passengersDropdownOpen)}
+                      className="w-full flex items-center gap-2 px-4 py-3 border-2 border-neutral-300 rounded-lg bg-white hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    >
+                      <svg className="w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span className="font-semibold text-neutral-900 flex-1 text-left">{passengers} {passengers === 1 ? 'Passenger' : 'Passengers'}</span>
+                      <svg className={`w-5 h-5 text-neutral-600 transition-transform ${passengersDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {passengersDropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setPassengersDropdownOpen(false)} />
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 p-4">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-neutral-700">Passengers</span>
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                                disabled={passengers <= 1}
+                                className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                              >
+                                <svg className="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                </svg>
+                              </button>
+                              <span className="w-8 text-center font-bold text-neutral-900">{passengers}</span>
+                              <button
+                                onClick={() => setPassengers(Math.min(9, passengers + 1))}
+                                disabled={passengers >= 9}
+                                className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                              >
+                                <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                          <p className="text-xs text-neutral-500 mt-2">Maximum 9 passengers per booking</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Active Filters & Search Button */}
+              <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                {/* Active Filters */}
+                {(fromCity !== 'All Cities' || toCity !== 'All Cities') && (
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-sm font-medium text-neutral-700">Active search:</span>
+                    {fromCity !== 'All Cities' && (
+                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                        From: {fromCity}
+                        <button onClick={() => handleFromChange('All Cities')} className="hover:text-red-900">×</button>
+                      </span>
+                    )}
+                    {toCity !== 'All Cities' && (
+                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                        To: {toCity}
+                        <button onClick={() => handleToChange('All Cities')} className="hover:text-red-900">×</button>
+                      </span>
+                    )}
+                    <button
+                      onClick={() => {
+                        handleFromChange('All Cities');
+                        handleToChange('All Cities');
+                      }}
+                      className="text-sm text-red-700 hover:text-red-800 font-medium underline"
+                    >
+                      Clear all
+                    </button>
+                  </div>
+                )}
+
+                {/* Search Button */}
+                <div className="ml-auto">
+                  <button className="px-8 py-3 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-lg font-semibold">
+                    Search Flights
+                  </button>
+                </div>
+              </div>
+
+              {/* Results Count */}
+              {(fromCity !== 'All Cities' || toCity !== 'All Cities') && (
+                <div className="mt-6 pt-6 border-t border-neutral-200 text-center">
+                  <p className="text-neutral-600">
+                    Found <span className="font-bold text-red-700">{filteredPromotions.length}</span> available {filteredPromotions.length === 1 ? 'flight' : 'flights'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Section title="Available Flight Deals" subtitle={filteredPromotions.length === 0 ? "No flights found for your search" : "Limited-time offers"}>
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-700 mb-4"></div>
+            <p className="text-neutral-600">Loading flight deals...</p>
+          </div>
+        ) : currentPromotions.length > 0 ? (
+          <>
+            <Grid cols={3}>
+              {currentPromotions.map((promo) => (
             <Card key={promo.id} className="overflow-hidden">
               <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden">
                 <Image
@@ -84,7 +525,10 @@ export default function TicketingPage() {
               <div className="p-6">
                 {/* Airline Logo */}
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-bold">{promo.destination}</h3>
+                  <div>
+                    <p className="text-xs text-neutral-500 mb-1">From {promo.from}</p>
+                    <h3 className="text-2xl font-bold">{promo.destination}</h3>
+                  </div>
                   <div className="relative w-16 h-10 bg-white rounded border border-neutral-200 p-1">
                     <Image
                       src={promo.logo}
@@ -110,16 +554,71 @@ export default function TicketingPage() {
                   <span>Valid until {new Date(promo.validUntil).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 </div>
                 
-                <Button 
-                  className="w-full" 
-                  onClick={() => handleBookNow(promo)}
-                >
-                  Book Now
-                </Button>
+                <Link href={`/book-flight?destination=${encodeURIComponent(promo.destination)}&price=${promo.price}&airline=${encodeURIComponent(promo.airline)}`}>
+                  <Button className="w-full">
+                    Book Now
+                  </Button>
+                </Link>
               </div>
             </Card>
           ))}
         </Grid>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-2">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Previous
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                    currentPage === page
+                      ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md'
+                      : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
+        </>
+        ) : (
+          <div className="text-center py-16">
+            <svg className="w-16 h-16 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h3 className="text-2xl font-bold text-neutral-700 mb-2">No flights found</h3>
+            <p className="text-neutral-600 mb-6">Try adjusting your search criteria</p>
+            <button
+              onClick={() => {
+                handleFromChange('All Cities');
+                handleToChange('All Cities');
+              }}
+              className="px-6 py-3 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-md font-medium"
+            >
+              Clear Search
+            </button>
+          </div>
+        )}
       </Section>
 
       <Section title="Our Airline Partners" subtitle="Trusted carriers for your journey" className="bg-neutral-50">
@@ -203,17 +702,6 @@ export default function TicketingPage() {
           </div>
         </div>
       </Section>
-
-      {/* Booking Modal */}
-      {selectedFlight && (
-        <BookingModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          destination={selectedFlight.destination}
-          price={selectedFlight.price}
-          airline={selectedFlight.airline}
-        />
-      )}
     </>
   );
 }
