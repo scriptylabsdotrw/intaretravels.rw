@@ -1,0 +1,63 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA to rollback to (leave empty for previous commit)'
+        required: false
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Rollback to previous version
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/intaretravels
+            
+            echo "🔄 Starting rollback..."
+            
+            # Get the commit to rollback to
+            if [ -n "${{ inputs.commit_sha }}" ]; then
+              TARGET_COMMIT="${{ inputs.commit_sha }}"
+            else
+              TARGET_COMMIT=$(git rev-parse HEAD~1)
+            fi
+            
+            echo "📝 Rolling back to commit: $TARGET_COMMIT"
+            
+            # Checkout the target commit
+            git fetch origin
+            git checkout $TARGET_COMMIT
+            
+            # Reinstall dependencies
+            echo "📦 Installing dependencies..."
+            pnpm install --frozen-lockfile
+            
+            # Rebuild
+            echo "🔨 Building applications..."
+            pnpm build
+            
+            # Restart services
+            echo "♻️ Restarting applications..."
+            pm2 restart intaretravels-web
+            pm2 restart intaretravels-admin
+            
+            echo "✅ Rollback complete!"
+            echo "📊 Current status:"
+            pm2 status
+            
+            echo ""
+            echo "⚠️ Remember to investigate the issue and fix it before deploying again"
+
+      - name: Notify rollback
+        run: |
+          echo "🔄 Rollback completed"
+          echo "Target commit: ${{ inputs.commit_sha || 'Previous commit' }}"

@@ -74,6 +74,67 @@ ADMIN_PASSWORD=your-secure-password
 
 ## Deployment
 
+### CI/CD Pipeline
+
+The project uses GitHub Actions for automated deployment:
+
+#### Workflows
+
+1. **CI - Build & Test** (`.github/workflows/ci.yml`)
+   - Runs on every push and PR
+   - Lints code
+   - Type checks
+   - Builds both apps
+   - Runs tests
+
+2. **Deploy to VPS** (`.github/workflows/deploy-vps.yml`)
+   - Triggers on push to `main` branch
+   - Builds applications
+   - Deploys to production VPS
+   - Runs health checks
+   - Sends notifications
+
+3. **Preview Deployment** (`.github/workflows/preview.yml`)
+   - Runs on pull requests
+   - Creates preview builds
+   - Comments on PR with status
+
+4. **Rollback** (`.github/workflows/rollback.yml`)
+   - Manual trigger only
+   - Rolls back to previous commit or specific SHA
+   - Useful for emergency fixes
+
+#### Required GitHub Secrets
+
+Set these in your repository settings (Settings → Secrets and variables → Actions):
+
+```
+VPS_HOST=your-server-ip
+VPS_USERNAME=your-ssh-username
+VPS_SSH_KEY=your-private-ssh-key
+```
+
+#### Deployment Process
+
+1. **Automatic Deployment**
+   ```bash
+   git add .
+   git commit -m "Your changes"
+   git push origin main
+   ```
+   GitHub Actions will automatically deploy to production.
+
+2. **Manual Deployment**
+   - Go to Actions tab in GitHub
+   - Select "Deploy to VPS"
+   - Click "Run workflow"
+
+3. **Rollback**
+   - Go to Actions tab
+   - Select "Rollback Deployment"
+   - Enter commit SHA (optional)
+   - Click "Run workflow"
+
 ### VPS Deployment (Nginx + PM2)
 
 Deployed on your VPS with:
@@ -83,19 +144,29 @@ Deployed on your VPS with:
 - **Process Manager**: PM2
 - **Web Server**: Nginx
 
-### Automatic CI/CD
-
-Push to `main` branch triggers deployment via GitHub Actions:
-```bash
-git push origin main
-```
-
-### Manual Deployment
+### Manual Deployment Script
 
 ```bash
 # On server
 cd /var/www/intaretravels
 ./deploy.sh
+```
+
+The deploy script:
+- Pulls latest code from GitHub
+- Installs dependencies
+- Runs database migrations (if needed)
+- Builds applications
+- Restarts PM2 processes
+- Shows deployment status
+
+### Monitoring
+
+Check application status:
+```bash
+pm2 status
+pm2 logs intaretravels-web
+pm2 logs intaretravels-admin
 ```
 
 See `DEPLOYMENT.md` for complete VPS setup guide.
