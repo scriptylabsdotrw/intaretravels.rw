@@ -1,14 +1,21 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const DATA_PATH = path.join(process.cwd(), '../../data/partners.json');
+import { prisma } from '@tourism/lib';
 
 export async function GET() {
   try {
-    const data = await fs.readFile(DATA_PATH, 'utf-8');
-    return NextResponse.json(JSON.parse(data));
-  } catch (error) {
-    return NextResponse.json([]);
+    const partners = await prisma.partner.findMany({ orderBy: { createdAt: 'desc' } });
+    return NextResponse.json(partners);
+  } catch {
+    return NextResponse.json({ error: 'Failed to fetch partners' }, { status: 500 });
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const partner = await prisma.partner.create({ data: body });
+    return NextResponse.json(partner);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

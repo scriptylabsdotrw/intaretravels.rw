@@ -8,44 +8,45 @@ datasource db {
 }
 
 model Tour {
-  id              String   @id @default(cuid())
-  slug            String   @unique
-  name            String
-  description     String
-  price           Float
-  currency        String   @default("USD")
-  duration        String
-  image           String
-  highlights      String[]
-  included        String[]
-  featured        Boolean  @default(false)
-  seoTitle        String?
-  seoDescription  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  description    String
+  price          Float
+  currency       String   @default("USD")
+  duration       String
+  image          String
+  highlights     String[]
+  included       String[]
+  itinerary      Json?
+  featured       Boolean  @default(false)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([slug])
   @@index([featured])
 }
 
 model Apartment {
-  id              String   @id @default(cuid())
-  slug            String   @unique
-  name            String
-  description     String
-  pricePerNight   Float
-  currency        String   @default("USD")
-  bedrooms        Int
-  bathrooms       Int
-  maxGuests       Int
-  image           String
-  amenities       String[]
-  address         String
-  featured        Boolean  @default(false)
-  seoTitle        String?
-  seoDescription  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  description    String
+  pricePerNight  Float
+  currency       String   @default("USD")
+  bedrooms       Int
+  bathrooms      Int
+  maxGuests      Int
+  image          String
+  amenities      String[]
+  address        String
+  featured       Boolean  @default(false)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([slug])
   @@index([featured])
@@ -54,9 +55,12 @@ model Apartment {
 model Promotion {
   id          String   @id @default(cuid())
   destination String
+  from        String   @default("Kigali")
   price       Float
   discount    String
   airline     String
+  logo        String   @default("")
+  image       String   @default("")
   validUntil  String
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -75,4 +79,27 @@ model Partner {
   updatedAt   DateTime @updatedAt
 
   @@index([active])
+}
+
+model Booking {
+  id           String   @id @default(cuid())
+  type         String   // tour | apartment | flight
+  name         String
+  email        String
+  phone        String
+  itemName     String
+  startDate    String?
+  endDate      String?
+  participants Int?
+  departure    String?
+  returnDate   String?
+  passengers   Int?
+  amount       Float?
+  status       String   @default("pending")
+  message      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status])
+  @@index([type])
 }

@@ -1,39 +1,30 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { prisma } from '@tourism/lib';
 
-const DATA_PATH = path.join(process.cwd(), '../../data/tours.json');
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const tour = await prisma.tour.findUnique({ where: { id } });
+  if (!tour) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  return NextResponse.json(tour);
+}
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const data = await fs.readFile(DATA_PATH, 'utf-8');
-    const tours = JSON.parse(data);
-    
-    const index = tours.findIndex((t: any) => t.id === params.id);
-    if (index === -1) {
-      return NextResponse.json({ error: 'Tour not found' }, { status: 404 });
-    }
-    
-    tours[index] = { ...tours[index], ...body };
-    await fs.writeFile(DATA_PATH, JSON.stringify(tours, null, 2));
-    
-    return NextResponse.json(tours[index]);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update tour' }, { status: 500 });
+    const tour = await prisma.tour.update({ where: { id }, data: body });
+    return NextResponse.json(tour);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const data = await fs.readFile(DATA_PATH, 'utf-8');
-    const tours = JSON.parse(data);
-    
-    const filtered = tours.filter((t: any) => t.id !== params.id);
-    await fs.writeFile(DATA_PATH, JSON.stringify(filtered, null, 2));
-    
+    const { id } = await params;
+    await prisma.tour.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete tour' }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

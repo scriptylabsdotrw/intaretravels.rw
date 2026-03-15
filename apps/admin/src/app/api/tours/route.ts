@@ -1,35 +1,21 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const DATA_PATH = path.join(process.cwd(), '../../data/tours.json');
+import { prisma } from '@tourism/lib';
 
 export async function GET() {
   try {
-    const data = await fs.readFile(DATA_PATH, 'utf-8');
-    return NextResponse.json(JSON.parse(data));
-  } catch (error) {
-    return NextResponse.json([]);
+    const tours = await prisma.tour.findMany({ orderBy: { createdAt: 'desc' } });
+    return NextResponse.json(tours);
+  } catch {
+    return NextResponse.json({ error: 'Failed to fetch tours' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const data = await fs.readFile(DATA_PATH, 'utf-8');
-    const tours = JSON.parse(data);
-    
-    const newTour = {
-      ...body,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
-    
-    tours.push(newTour);
-    await fs.writeFile(DATA_PATH, JSON.stringify(tours, null, 2));
-    
-    return NextResponse.json(newTour);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create tour' }, { status: 500 });
+    const tour = await prisma.tour.create({ data: body });
+    return NextResponse.json(tour);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

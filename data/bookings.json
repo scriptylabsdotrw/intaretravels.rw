@@ -330,7 +330,7 @@
     "checkOut": "2026-03-24",
     "guests": 2,
     "totalAmount": 490,
-    "status": "confirmed",
+    "status": "pending",
     "createdAt": "2026-03-10T09:20:00Z",
     "notes": "Near airport preferred"
   },

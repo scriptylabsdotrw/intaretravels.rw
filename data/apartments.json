@@ -1,20 +1,28 @@
 [
   {
-    "id": "1",
-    "slug": "downtown-luxury-apartment",
-    "name": "Downtown Luxury Apartment",
-    "description": "Modern 2-bedroom apartment in the heart of Kigali with stunning city views.",
-    "pricePerNight": 120,
+    "name": "Kigali",
+    "slug": "kigali",
+    "description": "jnjnjknjknjnjnjn",
+    "pricePerNight": 11999.97,
     "currency": "USD",
-    "bedrooms": 2,
-    "bathrooms": 2,
-    "maxGuests": 4,
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "maxGuests": 2,
+    "address": "Kicukiro",
     "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800",
-    "amenities": ["WiFi", "Kitchen", "Parking", "Air conditioning", "City view"],
-    "address": "Kicukiro - Niboye - Nyakabanda KK 186 St",
     "featured": true,
-    "seoTitle": "Luxury Apartment in Downtown Kigali",
-    "seoDescription": "Stay in our premium 2-bedroom apartment with modern amenities in central Kigali.",
-    "createdAt": "2026-03-01T00:00:00.000Z"
+    "seoTitle": "jknjnnjnj",
+    "seoDescription": "m m m",
+    "amenities": [
+      "WiFi",
+      "Parking",
+      "Kitchen",
+      "Air conditioning",
+      "TV",
+      "Washing machine",
+      "City view"
+    ],
+    "id": "1773568671903",
+    "createdAt": "2026-03-15T09:57:51.903Z"
   }
 ]

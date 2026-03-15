@@ -9,16 +9,16 @@ export default function AdminDashboard() {
 
   // Mock data
   const stats = [
-    { label: 'Total Bookings', value: '156', change: '+12%', trend: 'up', color: 'bg-gradient-to-br from-blue-500 to-blue-600' },
-    { label: 'Revenue', value: '$45,280', change: '+8%', trend: 'up', color: 'bg-gradient-to-br from-green-500 to-green-600' },
-    { label: 'Active Tours', value: '11', change: '+2', trend: 'up', color: 'bg-gradient-to-br from-purple-500 to-purple-600' },
-    { label: 'Pending Bookings', value: '23', change: '-5%', trend: 'down', color: 'bg-gradient-to-br from-orange-500 to-orange-600' },
+    { label: 'Total Bookings', value: '156', change: '+12%', trend: 'up', color: 'bg-gradient-to-br from-red-700 to-red-900' },
+    { label: 'Revenue', value: '$45,280', change: '+8%', trend: 'up', color: 'bg-gradient-to-br from-red-700 to-red-900' },
+    { label: 'Active Tours', value: '11', change: '+2', trend: 'up', color: 'bg-gradient-to-br from-red-700 to-red-900' },
+    { label: 'Pending Bookings', value: '23', change: '-5%', trend: 'down', color: 'bg-gradient-to-br from-red-700 to-red-900' },
   ];
 
   const bookingsByType = [
-    { type: 'Tours', count: 89, percentage: 57, color: 'bg-blue-500' },
-    { type: 'Flights', count: 45, percentage: 29, color: 'bg-green-500' },
-    { type: 'Apartments', count: 22, percentage: 14, color: 'bg-purple-500' },
+    { type: 'Tours', count: 89, percentage: 57, color: 'bg-red-700' },
+    { type: 'Flights', count: 45, percentage: 29, color: 'bg-red-400' },
+    { type: 'Apartments', count: 22, percentage: 14, color: 'bg-neutral-400' },
   ];
 
   const topTours = [
@@ -121,14 +121,14 @@ export default function AdminDashboard() {
                   <circle 
                     cx="50" cy="50" r="40" 
                     fill="none" 
-                    stroke="#3b82f6" 
+                    stroke="#b91c1c" 
                     strokeWidth="20"
                     strokeDasharray={`${bookingsByType[0].percentage * 2.51} ${251 - bookingsByType[0].percentage * 2.51}`}
                   />
                   <circle 
                     cx="50" cy="50" r="40" 
                     fill="none" 
-                    stroke="#10b981" 
+                    stroke="#f87171" 
                     strokeWidth="20"
                     strokeDasharray={`${bookingsByType[1].percentage * 2.51} ${251 - bookingsByType[1].percentage * 2.51}`}
                     strokeDashoffset={-bookingsByType[0].percentage * 2.51}
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
                   <circle 
                     cx="50" cy="50" r="40" 
                     fill="none" 
-                    stroke="#8b5cf6" 
+                    stroke="#a3a3a3" 
                     strokeWidth="20"
                     strokeDasharray={`${bookingsByType[2].percentage * 2.51} ${251 - bookingsByType[2].percentage * 2.51}`}
                     strokeDashoffset={-(bookingsByType[0].percentage + bookingsByType[1].percentage) * 2.51}
@@ -179,8 +179,8 @@ export default function AdminDashboard() {
                   <div className="w-full bg-neutral-200 rounded-full h-3">
                     <div
                       className={`h-3 rounded-full ${
-                        item.status === 'Confirmed' ? 'bg-green-500' :
-                        item.status === 'Pending' ? 'bg-yellow-500' : 'bg-red-500'
+                        item.status === 'Confirmed' ? 'bg-gradient-to-r from-red-700 to-red-900' :
+                        item.status === 'Pending' ? 'bg-red-300' : 'bg-neutral-400'
                       }`}
                       style={{ width: `${item.percentage}%` }}
                     ></div>
@@ -245,8 +245,8 @@ export default function AdminDashboard() {
               {topFlights.map((flight, index) => (
                 <div key={index} className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-700 to-red-900 rounded-lg flex items-center justify-center shadow-md">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                       </svg>
                     </div>
@@ -298,7 +298,7 @@ export default function AdminDashboard() {
                     <td className="px-4 py-4 text-sm font-medium text-neutral-900">{booking.amount}</td>
                     <td className="px-4 py-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        booking.status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                        booking.status === 'confirmed' ? 'bg-red-100 text-red-800' : 'bg-neutral-100 text-neutral-700'
                       }`}>
                         {booking.status}
                       </span>
