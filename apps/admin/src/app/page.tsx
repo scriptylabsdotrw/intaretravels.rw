@@ -1,11 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AdminLayout } from '../components/AdminLayout';
 
 export default function AdminDashboard() {
   const [dateFilter, setDateFilter] = useState('7days');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Mock data
   const stats = [
@@ -48,6 +53,28 @@ export default function AdminDashboard() {
     { status: 'Pending', count: 23, percentage: 15 },
     { status: 'Cancelled', count: 35, percentage: 22 },
   ];
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <AdminLayout>
+        <div className="space-y-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-neutral-900 mb-2">Dashboard</h1>
+              <p className="text-neutral-600">Welcome back! Here's your business overview.</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+            <div className="p-12 text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-700 mb-4"></div>
+              <p className="text-neutral-600">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>

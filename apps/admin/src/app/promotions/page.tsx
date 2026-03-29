@@ -17,8 +17,10 @@ export default function PromotionsManagement() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'active' | 'inactive'>('all');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     fetchPromotions();
   }, []);
 
@@ -64,6 +66,28 @@ export default function PromotionsManagement() {
     if (filter === 'inactive') return !promo.active;
     return true;
   });
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-neutral-900 mb-2">Flight Promotions</h1>
+              <p className="text-neutral-600">Manage flight deals and special offers</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+            <div className="p-12 text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-700 mb-4"></div>
+              <p className="text-neutral-600">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>

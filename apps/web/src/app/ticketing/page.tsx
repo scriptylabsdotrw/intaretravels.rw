@@ -64,7 +64,6 @@ export default function TicketingPage() {
       setLoading(false);
     }
   };
-
   // Filter cities based on search query
   const filteredFromCities = cities.filter(city => 
     city.toLowerCase().includes(fromSearchQuery.toLowerCase())
@@ -130,20 +129,19 @@ export default function TicketingPage() {
           </div>
         </div>
       </div>
-
       {/* Flight Search Section */}
-      <div className="relative -mt-16 z-20 mb-16">
+      <div className="relative -mt-16 z-20 mb-24">
         <div className="container mx-auto px-4 md:px-8 max-w-6xl">
           <div className="bg-white rounded-2xl shadow-2xl overflow-visible">
             {/* Header with Title */}
-            <div className="bg-white px-6 py-6 border-b border-neutral-200">
+            <div className="bg-white px-8 py-8 border-b border-neutral-200">
               <h2 className="text-2xl md:text-3xl font-bold text-center text-neutral-900">Search Flights</h2>
             </div>
 
-            <div className="p-6 md:p-8">
+            <div className="p-8 md:p-12">
               {/* Trip Type Selection */}
-              <div className="flex items-center gap-6 mb-6">
-                <label className="flex items-center gap-2 cursor-pointer">
+              <div className="flex items-center gap-8 mb-10">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <div 
                     onClick={() => setTripType('return')}
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
@@ -156,7 +154,7 @@ export default function TicketingPage() {
                   </div>
                   <span className="font-medium text-neutral-700">Return</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <div 
                     onClick={() => setTripType('oneway')}
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
@@ -169,7 +167,7 @@ export default function TicketingPage() {
                   </div>
                   <span className="font-medium text-neutral-700">One way</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <div 
                     onClick={() => setTripType('multicity')}
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors ${
@@ -182,7 +180,7 @@ export default function TicketingPage() {
                   </div>
                   <span className="font-medium text-neutral-700">Multi-city</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer ml-auto">
+                <label className="flex items-center gap-3 cursor-pointer ml-auto">
                   <div 
                     onClick={() => setDirectFlightsOnly(!directFlightsOnly)}
                     className={`w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
@@ -198,270 +196,277 @@ export default function TicketingPage() {
                   <span className="font-medium text-neutral-700">Direct flights only</span>
                 </label>
               </div>
-
               {/* Search Form */}
-              <div className="grid md:grid-cols-12 gap-4">
-                {/* From - 3 columns */}
-                <div className="md:col-span-3 relative">
-                  <label className="flex items-center gap-2 text-sm font-medium text-neutral-600 mb-2">
-                    <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Origin
-                  </label>
-                  <button
-                    onClick={() => {
-                      setFromDropdownOpen(!fromDropdownOpen);
-                      setToDropdownOpen(false);
-                    }}
-                    className="w-full px-4 py-3 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  >
-                    <div>
-                      <div className="text-xs text-neutral-500">Where from?</div>
-                      <div className="font-semibold text-neutral-900">{fromCity}</div>
-                    </div>
-                    <svg className={`w-5 h-5 text-red-700 transition-transform ${fromDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {fromDropdownOpen && (
-                    <>
-                      <div className="fixed inset-0 z-10" onClick={() => setFromDropdownOpen(false)} />
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
-                        <div className="p-3 border-b border-neutral-200">
-                          <div className="relative">
-                            <input
-                              type="text"
-                              value={fromSearchQuery}
-                              onChange={(e) => setFromSearchQuery(e.target.value)}
-                              placeholder="Search cities..."
-                              className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                            <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="max-h-64 overflow-y-auto">
-                          {filteredFromCities.length > 0 ? (
-                            filteredFromCities.map((city) => (
-                              <button
-                                key={city}
-                                onClick={() => handleFromChange(city)}
-                                className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
-                                  fromCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
-                                }`}
-                              >
-                                {city}
-                              </button>
-                            ))
-                          ) : (
-                            <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Swap Button */}
-                <div className="md:col-span-1 flex items-end justify-center pb-3">
-                  <button
-                    onClick={() => {
-                      const temp = fromCity;
-                      handleFromChange(toCity);
-                      handleToChange(temp);
-                    }}
-                    className="p-3 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* To - 3 columns */}
-                <div className="md:col-span-3 relative">
-                  <label className="flex items-center gap-2 text-sm font-medium text-neutral-600 mb-2">
-                    <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Destination
-                  </label>
-                  <button
-                    onClick={() => {
-                      setToDropdownOpen(!toDropdownOpen);
-                      setFromDropdownOpen(false);
-                    }}
-                    className="w-full px-4 py-3 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  >
-                    <div>
-                      <div className="text-xs text-neutral-500">Where to?</div>
-                      <div className="font-semibold text-neutral-900">{toCity}</div>
-                    </div>
-                    <svg className={`w-5 h-5 text-red-700 transition-transform ${toDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {toDropdownOpen && (
-                    <>
-                      <div className="fixed inset-0 z-10" onClick={() => setToDropdownOpen(false)} />
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
-                        <div className="p-3 border-b border-neutral-200">
-                          <div className="relative">
-                            <input
-                              type="text"
-                              value={toSearchQuery}
-                              onChange={(e) => setToSearchQuery(e.target.value)}
-                              placeholder="Search cities..."
-                              className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                            <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="max-h-64 overflow-y-auto">
-                          {filteredToCities.length > 0 ? (
-                            filteredToCities.map((city) => (
-                              <button
-                                key={city}
-                                onClick={() => handleToChange(city)}
-                                className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
-                                  toCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
-                                }`}
-                              >
-                                {city}
-                              </button>
-                            ))
-                          ) : (
-                            <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Departure Date - 2 columns */}
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-neutral-600 mb-2">Departure Date</label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={departureDate}
-                      onFocus={(e) => e.target.type = 'date'}
-                      onBlur={(e) => {
-                        if (!e.target.value) e.target.type = 'text';
+              <div className="space-y-6">
+                {/* First Row: Origin and Destination */}
+                <div className="grid md:grid-cols-7 gap-6">
+                  {/* From - 3 columns */}
+                  <div className="md:col-span-3 relative">
+                    <label className="flex items-center gap-3 text-sm font-medium text-neutral-600 mb-3">
+                      <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Origin
+                    </label>
+                    <button
+                      onClick={() => {
+                        setFromDropdownOpen(!fromDropdownOpen);
+                        setToDropdownOpen(false);
                       }}
-                      onChange={(e) => setDepartureDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                      placeholder="Select date"
-                      className="w-full px-4 py-3 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
-                    />
-                    <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                      className="w-full px-5 py-4 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    >
+                      <div>
+                        <div className="text-xs text-neutral-500">Where from?</div>
+                        <div className="font-semibold text-neutral-900">{fromCity}</div>
+                      </div>
+                      <svg className={`w-5 h-5 text-red-700 transition-transform ${fromDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {fromDropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setFromDropdownOpen(false)} />
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
+                          <div className="p-3 border-b border-neutral-200">
+                            <div className="relative">
+                              <input
+                                type="text"
+                                value={fromSearchQuery}
+                                onChange={(e) => setFromSearchQuery(e.target.value)}
+                                placeholder="Search cities..."
+                                className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                            </div>
+                          </div>
+                          <div className="max-h-64 overflow-y-auto">
+                            {filteredFromCities.length > 0 ? (
+                              filteredFromCities.map((city) => (
+                                <button
+                                  key={city}
+                                  onClick={() => handleFromChange(city)}
+                                  className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
+                                    fromCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
+                                  }`}
+                                >
+                                  {city}
+                                </button>
+                              ))
+                            ) : (
+                              <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  {/* Swap Button */}
+                  <div className="md:col-span-1 flex items-end justify-center pb-4">
+                    <button
+                      onClick={() => {
+                        const temp = fromCity;
+                        handleFromChange(toCity);
+                        handleToChange(temp);
+                      }}
+                      className="p-4 bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* To - 3 columns */}
+                  <div className="md:col-span-3 relative">
+                    <label className="flex items-center gap-3 text-sm font-medium text-neutral-600 mb-3">
+                      <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Destination
+                    </label>
+                    <button
+                      onClick={() => {
+                        setToDropdownOpen(!toDropdownOpen);
+                        setFromDropdownOpen(false);
+                      }}
+                      className="w-full px-5 py-4 border-2 border-red-300 rounded-lg bg-white text-left flex items-center justify-between hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    >
+                      <div>
+                        <div className="text-xs text-neutral-500">Where to?</div>
+                        <div className="font-semibold text-neutral-900">{toCity}</div>
+                      </div>
+                      <svg className={`w-5 h-5 text-red-700 transition-transform ${toDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {toDropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setToDropdownOpen(false)} />
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 overflow-hidden">
+                          <div className="p-3 border-b border-neutral-200">
+                            <div className="relative">
+                              <input
+                                type="text"
+                                value={toSearchQuery}
+                                onChange={(e) => setToSearchQuery(e.target.value)}
+                                placeholder="Search cities..."
+                                className="w-full px-4 py-2 pl-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              <svg className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                            </div>
+                          </div>
+                          <div className="max-h-64 overflow-y-auto">
+                            {filteredToCities.length > 0 ? (
+                              filteredToCities.map((city) => (
+                                <button
+                                  key={city}
+                                  onClick={() => handleToChange(city)}
+                                  className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
+                                    toCity === city ? 'bg-red-100 font-semibold text-red-700' : 'text-neutral-700'
+                                  }`}
+                                >
+                                  {city}
+                                </button>
+                              ))
+                            ) : (
+                              <div className="px-4 py-8 text-center text-neutral-500">No cities found</div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
-
-                {/* Return Date - 2 columns */}
-                {tripType === 'return' && (
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-600 mb-2">Return Date</label>
+                {/* Second Row: Dates and Passengers */}
+                <div className={`grid gap-6 ${
+                  tripType === 'return' 
+                    ? 'md:grid-cols-3' 
+                    : tripType === 'oneway' 
+                      ? 'md:grid-cols-2' 
+                      : 'md:grid-cols-2'
+                }`}>
+                  {/* Departure Date */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-600 mb-3">Departure Date</label>
                     <div className="relative">
                       <input
                         type="text"
-                        value={returnDate}
+                        value={departureDate}
                         onFocus={(e) => e.target.type = 'date'}
                         onBlur={(e) => {
                           if (!e.target.value) e.target.type = 'text';
                         }}
-                        onChange={(e) => setReturnDate(e.target.value)}
-                        min={departureDate || new Date().toISOString().split('T')[0]}
+                        onChange={(e) => setDepartureDate(e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
                         placeholder="Select date"
-                        className="w-full px-4 py-3 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                        className="w-full px-5 py-4 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
                       />
                       <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                   </div>
-                )}
 
-                {/* Passengers - 1 column */}
-                <div className={tripType === 'return' ? 'md:col-span-1' : 'md:col-span-3'}>
-                  <label className="block text-sm font-medium text-neutral-600 mb-2">Passengers</label>
-                  <div className="relative">
-                    <button
-                      onClick={() => setPassengersDropdownOpen(!passengersDropdownOpen)}
-                      className="w-full flex items-center gap-2 px-4 py-3 border-2 border-neutral-300 rounded-lg bg-white hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    >
-                      <svg className="w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span className="font-semibold text-neutral-900 flex-1 text-left">{passengers} {passengers === 1 ? 'Passenger' : 'Passengers'}</span>
-                      <svg className={`w-5 h-5 text-neutral-600 transition-transform ${passengersDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
+                  {/* Return Date - Only show for return trips */}
+                  {tripType === 'return' && (
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-600 mb-3">Return Date</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={returnDate}
+                          onFocus={(e) => e.target.type = 'date'}
+                          onBlur={(e) => {
+                            if (!e.target.value) e.target.type = 'text';
+                          }}
+                          onChange={(e) => setReturnDate(e.target.value)}
+                          min={departureDate || new Date().toISOString().split('T')[0]}
+                          placeholder="Select date"
+                          className="w-full px-5 py-4 border-2 border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                        />
+                        <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                  {/* Passengers */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-600 mb-3">Passengers</label>
+                    <div className="relative">
+                      <button
+                        onClick={() => setPassengersDropdownOpen(!passengersDropdownOpen)}
+                        className="w-full flex items-center gap-3 px-5 py-4 border-2 border-neutral-300 rounded-lg bg-white hover:border-red-400 transition-colors focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      >
+                        <svg className="w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span className="font-semibold text-neutral-900 flex-1 text-left">{passengers} {passengers === 1 ? 'Passenger' : 'Passengers'}</span>
+                        <svg className={`w-5 h-5 text-neutral-600 transition-transform ${passengersDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
 
-                    {passengersDropdownOpen && (
-                      <>
-                        <div className="fixed inset-0 z-10" onClick={() => setPassengersDropdownOpen(false)} />
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 p-4">
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium text-neutral-700">Passengers</span>
-                            <div className="flex items-center gap-3">
-                              <button
-                                onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                                disabled={passengers <= 1}
-                                className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                              >
-                                <svg className="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                </svg>
-                              </button>
-                              <span className="w-8 text-center font-bold text-neutral-900">{passengers}</span>
-                              <button
-                                onClick={() => setPassengers(Math.min(9, passengers + 1))}
-                                disabled={passengers >= 9}
-                                className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                              >
-                                <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                </svg>
-                              </button>
+                      {passengersDropdownOpen && (
+                        <>
+                          <div className="fixed inset-0 z-10" onClick={() => setPassengersDropdownOpen(false)} />
+                          <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-red-300 rounded-lg shadow-xl z-50 p-4">
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium text-neutral-700">Passengers</span>
+                              <div className="flex items-center gap-3">
+                                <button
+                                  onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                                  disabled={passengers <= 1}
+                                  className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                                >
+                                  <svg className="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                  </svg>
+                                </button>
+                                <span className="w-8 text-center font-bold text-neutral-900">{passengers}</span>
+                                <button
+                                  onClick={() => setPassengers(Math.min(9, passengers + 1))}
+                                  disabled={passengers >= 9}
+                                  className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                                >
+                                  <svg className="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
+                            <p className="text-xs text-neutral-500 mt-2">Maximum 9 passengers per booking</p>
                           </div>
-                          <p className="text-xs text-neutral-500 mt-2">Maximum 9 passengers per booking</p>
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-
               {/* Active Filters & Search Button */}
-              <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Active Filters */}
                 {(fromCity !== 'All Cities' || toCity !== 'All Cities') && (
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-4 flex-wrap">
                     <span className="text-sm font-medium text-neutral-700">Active search:</span>
                     {fromCity !== 'All Cities' && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-medium">
                         From: {fromCity}
                         <button onClick={() => handleFromChange('All Cities')} className="hover:text-red-900">×</button>
                       </span>
                     )}
                     {toCity !== 'All Cities' && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-medium">
                         To: {toCity}
                         <button onClick={() => handleToChange('All Cities')} className="hover:text-red-900">×</button>
                       </span>
@@ -480,7 +485,7 @@ export default function TicketingPage() {
 
                 {/* Search Button */}
                 <div className="ml-auto">
-                  <button className="px-8 py-3 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-lg font-semibold">
+                  <button className="px-10 py-4 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-lg font-semibold text-lg">
                     Search Flights
                   </button>
                 </div>
@@ -488,8 +493,8 @@ export default function TicketingPage() {
 
               {/* Results Count */}
               {(fromCity !== 'All Cities' || toCity !== 'All Cities') && (
-                <div className="mt-6 pt-6 border-t border-neutral-200 text-center">
-                  <p className="text-neutral-600">
+                <div className="mt-8 pt-8 border-t border-neutral-200 text-center">
+                  <p className="text-neutral-600 text-lg">
                     Found <span className="font-bold text-red-700">{filteredPromotions.length}</span> available {filteredPromotions.length === 1 ? 'flight' : 'flights'}
                   </p>
                 </div>
@@ -498,7 +503,6 @@ export default function TicketingPage() {
           </div>
         </div>
       </div>
-
       <Section title="Available Flight Deals" subtitle={filteredPromotions.length === 0 ? "No flights found for your search" : "Limited-time offers"}>
         {loading ? (
           <div className="text-center py-16">
@@ -522,11 +526,11 @@ export default function TicketingPage() {
                   <Badge variant="primary">{promo.discount}</Badge>
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-8">
                 {/* Airline Logo */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <div>
-                    <p className="text-xs text-neutral-500 mb-1">From {promo.from}</p>
+                    <p className="text-xs text-neutral-500 mb-2">From {promo.from}</p>
                     <h3 className="text-2xl font-bold">{promo.destination}</h3>
                   </div>
                   <div className="relative w-16 h-10 bg-white rounded border border-neutral-200 p-1">
@@ -540,14 +544,14 @@ export default function TicketingPage() {
                   </div>
                 </div>
                 
-                <p className="text-neutral-600 text-sm mb-4">via {promo.airline}</p>
+                <p className="text-neutral-600 text-sm mb-6">via {promo.airline}</p>
                 
-                <div className="mb-4">
+                <div className="mb-6">
                   <span className="text-4xl font-bold text-primary-700">${promo.price}</span>
                   <span className="text-neutral-600 ml-2">round trip</span>
                 </div>
                 
-                <div className="flex items-center gap-2 text-sm text-neutral-500 mb-4">
+                <div className="flex items-center gap-2 text-sm text-neutral-500 mb-6">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -563,7 +567,6 @@ export default function TicketingPage() {
             </Card>
           ))}
         </Grid>
-
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="mt-12 flex items-center justify-center gap-2">
@@ -620,16 +623,15 @@ export default function TicketingPage() {
           </div>
         )}
       </Section>
-
       <Section title="Our Airline Partners" subtitle="Trusted carriers for your journey" className="bg-neutral-50">
-        <div className="space-y-8 overflow-hidden">
+        <div className="space-y-12 overflow-hidden">
           {/* First Row - Sliding Left to Right */}
           <div className="relative">
-            <div className="flex gap-8 animate-scroll-right">
+            <div className="flex gap-12 animate-scroll-right">
               {[...partners, ...partners, ...partners].map((partner, index) => (
                 <div 
                   key={`row1-${index}`}
-                  className="flex-shrink-0 w-48 h-32 bg-white rounded-xl border border-neutral-200 p-6 flex items-center justify-center"
+                  className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center"
                 >
                   <div className="relative w-full h-full">
                     <Image
@@ -647,11 +649,11 @@ export default function TicketingPage() {
 
           {/* Second Row - Sliding Right to Left */}
           <div className="relative">
-            <div className="flex gap-8 animate-scroll-left">
+            <div className="flex gap-12 animate-scroll-left">
               {[...partners, ...partners, ...partners].map((partner, index) => (
                 <div 
                   key={`row2-${index}`}
-                  className="flex-shrink-0 w-48 h-32 bg-white rounded-xl border border-neutral-200 p-6 flex items-center justify-center"
+                  className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center"
                 >
                   <div className="relative w-full h-full">
                     <Image
@@ -669,7 +671,7 @@ export default function TicketingPage() {
         </div>
 
         {/* Partner Details Below */}
-        <div className="mt-16">
+        <div className="mt-20">
           <Grid cols={4}>
             {partners.map((partner) => (
               <div key={partner.name} className="text-center">
@@ -680,13 +682,12 @@ export default function TicketingPage() {
           </Grid>
         </div>
       </Section>
-
       <Section title="Frequently Asked Questions">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-8">
           {faqs.map((faq, index) => (
-            <div key={index} className="border-b border-neutral-200 pb-6">
-              <h3 className="text-xl font-bold mb-3">{faq.question}</h3>
-              <p className="text-neutral-600">{faq.answer}</p>
+            <div key={index} className="border-b border-neutral-200 pb-8">
+              <h3 className="text-xl font-bold mb-4">{faq.question}</h3>
+              <p className="text-neutral-600 leading-relaxed">{faq.answer}</p>
             </div>
           ))}
         </div>

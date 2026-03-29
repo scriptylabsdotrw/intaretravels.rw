@@ -33,8 +33,10 @@ export default function ApartmentsManagement() {
   const [form, setForm] = useState(emptyApartment);
   const [saving, setSaving] = useState(false);
   const [amenityInput, setAmenityInput] = useState('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     fetchApartments();
   }, []);
 
@@ -129,6 +131,28 @@ export default function ApartmentsManagement() {
     });
     setApartments(apartments.map(a => a.id === apt.id ? { ...a, featured: !a.featured } : a));
   };
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-neutral-900 mb-1">Apartments</h1>
+              <p className="text-neutral-600">Manage accommodation listings</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+            <div className="p-12 text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-700 mb-4"></div>
+              <p className="text-neutral-600">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>

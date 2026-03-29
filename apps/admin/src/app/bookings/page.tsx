@@ -29,6 +29,17 @@ const empty: Omit<Booking, 'id' | 'createdAt'> = {
   amount: 0, status: 'pending', message: '',
 };
 
+// Helper function to format date consistently
+const formatDate = (dateString: string) => {
+  try {
+    const date = new Date(dateString);
+    // Use a consistent format that works the same on server and client
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+  } catch {
+    return 'Invalid Date';
+  }
+};
+
 export default function BookingsManagement() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,8 +49,12 @@ export default function BookingsManagement() {
   const [editing, setEditing] = useState<Booking | null>(null);
   const [form, setForm] = useState(empty);
   const [saving, setSaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { fetchBookings(); }, []);
+  useEffect(() => {
+    setMounted(true);
+    fetchBookings();
+  }, []);
 
   const fetchBookings = async () => {
     try {
@@ -48,7 +63,6 @@ export default function BookingsManagement() {
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   };
-
   const openCreate = () => { setEditing(null); setForm(empty); setModalOpen(true); };
   const openEdit = (b: Booking) => {
     setEditing(b);
@@ -107,6 +121,27 @@ export default function BookingsManagement() {
     return <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>;
   };
 
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-neutral-900 mb-1">Bookings</h1>
+              <p className="text-neutral-600">Manage all customer bookings</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+            <div className="p-12 text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-700 mb-4"></div>
+              <p className="text-neutral-600">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -157,7 +192,6 @@ export default function BookingsManagement() {
             </div>
           </div>
         </div>
-
         <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
           {loading ? (
             <div className="p-12 text-center">
@@ -202,7 +236,7 @@ export default function BookingsManagement() {
                         {b.type === 'flight' && <><div>Depart: {b.departure}</div><div>Return: {b.returnDate}</div><div>Pax: {b.passengers}</div></>}
                       </td>
                       <td className="px-5 py-4 font-semibold text-neutral-900 text-sm">{b.amount ? `$${b.amount}` : '—'}</td>
-                      <td className="px-5 py-4 text-xs text-neutral-500">{new Date(b.createdAt).toLocaleDateString()}</td>
+                      <td className="px-5 py-4 text-xs text-neutral-500">{formatDate(b.createdAt)}</td>
                       <td className="px-5 py-4">
                         <select value={b.status} onChange={e => updateStatus(b.id, e.target.value)} className={`px-2.5 py-1 rounded-full text-xs font-medium border-0 cursor-pointer ${statusStyle[b.status]}`}>
                           <option value="pending">Pending</option>
@@ -222,7 +256,6 @@ export default function BookingsManagement() {
           )}
         </div>
       </div>
-
       {/* Create / Edit Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
