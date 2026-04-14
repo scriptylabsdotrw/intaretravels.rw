@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Section, Grid, Card, Button, Badge, Breadcrumb } from '@tourism/ui';
 import Link from 'next/link';
+import { LuxuryNavigation } from '../../components/LuxuryNavigation';
+import { LuxuryFooter } from '../../components/LuxuryFooter';
 
 const cities = [
   'All Cities',
@@ -64,6 +65,7 @@ export default function TicketingPage() {
       setLoading(false);
     }
   };
+  
   // Filter cities based on search query
   const filteredFromCities = cities.filter(city => 
     city.toLowerCase().includes(fromSearchQuery.toLowerCase())
@@ -102,40 +104,52 @@ export default function TicketingPage() {
   };
 
   return (
-    <>
-      <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
-        {/* Background Image */}
+    <div className="min-h-screen">
+      <LuxuryNavigation />
+      
+      {/* Hero Section */}
+      <section className="hero-section">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000"
             alt="Airplane in flight"
             fill
-            className="object-cover opacity-40"
+            className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/50 to-neutral-900/80" />
+          <div className="hero-overlay" />
         </div>
 
-        {/* Content */}
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Flight Deals' }]} theme="dark" />
-          <div className="mt-8 max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Exclusive Flight Deals
+        <div className="relative z-10 container-luxury text-center text-white">
+          <div className="max-w-4xl mx-auto">
+            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
+              <Link href="/" className="text-white hover:text-red-200 transition-colors">
+                Home
+              </Link>
+              <span className="text-white">/</span>
+              <span className="text-white">Flight Deals</span>
+            </nav>
+            
+            <p className="label-text text-white mb-6 animate-fade-in">
+              Premium Flight Services
+            </p>
+            <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
+              Exclusive Flight
+              <span className="block text-white">Deals & Bookings</span>
             </h1>
-            <p className="text-xl md:text-2xl text-neutral-200 leading-relaxed">
-              Partner with top airlines for unbeatable prices across Africa and beyond
+            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
+              Partner with top airlines for unbeatable prices across Africa and beyond. Experience luxury travel at exceptional value.
             </p>
           </div>
         </div>
-      </div>
+      </section>
       {/* Flight Search Section */}
-      <div className="relative -mt-16 z-20 mb-24">
-        <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-          <div className="bg-white rounded-2xl shadow-2xl overflow-visible">
+      <section className="relative -mt-16 z-20 section-padding bg-luxury-off-white">
+        <div className="container-luxury">
+          <div className="bg-white rounded-2xl shadow-luxury overflow-visible">
             {/* Header with Title */}
             <div className="bg-white px-8 py-8 border-b border-neutral-200">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-neutral-900">Search Flights</h2>
+              <h2 className="heading-md text-center text-neutral-900">Search Flights</h2>
             </div>
 
             <div className="p-8 md:p-12">
@@ -397,7 +411,7 @@ export default function TicketingPage() {
                         <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                      </div>
+                      </div>r
                     </div>
                   )}
                   {/* Passengers */}
@@ -485,7 +499,7 @@ export default function TicketingPage() {
 
                 {/* Search Button */}
                 <div className="ml-auto">
-                  <button className="px-10 py-4 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-lg font-semibold text-lg">
+                  <button className="btn-primary rounded-lg text-lg px-10 py-4">
                     Search Flights
                   </button>
                 </div>
@@ -502,207 +516,263 @@ export default function TicketingPage() {
             </div>
           </div>
         </div>
-      </div>
-      <Section title="Available Flight Deals" subtitle={filteredPromotions.length === 0 ? "No flights found for your search" : "Limited-time offers"}>
-        {loading ? (
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-700 mb-4"></div>
-            <p className="text-neutral-600">Loading flight deals...</p>
+      </section>
+      {/* Available Flight Deals Section */}
+      <section className="section-padding">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Limited-Time Offers</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              Available Flight Deals
+            </h2>
+            {filteredPromotions.length === 0 ? (
+              <p className="text-xl text-neutral-600">No flights found for your search</p>
+            ) : (
+              <p className="text-xl text-neutral-600">Exclusive partnerships with premium airlines</p>
+            )}
           </div>
-        ) : currentPromotions.length > 0 ? (
-          <>
-            <Grid cols={3}>
-              {currentPromotions.map((promo) => (
-            <Card key={promo.id} className="overflow-hidden">
-              <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden">
-                <Image
-                  src={promo.image}
-                  alt={promo.destination}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-                <div className="absolute top-4 right-4">
-                  <Badge variant="primary">{promo.discount}</Badge>
-                </div>
-              </div>
-              <div className="p-8">
-                {/* Airline Logo */}
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <p className="text-xs text-neutral-500 mb-2">From {promo.from}</p>
-                    <h3 className="text-2xl font-bold">{promo.destination}</h3>
+          {loading ? (
+            <div className="text-center py-24">
+              <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-red-800 mb-6"></div>
+              <p className="text-neutral-600 text-lg">Loading flight deals...</p>
+            </div>
+          ) : currentPromotions.length > 0 ? (
+            <>
+              <div className="grid-luxury">
+                {currentPromotions.map((promo, index) => (
+                  <div
+                    key={promo.id}
+                    className="card-luxury rounded-2xl overflow-hidden fade-in-scroll"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden image-hover-zoom">
+                      <Image
+                        src={promo.image}
+                        alt={promo.destination}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <span className="bg-red-800 text-white px-3 py-2 rounded-full text-sm font-semibold">
+                          {promo.discount}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-8">
+                      {/* Airline Logo */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div>
+                          <p className="text-xs text-neutral-500 mb-2">From {promo.from}</p>
+                          <h3 className="heading-sm text-neutral-900">{promo.destination}</h3>
+                        </div>
+                        <div className="relative w-16 h-10 bg-white rounded border border-neutral-200 p-1">
+                          <Image
+                            src={promo.logo}
+                            alt={promo.airline}
+                            fill
+                            className="object-contain p-1"
+                            sizes="64px"
+                          />
+                        </div>
+                      </div>
+                      
+                      <p className="text-neutral-600 text-sm mb-6">via {promo.airline}</p>
+                      
+                      <div className="mb-6">
+                        <span className="text-4xl font-bold text-red-800">${promo.price}</span>
+                        <span className="text-neutral-600 ml-2">round trip</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 text-sm text-neutral-500 mb-6">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Valid until {new Date(promo.validUntil).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                      
+                      <Link 
+                        href={`/book-flight?destination=${encodeURIComponent(promo.destination)}&price=${promo.price}&airline=${encodeURIComponent(promo.airline)}`}
+                        className="btn-primary w-full text-center rounded-lg block"
+                      >
+                        Book Now
+                      </Link>
+                    </div>
                   </div>
-                  <div className="relative w-16 h-10 bg-white rounded border border-neutral-200 p-1">
-                    <Image
-                      src={promo.logo}
-                      alt={promo.airline}
-                      fill
-                      className="object-contain p-1"
-                      sizes="64px"
-                    />
-                  </div>
-                </div>
-                
-                <p className="text-neutral-600 text-sm mb-6">via {promo.airline}</p>
-                
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-primary-700">${promo.price}</span>
-                  <span className="text-neutral-600 ml-2">round trip</span>
-                </div>
-                
-                <div className="flex items-center gap-2 text-sm text-neutral-500 mb-6">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>Valid until {new Date(promo.validUntil).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                </div>
-                
-                <Link href={`/book-flight?destination=${encodeURIComponent(promo.destination)}&price=${promo.price}&airline=${encodeURIComponent(promo.airline)}`}>
-                  <Button className="w-full">
-                    Book Now
-                  </Button>
-                </Link>
+                ))}
               </div>
-            </Card>
-          ))}
-        </Grid>
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-2">
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              Previous
-            </button>
-            
-            <div className="flex gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                    currentPage === page
-                      ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md'
-                      : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-16 flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Previous
+                  </button>
+                  
+                  <div className="flex gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-12 h-12 rounded-lg font-medium transition-all ${
+                          currentPage === page
+                            ? 'bg-red-800 text-white shadow-luxury'
+                            : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-24">
+              <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="heading-md text-neutral-900 mb-4">No flights found</h3>
+              <p className="text-neutral-600 mb-8 max-w-md mx-auto">
+                Try adjusting your search criteria to find available flights
+              </p>
+              <button
+                onClick={() => {
+                  handleFromChange('All Cities');
+                  handleToChange('All Cities');
+                }}
+                className="btn-primary rounded-lg"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+      {/* Airline Partners Section */}
+      <section className="section-padding bg-neutral-50">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Trusted Partners</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              Our Airline Partners
+            </h2>
+            <p className="text-xl text-neutral-600">Trusted carriers for your journey</p>
+          </div>
+
+          <div className="space-y-12 overflow-hidden">
+            {/* First Row - Sliding Left to Right */}
+            <div className="relative">
+              <div className="flex gap-12 animate-scroll-right">
+                {[...partners, ...partners, ...partners].map((partner, index) => (
+                  <div 
+                    key={`row1-${index}`}
+                    className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        fill
+                        className="object-contain"
+                        sizes="200px"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              Next
-            </button>
-          </div>
-        )}
-        </>
-        ) : (
-          <div className="text-center py-16">
-            <svg className="w-16 h-16 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <h3 className="text-2xl font-bold text-neutral-700 mb-2">No flights found</h3>
-            <p className="text-neutral-600 mb-6">Try adjusting your search criteria</p>
-            <button
-              onClick={() => {
-                handleFromChange('All Cities');
-                handleToChange('All Cities');
-              }}
-              className="px-6 py-3 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg hover:from-red-800 hover:to-red-950 transition-all shadow-md font-medium"
-            >
-              Clear Search
-            </button>
-          </div>
-        )}
-      </Section>
-      <Section title="Our Airline Partners" subtitle="Trusted carriers for your journey" className="bg-neutral-50">
-        <div className="space-y-12 overflow-hidden">
-          {/* First Row - Sliding Left to Right */}
-          <div className="relative">
-            <div className="flex gap-12 animate-scroll-right">
-              {[...partners, ...partners, ...partners].map((partner, index) => (
-                <div 
-                  key={`row1-${index}`}
-                  className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center"
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.name}
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
+            {/* Second Row - Sliding Right to Left */}
+            <div className="relative">
+              <div className="flex gap-12 animate-scroll-left">
+                {[...partners, ...partners, ...partners].map((partner, index) => (
+                  <div 
+                    key={`row2-${index}`}
+                    className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        fill
+                        className="object-contain"
+                        sizes="200px"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Second Row - Sliding Right to Left */}
-          <div className="relative">
-            <div className="flex gap-12 animate-scroll-left">
-              {[...partners, ...partners, ...partners].map((partner, index) => (
-                <div 
-                  key={`row2-${index}`}
-                  className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center"
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.name}
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
+          {/* Partner Details Below */}
+          <div className="mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {partners.map((partner, index) => (
+                <div key={partner.name} className="text-center fade-in-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <h3 className="heading-sm text-neutral-900 mb-2">{partner.name}</h3>
+                  <p className="text-neutral-600">{partner.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
+      </section>
+      {/* FAQ Section */}
+      <section className="section-padding">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Support</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              Frequently Asked Questions
+            </h2>
+          </div>
 
-        {/* Partner Details Below */}
-        <div className="mt-20">
-          <Grid cols={4}>
-            {partners.map((partner) => (
-              <div key={partner.name} className="text-center">
-                <h3 className="font-bold mb-2 text-lg">{partner.name}</h3>
-                <p className="text-neutral-600 text-sm">{partner.description}</p>
+          <div className="max-w-4xl mx-auto space-y-8">
+            {faqs.map((faq, index) => (
+              <div key={index} className="border-b border-neutral-200 pb-8 fade-in-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
+                <h3 className="heading-sm text-neutral-900 mb-4">{faq.question}</h3>
+                <p className="text-neutral-600 leading-relaxed">{faq.answer}</p>
               </div>
             ))}
-          </Grid>
-        </div>
-      </Section>
-      <Section title="Frequently Asked Questions">
-        <div className="max-w-3xl mx-auto space-y-8">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border-b border-neutral-200 pb-8">
-              <h3 className="text-xl font-bold mb-4">{faq.question}</h3>
-              <p className="text-neutral-600 leading-relaxed">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section className="bg-primary-700 text-white">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Need Help Booking?</h2>
-          <p className="text-xl mb-8 text-primary-100">Our team is here to assist you</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="secondary" size="lg" href="tel:+250780100064">Call +250 780 100 064</Button>
-            <Button variant="outline" size="lg" href="mailto:booking@intaretravels.rw">Email Us</Button>
           </div>
         </div>
-      </Section>
-    </>
+      </section>
+
+      {/* CTA Section */}
+      <section className="section-padding bg-luxury-gradient text-white">
+        <div className="container-luxury text-center">
+          <h2 className="heading-lg mb-6 text-shadow-luxury">Need Help Booking?</h2>
+          <p className="text-xl mb-12 text-red-100 max-w-2xl mx-auto">
+            Our expert travel consultants are here to assist you with personalized flight recommendations and seamless booking experiences.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <a href="tel:+250780100064" className="btn-outline rounded-lg">
+              Call +250 780 100 064
+            </a>
+            <a href="mailto:booking@intaretravels.rw" className="btn-primary bg-white text-red-800 hover:bg-red-50 rounded-lg">
+              Email Our Experts
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <LuxuryFooter />
+    </div>
   );
 }

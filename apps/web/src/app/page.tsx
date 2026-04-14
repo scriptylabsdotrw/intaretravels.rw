@@ -1,740 +1,302 @@
-'use client';
-
-import { Hero, Section, Grid, Card, Button, FeatureCard } from '@tourism/ui';
-import { StructuredData, generateTravelAgencySchema } from '@tourism/lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-
-// Import tours data
+import { LuxuryNavigation } from '../components/LuxuryNavigation';
+import { LuxuryFooter } from '../components/LuxuryFooter';
+import { ScrollAnimations } from '../components/ScrollAnimations';
 import toursData from '../../../../data/tours.json';
 
-export default function HomePage() {
-  const schema = generateTravelAgencySchema(process.env.NEXT_PUBLIC_SITE_URL || '');
-  const featuredTours = toursData.filter(tour => tour.featured).slice(0, 3);
+// Get featured tours from real data
+const tours = toursData.filter(tour => tour.featured).slice(0, 3);
 
+const stats = [
+  { number: '500+', label: 'Happy Travelers', description: 'Satisfied customers worldwide' },
+  { number: '50+', label: 'Destinations', description: 'Across East Africa' },
+  { number: '15+', label: 'Years Experience', description: 'In luxury travel' },
+  { number: '98%', label: 'Success Rate', description: 'Customer satisfaction' },
+];
+
+const features = [
+  {
+    title: 'Bespoke Experiences',
+    description: 'Tailored journeys crafted to your unique preferences and desires.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+      </svg>
+    ),
+  },
+  {
+    title: '24/7 Concierge Service',
+    description: 'Round-the-clock support ensuring seamless travel experiences.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Exclusive Access',
+    description: 'Private tours and VIP experiences unavailable to regular tourists.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Local Expertise',
+    description: 'Deep cultural knowledge and insider access to hidden gems.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Best Value Guarantee',
+    description: 'Competitive pricing with unmatched quality and service standards.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Sustainable Tourism',
+    description: 'Responsible travel that preserves destinations for future generations.',
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9 3-9m-9 9a9 9 0 019-9" />
+      </svg>
+    ),
+  },
+];
+
+const partnerLogos = [
+  { name: 'Qatar Airways', src: '/aerolineas-images_0009_QatarAirways.png' },
+  { name: 'RwandAir', src: '/RwandAir.jpg' },
+  { name: 'Kenya Airways', src: '/Kenya_Airways-Logo.wine.png' },
+  { name: 'Ethiopian Airlines', src: '/ethiopian-airlines-logo-png_seeklogo-49734.png' },
+];
+
+export default function HomePage() {
   return (
-    <>
-      <StructuredData data={schema} />
+    <div className="min-h-screen">
+      <ScrollAnimations />
+      <LuxuryNavigation />
       
-      {/* Clean & Elegant Hero Section */}
-      <div className="relative h-screen min-h-[100vh] overflow-hidden bg-black">
-        {/* Single Background Image */}
+      {/* Hero Section */}
+      <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=2400"
-            alt="Luxury African Experience"
+            src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=2000"
+            alt="Mountain Gorillas in Rwanda"
             fill
             className="object-cover"
             priority
-            quality={100}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-transparent"></div>
+          <div className="hero-overlay" />
         </div>
-
-        {/* Simple Content */}
-        <div className="relative h-full flex items-center justify-center">
-          <div className="container mx-auto px-6 md:px-12 max-w-6xl text-center">
-            
-            {/* Clean Badge */}
-            <div className="inline-flex items-center gap-3 mb-12 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-              <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-              <span className="text-white font-medium text-sm tracking-wider uppercase">
-                Luxury Travel Specialists
-              </span>
-            </div>
-
-            {/* Simple Typography */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-8 leading-tight tracking-tight">
-              Extraordinary
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-red-500">
-                African Journeys
-              </span>
+        
+        <div className="relative z-10 container-luxury text-center text-white">
+          <div className="max-w-4xl mx-auto">
+            <p className="label-text text-white mb-6 animate-fade-in">
+              Luxury Travel Experiences
+            </p>
+            <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
+              Discover East Africa's
+              <span className="block text-white">Hidden Treasures</span>
             </h1>
-            
-            <p className="text-xl md:text-2xl text-white/90 mb-12 leading-relaxed max-w-3xl mx-auto font-light">
-              Curated luxury experiences across Africa's most breathtaking destinations. 
-              Where every moment becomes a treasured memory.
+            <p className="text-xl md:text-2xl mb-12 text-white max-w-2xl mx-auto animate-fade-in-up delay-400">
+              Embark on extraordinary journeys through pristine landscapes, encounter magnificent wildlife, and immerse yourself in rich cultural heritage.
             </p>
-            
-            {/* Clean CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link 
-                href="/tours"
-                className="px-10 py-4 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-xl hover:from-red-700 hover:to-red-900 transition-all duration-300 font-semibold text-lg flex items-center justify-center gap-3"
-              >
+            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in-up delay-600">
+              <Link href="/tours" className="btn-primary rounded-lg">
                 Explore Tours
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
               </Link>
-              
-              <Link 
-                href="/contact"
-                className="px-10 py-4 bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white rounded-xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 font-semibold text-lg flex items-center justify-center gap-3"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                Contact Us
+              <Link href="/contact" className="btn-outline rounded-lg">
+                Plan Your Journey
               </Link>
             </div>
           </div>
         </div>
+        
+        {/* Scroll Indicator */}
+        <div className="scroll-indicator animate-fade-in delay-800" />
+      </section>
 
-        {/* Simple Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-bounce"></div>
-            </div>
-            <span className="text-white/70 text-xs font-medium tracking-wider uppercase">Scroll</span>
+      {/* Stats Section */}
+      <section className="section-padding bg-luxury-dark-red text-white">
+        <div className="container-luxury">
+          <div className="grid-stats text-center">
+            {stats.map((stat, index) => (
+              <div key={index} className="fade-in-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="heading-lg text-red-200 mb-2">{stat.number}</div>
+                <h3 className="heading-sm mb-2">{stat.label}</h3>
+                <p className="text-red-100">{stat.description}</p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Luxury Featured Tours */}
-      <Section className="py-32 bg-gradient-to-b from-neutral-50 to-white relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-200 to-transparent"></div>
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-red-50 rounded-full blur-3xl opacity-60"></div>
-        <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-red-50 rounded-full blur-3xl opacity-60"></div>
-
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl relative">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-red-50 rounded-full">
-              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              <span className="text-red-700 font-semibold text-sm tracking-widest uppercase">Signature Experiences</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-neutral-900 mb-6 tracking-tight">
-              Curated for the
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800"> Discerning Traveler</span>
+      {/* Why Choose Us Section */}
+      <section className="section-padding bg-luxury-off-white">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Why Choose Intare Travels</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              Unparalleled Excellence in Every Journey
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
-              Each journey is meticulously crafted to deliver unparalleled luxury, authentic cultural immersion, 
-              and memories that will last a lifetime.
+            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+              We craft extraordinary experiences that go beyond traditional tourism, creating memories that last a lifetime.
             </p>
           </div>
+          
+          <div className="grid-luxury">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="card-luxury rounded-2xl p-8 text-center fade-in-scroll"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 text-red-800">
+                  {feature.icon}
+                </div>
+                <h3 className="heading-sm text-neutral-900 mb-4">{feature.title}</h3>
+                <p className="text-neutral-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* Premium Tours Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {featuredTours.map((tour, index) => (
-              <Link key={tour.id} href={`/tours/${tour.slug}`} className="group">
-                <div className="bg-white rounded-3xl overflow-hidden border border-neutral-200 hover:border-red-300 transition-all duration-500 transform hover:-translate-y-2">
-                  {/* Image Container */}
-                  <div className="aspect-[4/3] relative overflow-hidden">
+      {/* Featured Tours Section */}
+      <section className="section-padding">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Featured Experiences</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              Signature Luxury Tours
+            </h2>
+            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+              Discover our most sought-after experiences, carefully curated for the discerning traveler.
+            </p>
+          </div>
+          
+          {tours.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-xl text-neutral-600">No featured tours available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid-luxury">
+              {tours.map((tour, index) => (
+                <div
+                  key={tour.id}
+                  className="card-luxury rounded-2xl overflow-hidden fade-in-scroll"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="image-hover-zoom relative h-64">
                     <Image
                       src={tour.image}
                       alt={tour.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    {/* Price Badge */}
-                    <div className="absolute top-6 right-6 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full border border-neutral-200">
-                      <span className="text-neutral-900 font-bold text-lg">${tour.price.toLocaleString()}</span>
-                      <span className="text-neutral-600 text-sm ml-1">per person</span>
-                    </div>
-
-                    {/* Duration Badge */}
-                    <div className="absolute top-6 left-6 px-3 py-1.5 bg-red-800/90 backdrop-blur-sm rounded-full border border-red-700/50">
-                      <span className="text-white font-semibold text-sm">{tour.duration}</span>
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-red-800 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {tour.duration}
+                      </span>
                     </div>
                   </div>
-
-                  {/* Content */}
+                  
                   <div className="p-8">
-                    <div className="flex items-center gap-2 mb-4">
-                      <svg className="w-5 h-5 text-red-700" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-neutral-600 font-medium">{tour.name.split(' ')[0]}</span>
-                      <span className="text-neutral-300">•</span>
-                      <div className="flex items-center gap-1">
+                    <h3 className="heading-sm text-neutral-900 mb-4">{tour.name}</h3>
+                    <p className="text-neutral-600 mb-6 overflow-hidden" style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical'
+                    }}>{tour.description}</p>
+                    
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center text-red-600">
                         {[...Array(5)].map((_, i) => (
-                          <svg key={i} className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                          <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
                         ))}
-                        <span className="text-neutral-500 text-sm ml-1">(5.0)</span>
                       </div>
+                      <span className="text-2xl font-bold text-neutral-900">${tour.price}</span>
                     </div>
-
-                    <h3 className="text-2xl font-bold text-neutral-900 mb-3 group-hover:text-red-800 transition-colors">
-                      {tour.name}
-                    </h3>
                     
-                    <p className="text-neutral-600 mb-6 leading-relaxed line-clamp-3">
-                      {tour.description}
-                    </p>
-
-                    {/* Highlights */}
-                    <div className="space-y-2 mb-6">
-                      {tour.highlights.slice(0, 2).map((highlight, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm text-neutral-600">
-                          <svg className="w-4 h-4 text-red-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span>{highlight}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* CTA */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-red-800 font-semibold group-hover:text-red-900 transition-colors">
-                        View Details
-                      </span>
-                      <svg className="w-5 h-5 text-red-800 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
+                    <Link
+                      href={`/tours/${tour.slug}`}
+                      className="btn-primary w-full text-center rounded-lg block"
+                    >
+                      View Details
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="section-padding bg-neutral-50">
+        <div className="container-luxury">
+          <div className="text-center mb-16">
+            <p className="label-text text-red-800 mb-4">Trusted Partners</p>
+            <h2 className="heading-lg text-neutral-900 mb-6">
+              World-Class Collaborations
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            {partnerLogos.map((partner, index) => (
+              <div
+                key={partner.name}
+                className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 fade-in-scroll"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="relative h-16 w-full">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* View All Tours CTA */}
-          <div className="text-center">
-            <Link 
-              href="/tours"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-xl font-semibold text-lg"
-            >
-              Explore All Luxury Tours
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+      {/* CTA Section */}
+      <section className="section-padding bg-luxury-gradient text-white">
+        <div className="container-luxury text-center">
+          <h2 className="heading-lg mb-6 text-shadow-luxury">
+            Ready to Begin Your Adventure?
+          </h2>
+          <p className="text-xl mb-12 text-red-100 max-w-2xl mx-auto">
+            Let our travel experts craft the perfect East African experience tailored just for you.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link href="/contact" className="btn-outline rounded-lg">
+              Start Planning
+            </Link>
+            <Link href="/tours" className="btn-primary bg-white text-red-800 hover:bg-red-50 rounded-lg">
+              Browse Tours
             </Link>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Partner Logos Section */}
-      <Section className="py-16 bg-white border-b border-neutral-100">
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-          <div className="text-center mb-12">
-            <h3 className="text-lg font-semibold text-neutral-600 mb-8">Trusted Partners & Certifications</h3>
-          </div>
-          
-          {/* Sliding Partner Logos */}
-          <div className="relative overflow-hidden">
-            {/* First Row - Left to Right */}
-            <div className="flex animate-scroll-left mb-12">
-              <div className="flex items-center gap-12 min-w-full">
-                {/* Rwanda Development Board */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/RDB-1.png"
-                      alt="Rwanda Development Board"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Chamber of Tourism */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Chamber-of-tourism.png"
-                      alt="Chamber of Tourism"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* RTTA */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/rtta.png"
-                      alt="Rwanda Tours and Travel Association"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* TripAdvisor */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Tripadvisor-Logo.png"
-                      alt="TripAdvisor"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Qatar Airways */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/aerolineas-images_0009_QatarAirways.png"
-                      alt="Qatar Airways"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Repeat for seamless loop */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/RDB-1.png"
-                      alt="Rwanda Development Board"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Chamber-of-tourism.png"
-                      alt="Chamber of Tourism"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/rtta.png"
-                      alt="Rwanda Tours and Travel Association"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Second Row - Right to Left */}
-            <div className="flex animate-scroll-right">
-              <div className="flex items-center gap-12 min-w-full">
-                {/* RwandAir */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/RwandAir.jpg"
-                      alt="RwandAir"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Kenya Airways */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Kenya_Airways-Logo.wine.png"
-                      alt="Kenya Airways"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Ethiopian Airlines */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/ethiopian-airlines-logo-png_seeklogo-49734.png"
-                      alt="Ethiopian Airlines"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* TripAdvisor (repeat) */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Tripadvisor-Logo.png"
-                      alt="TripAdvisor"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Qatar Airways (repeat) */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/aerolineas-images_0009_QatarAirways.png"
-                      alt="Qatar Airways"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                {/* Repeat for seamless loop */}
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/RwandAir.jpg"
-                      alt="RwandAir"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/Kenya_Airways-Logo.wine.png"
-                      alt="Kenya Airways"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex-shrink-0 w-52 h-36 bg-white rounded-xl border border-neutral-200 p-8 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/ethiopian-airlines-logo-png_seeklogo-49734.png"
-                      alt="Ethiopian Airlines"
-                      fill
-                      className="object-contain"
-                      sizes="200px"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Revamped Why Choose Us Section */}
-      <Section className="py-24 bg-gradient-to-br from-neutral-50 to-white relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-red-50 rounded-full blur-3xl opacity-20"></div>
-        
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl relative">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-red-100 rounded-full">
-              <div className="w-2 h-2 bg-red-800 rounded-full"></div>
-              <span className="text-red-900 font-semibold text-sm tracking-wider uppercase">Why Choose Us</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
-              Your Trusted Partner for
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-800 to-red-900"> Extraordinary Adventures</span>
-            </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
-              With over a decade of expertise, we've crafted unforgettable journeys for discerning travelers worldwide.
-            </p>
-          </div>
-
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {/* Feature 1 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                Bespoke Experiences
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Every journey is uniquely crafted to your preferences, ensuring an experience as individual as you are.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                24/7 Concierge Service
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Our dedicated travel concierges are available around the clock to ensure your journey exceeds expectations.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                Exclusive Access
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Private reserves, after-hours museum visits, and VIP experiences unavailable to regular tourists.
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                Local Expertise
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Our local guides and partners provide authentic insights and access to hidden gems across Africa.
-              </p>
-            </div>
-
-            {/* Feature 5 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                Best Value Guarantee
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Transparent pricing with everything included - no hidden fees or surprises, just exceptional value.
-              </p>
-            </div>
-
-            {/* Feature 6 */}
-            <div className="group bg-white rounded-2xl p-8 border border-neutral-100 hover:border-red-300 transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-red-800 transition-colors">
-                Sustainable Tourism
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                We're committed to responsible travel that benefits local communities and preserves Africa's natural beauty.
-              </p>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
-              <div className="text-4xl font-bold text-red-800 mb-2">10+</div>
-              <div className="text-neutral-700 font-semibold">Years Experience</div>
-            </div>
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
-              <div className="text-4xl font-bold text-red-800 mb-2">500+</div>
-              <div className="text-neutral-700 font-semibold">Happy Travelers</div>
-            </div>
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
-              <div className="text-4xl font-bold text-red-800 mb-2">15</div>
-              <div className="text-neutral-700 font-semibold">Countries</div>
-            </div>
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
-              <div className="text-4xl font-bold text-red-800 mb-2">98%</div>
-              <div className="text-neutral-700 font-semibold">Satisfaction Rate</div>
-            </div>
-          </div>
-        </div>
-      </Section>
-      {/* Luxury Testimonials */}
-      <Section className="py-32 bg-gradient-to-b from-neutral-50 to-white relative overflow-hidden">
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl relative">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-red-50 rounded-full">
-              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              <span className="text-red-700 font-semibold text-sm tracking-widest uppercase">Client Stories</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-neutral-900 mb-6 tracking-tight">
-              Testimonials from
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800"> Luxury Travelers</span>
-            </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
-              Hear from discerning travelers who have experienced the magic of Africa with our expert guidance.
-            </p>
-          </div>
-
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-neutral-100">
-              <div className="flex items-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-neutral-700 mb-6 leading-relaxed italic">
-                "The gorilla trekking experience was absolutely magical. Every detail was perfectly arranged, from the luxury lodge to the expert guides. Intare Travels exceeded all our expectations."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">
-                  <span className="text-red-700 font-bold text-lg">S</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-neutral-900">Sarah Mitchell</div>
-                  <div className="text-neutral-600 text-sm">London, UK</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-neutral-100">
-              <div className="flex items-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-neutral-700 mb-6 leading-relaxed italic">
-                "Our Victoria Falls adventure was the trip of a lifetime. The attention to detail and personalized service made us feel like VIPs throughout the entire journey."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">
-                  <span className="text-red-700 font-bold text-lg">M</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-neutral-900">Michael Chen</div>
-                  <div className="text-neutral-600 text-sm">New York, USA</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl p-8 shadow-lg border border-neutral-100">
-              <div className="flex items-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-neutral-700 mb-6 leading-relaxed italic">
-                "Exceptional service from start to finish. The team's local knowledge and connections gave us access to experiences we never could have arranged ourselves."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">
-                  <span className="text-red-700 font-bold text-lg">E</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-neutral-900">Emma Thompson</div>
-                  <div className="text-neutral-600 text-sm">Sydney, Australia</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Luxury CTA Section */}
-      <Section className="py-32 bg-gradient-to-br from-red-900 via-red-800 to-red-900 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-[url('/imigongo_bg.jpg')] opacity-10"></div>
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-400/50 to-transparent"></div>
-        
-        {/* Floating Orbs */}
-        <div className="absolute top-20 right-20 w-32 h-32 bg-red-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-24 h-24 bg-red-300/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
-
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl relative">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 mb-8 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-              <div className="w-2 h-2 bg-red-300 rounded-full animate-pulse"></div>
-              <span className="text-red-200 font-semibold text-sm tracking-widest uppercase">Start Your Journey</span>
-            </div>
-
-            <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight tracking-tight">
-              Ready for Your
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-200 via-red-300 to-red-400">
-                Extraordinary Adventure?
-              </span>
-            </h2>
-            
-            <p className="text-2xl text-red-100 mb-12 leading-relaxed font-light">
-              Let our luxury travel specialists craft your perfect African journey. 
-              <span className="text-white font-medium">Every detail, every moment, perfectly curated.</span>
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link 
-                href="tel:+250780100064"
-                className="group relative px-10 py-5 bg-white text-red-900 rounded-2xl hover:bg-red-50 transition-all duration-300 shadow-2xl font-bold text-xl flex items-center justify-center gap-3 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-100/0 via-red-100/50 to-red-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                <svg className="w-6 h-6 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span className="relative">Call +250 780 100 064</span>
-              </Link>
-              
-              <Link 
-                href="mailto:booking@intaretravels.rw"
-                className="px-10 py-5 bg-white/15 backdrop-blur-xl border-2 border-white/40 text-white rounded-2xl hover:bg-white/25 hover:border-white/60 transition-all duration-300 font-bold text-xl flex items-center justify-center gap-3"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Email Our Experts
-              </Link>
-            </div>
-
-            {/* Contact Info */}
-            <div className="mt-16 pt-8 border-t border-white/20">
-              <div className="grid md:grid-cols-2 gap-8 text-center md:text-left">
-                <div>
-                  <h4 className="text-white font-semibold mb-2">Luxury Travel Specialists</h4>
-                  <p className="text-red-200 text-sm">Available 24/7 for your convenience</p>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-2">Kigali Office</h4>
-                  <p className="text-red-200 text-sm">Kicukiro - Niboye - Nyakabanda KK 186 St</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-    </>
+      <LuxuryFooter />
+    </div>
   );
 }

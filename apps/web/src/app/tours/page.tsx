@@ -3,25 +3,29 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Section, Grid, Card, Button, Breadcrumb } from '@tourism/ui';
+import { LuxuryNavigation } from '../../components/LuxuryNavigation';
+import { LuxuryFooter } from '../../components/LuxuryFooter';
+import { ScrollAnimations } from '../../components/ScrollAnimations';
 import toursData from '../../../../../data/tours.json';
 
 const countries = [
-  { name: 'All', flag: '🌍', code: '', flagUrl: 'https://flagcdn.com/w40/un.png' },
-  { name: 'Rwanda', flag: '🇷🇼', code: 'RW', flagUrl: 'https://flagcdn.com/w40/rw.png' },
-  { name: 'Angola', flag: '🇦🇴', code: 'AO', flagUrl: 'https://flagcdn.com/w40/ao.png' },
-  { name: 'Zambia', flag: '🇿🇲', code: 'ZM', flagUrl: 'https://flagcdn.com/w40/zm.png' },
-  { name: 'Malawi', flag: '🇲🇼', code: 'MW', flagUrl: 'https://flagcdn.com/w40/mw.png' },
-  { name: 'Mauritius', flag: '🇲🇺', code: 'MU', flagUrl: 'https://flagcdn.com/w40/mu.png' },
-  { name: 'Ghana', flag: '🇬🇭', code: 'GH', flagUrl: 'https://flagcdn.com/w40/gh.png' },
+  { name: 'All', code: '', flagUrl: 'https://flagcdn.com/w40/un.png' },
+  { name: 'Rwanda', code: 'RW', flagUrl: 'https://flagcdn.com/w40/rw.png' },
+  { name: 'Angola', code: 'AO', flagUrl: 'https://flagcdn.com/w40/ao.png' },
+  { name: 'Zambia', code: 'ZM', flagUrl: 'https://flagcdn.com/w40/zm.png' },
+  { name: 'Malawi', code: 'MW', flagUrl: 'https://flagcdn.com/w40/mw.png' },
+  { name: 'Mauritius', code: 'MU', flagUrl: 'https://flagcdn.com/w40/mu.png' },
+  { name: 'Ghana', code: 'GH', flagUrl: 'https://flagcdn.com/w40/gh.png' },
 ];
+
 const durations = ['All', '1 day', '3 days', '6 days', '7 days'];
+
 const priceRanges = [
   { label: 'All Prices', min: 0, max: Infinity },
-  { label: 'Under $200', min: 0, max: 200 },
-  { label: '$200 - $1000', min: 200, max: 1000 },
-  { label: '$1000 - $2000', min: 1000, max: 2000 },
-  { label: 'Over $2000', min: 2000, max: Infinity },
+  { label: 'Under $500', min: 0, max: 500 },
+  { label: '$500 - $1500', min: 500, max: 1500 },
+  { label: '$1500 - $3000', min: 1500, max: 3000 },
+  { label: 'Over $3000', min: 3000, max: Infinity },
 ];
 
 export default function ToursPage() {
@@ -29,22 +33,25 @@ export default function ToursPage() {
   const [selectedDuration, setSelectedDuration] = useState('All');
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [sortBy, setSortBy] = useState('featured');
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const toursPerPage = 9;
 
   // Filter tours
   let filteredTours = toursData.filter(tour => {
-    const countryMatch = selectedCountry === 'All' || tour.name.includes(selectedCountry);
+    // More flexible country matching - default to show all if "All" is selected
+    const countryMatch = selectedCountry === 'All' || 
+      (selectedCountry !== 'All' && (
+        tour.name.toLowerCase().includes(selectedCountry.toLowerCase()) ||
+        tour.description.toLowerCase().includes(selectedCountry.toLowerCase()) ||
+        tour.slug.toLowerCase().includes(selectedCountry.toLowerCase())
+      ));
+    
     const durationMatch = selectedDuration === 'All' || tour.duration === selectedDuration;
     const priceRange = priceRanges[selectedPriceRange];
     const priceMatch = tour.price >= priceRange.min && tour.price <= priceRange.max;
     
     return countryMatch && durationMatch && priceMatch;
   });
-
-  // Get selected country flag for display
-  const selectedCountryData = countries.find(c => c.name === selectedCountry);
 
   // Sort tours
   filteredTours = [...filteredTours].sort((a, b) => {
@@ -61,165 +68,117 @@ export default function ToursPage() {
   const indexOfFirstTour = indexOfLastTour - toursPerPage;
   const currentTours = filteredTours.slice(indexOfFirstTour, indexOfLastTour);
 
-  // Reset to page 1 when filters change
   const handleFilterChange = (filterSetter: Function, value: any) => {
     filterSetter(value);
     setCurrentPage(1);
   };
 
   return (
-    <>
-      <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
-        {/* Background Image */}
+    <div className="min-h-screen">
+      <ScrollAnimations />
+      <LuxuryNavigation />
+      
+      {/* Hero Section */}
+      <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=2000"
-            alt="African landscape"
+            src="https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2000"
+            alt="African Safari Wildlife"
             fill
-            className="object-cover opacity-40"
+            className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/50 to-neutral-900/80" />
+          <div className="hero-overlay" />
         </div>
-
-        {/* Content */}
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Tours' }]} theme="dark" />
-          <div className="mt-8 max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Discover Africa
+        
+        <div className="relative z-10 container-luxury text-center text-white">
+          <div className="max-w-4xl mx-auto">
+            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
+              <Link href="/" className="text-white hover:text-red-200 transition-colors">
+                Home
+              </Link>
+              <span className="text-white">/</span>
+              <span className="text-white">Tours</span>
+            </nav>
+            
+            <p className="label-text text-white mb-6 animate-fade-in">
+              Curated Experiences
+            </p>
+            <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
+              Discover Africa's
+              <span className="block text-white">Hidden Treasures</span>
             </h1>
-            <p className="text-xl md:text-2xl text-neutral-200 leading-relaxed">
-              Handcrafted tours across five incredible destinations. From Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
+            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
+              Handcrafted luxury tours across East Africa's most spectacular destinations. From Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <Section>
-        {/* Filters */}
-        <div className="mb-12">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+      {/* Filters Section */}
+      <section className="section-padding bg-luxury-off-white">
+        <div className="container-luxury">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
             <div>
-              <h2 className="text-2xl font-bold mb-2">
-                {filteredTours.length} {filteredTours.length === 1 ? 'Tour' : 'Tours'} Available
+              <h2 className="heading-md text-neutral-900 mb-2">
+                {filteredTours.length} Luxury {filteredTours.length === 1 ? 'Experience' : 'Experiences'}
               </h2>
-              <p className="text-neutral-600">Find your perfect African adventure</p>
+              <p className="text-neutral-600">Discover your perfect African adventure</p>
             </div>
             
-            {/* Sort */}
-            <div className="flex items-center gap-3 relative">
-              <label className="text-sm font-medium text-neutral-700">Sort by:</label>
-              <button
-                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white min-w-[200px] flex items-center justify-between hover:border-neutral-400 transition-colors"
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-3">
+              <span className="label-text text-neutral-700">Sort by:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white min-w-[200px]"
               >
-                <span>
-                  {sortBy === 'featured' && 'Featured'}
-                  {sortBy === 'price-low' && 'Price: Low to High'}
-                  {sortBy === 'price-high' && 'Price: High to Low'}
-                  {sortBy === 'duration' && 'Duration'}
-                </span>
-                <svg 
-                  className={`w-5 h-5 text-neutral-600 transition-transform ${sortDropdownOpen ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              
-              {sortDropdownOpen && (
-                <>
-                  <div 
-                    className="fixed inset-0 z-10" 
-                    onClick={() => setSortDropdownOpen(false)}
-                  />
-                  <div className="absolute top-full right-0 mt-2 w-[200px] bg-white border border-neutral-200 rounded-lg shadow-lg z-20 overflow-hidden">
-                    <button
-                      onClick={() => {
-                        setSortBy('featured');
-                        setSortDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
-                        sortBy === 'featured' ? 'bg-neutral-100 font-medium text-primary-700' : ''
-                      }`}
-                    >
-                      Featured
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSortBy('price-low');
-                        setSortDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
-                        sortBy === 'price-low' ? 'bg-neutral-100 font-medium text-primary-700' : ''
-                      }`}
-                    >
-                      Price: Low to High
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSortBy('price-high');
-                        setSortDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
-                        sortBy === 'price-high' ? 'bg-neutral-100 font-medium text-primary-700' : ''
-                      }`}
-                    >
-                      Price: High to Low
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSortBy('duration');
-                        setSortDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left hover:bg-neutral-50 transition-colors ${
-                        sortBy === 'duration' ? 'bg-neutral-100 font-medium text-primary-700' : ''
-                      }`}
-                    >
-                      Duration
-                    </button>
-                  </div>
-                </>
-              )}
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="duration">Duration</option>
+              </select>
             </div>
           </div>
 
           {/* Filter Tabs */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Country Filter */}
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-3">Destination</label>
-              <div className="flex flex-wrap gap-3">
+              <h3 className="heading-sm text-neutral-900 mb-4">Destinations</h3>
+              <div className="flex flex-wrap gap-4">
                 {countries.map((country) => (
                   <button
                     key={country.name}
                     onClick={() => handleFilterChange(setSelectedCountry, country.name)}
-                    className={`px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2.5 ${
+                    className={`px-6 py-4 rounded-xl font-medium transition-all flex items-center gap-3 hover-lift ${
                       selectedCountry === country.name
-                        ? 'bg-primary-700 text-white shadow-lg scale-105'
-                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200 hover:scale-105'
+                        ? 'bg-red-800 text-white shadow-luxury'
+                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
                     }`}
                   >
-                    <span className="w-9 h-9 flex items-center justify-center rounded-full bg-white shadow-sm overflow-hidden">
+                    <div className="w-8 h-8 rounded-full overflow-hidden bg-white shadow-sm">
                       {country.name === 'All' ? (
-                        <svg className="w-6 h-6 text-primary-700" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                        </svg>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <svg className="w-5 h-5 text-red-800" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                          </svg>
+                        </div>
                       ) : (
-                        <img 
+                        <Image 
                           src={country.flagUrl} 
                           alt={`${country.name} flag`}
+                          width={32}
+                          height={32}
                           className="w-full h-full object-cover"
                         />
                       )}
-                    </span>
+                    </div>
+                    <span>{country.name}</span>
                     {country.code && (
-                      <span className="font-bold text-sm tracking-wide">{country.code}</span>
+                      <span className="text-xs font-bold tracking-wider opacity-75">{country.code}</span>
                     )}
-                    <span className="whitespace-nowrap">{country.name}</span>
                   </button>
                 ))}
               </div>
@@ -227,16 +186,16 @@ export default function ToursPage() {
 
             {/* Duration Filter */}
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-3">Duration</label>
-              <div className="flex flex-wrap gap-3">
+              <h3 className="heading-sm text-neutral-900 mb-4">Duration</h3>
+              <div className="flex flex-wrap gap-4">
                 {durations.map((duration) => (
                   <button
                     key={duration}
                     onClick={() => handleFilterChange(setSelectedDuration, duration)}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all hover:scale-105 ${
+                    className={`px-6 py-3 rounded-xl font-medium transition-all hover-lift ${
                       selectedDuration === duration
-                        ? 'bg-primary-700 text-white shadow-lg scale-105'
-                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                        ? 'bg-red-800 text-white shadow-luxury'
+                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
                     }`}
                   >
                     {duration}
@@ -247,16 +206,16 @@ export default function ToursPage() {
 
             {/* Price Filter */}
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-3">Price Range</label>
-              <div className="flex flex-wrap gap-3">
+              <h3 className="heading-sm text-neutral-900 mb-4">Price Range</h3>
+              <div className="flex flex-wrap gap-4">
                 {priceRanges.map((range, index) => (
                   <button
                     key={index}
                     onClick={() => handleFilterChange(setSelectedPriceRange, index)}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all hover:scale-105 ${
+                    className={`px-6 py-3 rounded-xl font-medium transition-all hover-lift ${
                       selectedPriceRange === index
-                        ? 'bg-primary-700 text-white shadow-lg scale-105'
-                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                        ? 'bg-red-800 text-white shadow-luxury'
+                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
                     }`}
                   >
                     {range.label}
@@ -264,201 +223,163 @@ export default function ToursPage() {
                 ))}
               </div>
             </div>
-
-            {/* Active Filters */}
-            {(selectedCountry !== 'All' || selectedDuration !== 'All' || selectedPriceRange !== 0) && (
-              <div className="flex items-center gap-3 pt-4 border-t border-neutral-200">
-                <span className="text-sm font-medium text-neutral-700">Active filters:</span>
-                <div className="flex flex-wrap gap-2">
-                  {selectedCountry !== 'All' && selectedCountryData && (
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
-                      <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white shadow-sm overflow-hidden">
-                        {selectedCountryData.flagUrl ? (
-                          <img 
-                            src={selectedCountryData.flagUrl} 
-                            alt={`${selectedCountryData.name} flag`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <span 
-                            className="text-lg"
-                            style={{ 
-                              fontSize: '1rem', 
-                              lineHeight: '1',
-                              fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif'
-                            }}
-                          >
-                            {selectedCountryData.flag}
-                          </span>
-                        )}
-                      </span>
-                      {selectedCountryData.code && (
-                        <span className="font-bold text-xs">{selectedCountryData.code}</span>
-                      )}
-                      {selectedCountry}
-                      <button onClick={() => setSelectedCountry('All')} className="hover:text-primary-900 ml-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-primary-200 transition-colors">
-                        ×
-                      </button>
-                    </span>
-                  )}
-                  {selectedDuration !== 'All' && (
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
-                      {selectedDuration}
-                      <button onClick={() => setSelectedDuration('All')} className="hover:text-primary-900 ml-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-primary-200 transition-colors">
-                        ×
-                      </button>
-                    </span>
-                  )}
-                  {selectedPriceRange !== 0 && (
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
-                      {priceRanges[selectedPriceRange].label}
-                      <button onClick={() => setSelectedPriceRange(0)} className="hover:text-primary-900 ml-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-primary-200 transition-colors">
-                        ×
-                      </button>
-                    </span>
-                  )}
-                  <button
-                    onClick={() => {
-                      setSelectedCountry('All');
-                      setSelectedDuration('All');
-                      setSelectedPriceRange(0);
-                    }}
-                    className="text-sm text-primary-700 hover:text-primary-800 font-medium px-3 py-1 hover:bg-primary-50 rounded-full transition-colors"
-                  >
-                    Clear all
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
+      </section>
 
-        {/* Tours Grid */}
-        {filteredTours.length > 0 ? (
-          <>
-            <Grid cols={3}>
-              {currentTours.map((tour) => (
-              <Link key={tour.id} href={`/tours/${tour.slug}`} className="group">
-                <Card hover>
-                  <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden">
-                    <Image
-                      src={tour.image}
-                      alt={tour.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    {tour.featured && (
-                      <div className="absolute top-4 right-4 bg-primary-700 text-white px-3 py-1 rounded-full text-sm font-medium">
-                        Featured
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-sm text-neutral-600">{tour.duration}</span>
-                      <span className="text-neutral-300">•</span>
-                      <span className="text-sm text-primary-700 font-medium">
-                        {tour.highlights.length} highlights
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary-700 transition-colors">
-                      {tour.name}
-                    </h3>
-                    <p className="text-neutral-600 mb-4 line-clamp-2">
-                      {tour.description}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <span className="text-sm text-neutral-500">From</span>
-                        <div className="text-2xl font-bold text-primary-700">
-                          ${tour.price}
-                          <span className="text-sm text-neutral-600 font-normal">/person</span>
+      {/* Tours Grid */}
+      <section className="section-padding">
+        <div className="container-luxury">
+          {filteredTours.length > 0 ? (
+            <>
+              <div className="grid-luxury">
+                {currentTours.map((tour, index) => (
+                  <div
+                    key={tour.id}
+                    className="card-luxury rounded-2xl overflow-hidden fade-in-scroll"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <Link href={`/tours/${tour.slug}`} className="block">
+                      <div className="image-hover-zoom relative h-64">
+                        <Image
+                          src={tour.image}
+                          alt={tour.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                        {tour.featured && (
+                          <div className="absolute top-4 right-4 bg-red-800 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Featured
+                          </div>
+                        )}
+                        <div className="absolute bottom-4 left-4 text-white">
+                          <span className="text-sm font-medium bg-black/30 px-2 py-1 rounded">
+                            {tour.duration}
+                          </span>
                         </div>
                       </div>
-                      <Button size="sm">View Details</Button>
-                    </div>
+                      
+                      <div className="p-8">
+                        <h3 className="heading-sm text-neutral-900 mb-4 hover:text-red-800 transition-colors">
+                          {tour.name}
+                        </h3>
+                        <p className="text-neutral-600 mb-6 overflow-hidden" style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical'
+                        }}>
+                          {tour.description}
+                        </p>
+                        
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center text-red-600">
+                            {[...Array(5)].map((_, i) => (
+                              <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ))}
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm text-neutral-500">From</p>
+                            <p className="text-2xl font-bold text-neutral-900">${tour.price}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="btn-primary w-full text-center rounded-lg block">
+                          View Experience
+                        </div>
+                      </div>
+                    </Link>
                   </div>
-                </Card>
-              </Link>
-            ))}
-          </Grid>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-12 flex items-center justify-center gap-2">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Previous
-              </button>
-              
-              <div className="flex gap-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                      currentPage === page
-                        ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md'
-                        : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
                 ))}
               </div>
 
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-16 flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Previous
+                  </button>
+                  
+                  <div className="flex gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-12 h-12 rounded-lg font-medium transition-all ${
+                          currentPage === page
+                            ? 'bg-red-800 text-white shadow-luxury'
+                            : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-24">
+              <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="heading-md text-neutral-900 mb-4">No experiences found</h3>
+              <p className="text-neutral-600 mb-8 max-w-md mx-auto">
+                Try adjusting your filters to discover more luxury travel experiences
+              </p>
               <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                onClick={() => {
+                  setSelectedCountry('All');
+                  setSelectedDuration('All');
+                  setSelectedPriceRange(0);
+                }}
+                className="btn-primary rounded-lg"
               >
-                Next
+                Clear All Filters
               </button>
             </div>
           )}
-        </>
-        ) : (
-          <div className="text-center py-16">
-            <svg className="w-16 h-16 text-neutral-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h3 className="text-2xl font-bold text-neutral-700 mb-2">No tours found</h3>
-            <p className="text-neutral-600 mb-6">Try adjusting your filters to see more results</p>
-            <Button
-              onClick={() => {
-                setSelectedCountry('All');
-                setSelectedDuration('All');
-                setSelectedPriceRange(0);
-              }}
-            >
-              Clear Filters
-            </Button>
-          </div>
-        )}
-      </Section>
+        </div>
+      </section>
 
-      <Section className="bg-primary-700 text-white">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Can't Find What You're Looking For?
+      {/* CTA Section */}
+      <section className="section-padding bg-luxury-gradient text-white">
+        <div className="container-luxury text-center">
+          <h2 className="heading-lg mb-6 text-shadow-luxury">
+            Can't Find Your Perfect Experience?
           </h2>
-          <p className="text-xl mb-8 text-primary-100">
-            We can create a custom itinerary just for you
+          <p className="text-xl mb-12 text-red-100 max-w-2xl mx-auto">
+            Our travel experts will craft a bespoke itinerary tailored to your unique preferences and desires.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button href="tel:+250780100064" size="lg" variant="secondary">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <a href="tel:+250780100064" className="btn-outline rounded-lg">
               Call +250 780 100 064
-            </Button>
-            <Button href="mailto:booking@intaretravels.rw" size="lg" variant="outline">
-              Email Us
-            </Button>
+            </a>
+            <a href="mailto:booking@intaretravels.rw" className="btn-primary bg-white text-red-800 hover:bg-red-50 rounded-lg">
+              Email Our Experts
+            </a>
           </div>
         </div>
-      </Section>
-    </>
+      </section>
+
+      <LuxuryFooter />
+    </div>
   );
 }
