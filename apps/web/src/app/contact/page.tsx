@@ -89,8 +89,8 @@ export default function ContactPage() {
       <section className="relative min-h-[72vh] flex items-center justify-center">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=2000"
-            alt="Mountain gorilla in the rainforest of Volcanoes National Park, Rwanda"
+            src="https://images.pexels.com/photos/16122283/pexels-photo-16122283.jpeg?auto=compress&cs=tinysrgb&w=2000"
+            alt="Gorilla in its natural habitat"
             fill
             className="object-cover"
             priority

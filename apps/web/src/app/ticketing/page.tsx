@@ -108,7 +108,7 @@ export default function TicketingPage() {
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=2000"
+            src="https://images.pexels.com/photos/17481185/pexels-photo-17481185.jpeg?auto=compress&cs=tinysrgb&w=2000"
             alt="Giraffe against an open African sky"
             fill
             className="object-cover"

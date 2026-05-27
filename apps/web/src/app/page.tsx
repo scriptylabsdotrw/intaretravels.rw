@@ -153,8 +153,8 @@ export default function HomePage() {
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=2000"
-            alt="Mountain gorilla in the rainforest of Volcanoes National Park, Rwanda"
+            src="https://images.pexels.com/photos/36804633/pexels-photo-36804633.jpeg?auto=compress&cs=tinysrgb&w=2000"
+            alt="Mountain gorilla in the Rwandan rainforest"
             fill
             className="object-cover"
             priority

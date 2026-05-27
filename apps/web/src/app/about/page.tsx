@@ -16,7 +16,7 @@ export default function AboutPage() {
       <div className="relative bg-neutral-900 text-white py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1534567110243-8875d64ca8ff?q=80&w=2000"
+            src="https://images.pexels.com/photos/17069651/pexels-photo-17069651.jpeg?auto=compress&cs=tinysrgb&w=2000"
             alt="Giraffe in the African wild"
             fill
             className="object-cover opacity-40"

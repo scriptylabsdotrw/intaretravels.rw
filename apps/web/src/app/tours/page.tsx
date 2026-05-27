@@ -79,7 +79,7 @@ export default function ToursPage() {
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?q=80&w=2000"
+            src="https://images.pexels.com/photos/35283497/pexels-photo-35283497.jpeg?auto=compress&cs=tinysrgb&w=2000"
             alt="Giraffe on the African savannah at golden hour"
             fill
             className="object-cover"
