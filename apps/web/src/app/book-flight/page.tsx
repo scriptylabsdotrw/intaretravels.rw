@@ -1,12 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Breadcrumb } from '@tourism/ui';
 
-export default function BookFlightPage() {
+function BookFlightContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -322,5 +320,19 @@ Please contact me to confirm this booking.
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookFlightPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+          <div className="h-12 w-12 rounded-full border-4 border-forest-800 border-t-transparent animate-spin" />
+        </div>
+      }
+    >
+      <BookFlightContent />
+    </Suspense>
   );
 }
