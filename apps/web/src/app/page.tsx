@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ScrollAnimations } from '../components/ScrollAnimations';
 import { TourCard, type TourCardData } from '../components/cards/TourCard';
 import { FlightDealCard, type FlightDealData } from '../components/cards/FlightDealCard';
+import { PartnersMarquee } from '../components/PartnersMarquee';
+import { TripAdvisorWidget } from '../components/TripAdvisorWidget';
 import toursData from '../../../../data/tours.json';
 import promotionsData from '../../../../data/promotions.json';
 
@@ -21,22 +23,22 @@ const destinations = [
   {
     name: 'Volcanoes National Park',
     tagline: 'Mountain gorilla trekking',
-    image: 'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1535941339077-2dd1c7963098?q=80&w=1200',
   },
   {
     name: 'Lake Kivu',
     tagline: 'Lakeside retreats & sunsets',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?q=80&w=1200',
   },
   {
     name: 'Nyungwe Forest',
     tagline: 'Canopy walks & chimpanzees',
-    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1200',
   },
   {
     name: 'Akagera National Park',
     tagline: 'Big Five savannah safaris',
-    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1547970810-dc1eac37d174?q=80&w=1200',
   },
   {
     name: 'Kigali',
@@ -137,13 +139,6 @@ const faqs = [
   },
 ];
 
-const partnerLogos = [
-  { name: 'Qatar Airways', src: '/aerolineas-images_0009_QatarAirways.png' },
-  { name: 'RwandAir', src: '/RwandAir.jpg' },
-  { name: 'Kenya Airways', src: '/Kenya_Airways-Logo.wine.png' },
-  { name: 'Ethiopian Airlines', src: '/ethiopian-airlines-logo-png_seeklogo-49734.png' },
-];
-
 export default function HomePage() {
   return (
     <div className="min-h-screen">
@@ -165,14 +160,18 @@ export default function HomePage() {
 
         <div className="relative z-10 container-luxury text-center text-white">
           <div className="max-w-4xl mx-auto">
-            <p className="label-text text-gold-300 mb-6 animate-fade-in">
-              Luxury Travel · Rwanda &amp; East Africa
-            </p>
-            <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
-              Discover Rwanda in
-              <span className="block text-luxury-gradient">Refined Comfort</span>
+            <div className="flex items-center justify-center gap-4 mb-7 animate-fade-in">
+              <span className="h-px w-10 bg-gold-400/70" />
+              <p className="label-text text-gold-300">
+                Luxury Travel · Rwanda &amp; East Africa
+              </p>
+              <span className="h-px w-10 bg-gold-400/70" />
+            </div>
+            <h1 className="font-title text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-8 text-shadow-luxury animate-fade-in-up delay-200">
+              Discover the Soul of
+              <span className="block text-gold-300">a Thousand Hills</span>
             </h1>
-            <p className="text-lg md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto animate-fade-in-up delay-400">
+            <p className="text-lg md:text-2xl mb-12 text-white/85 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-400">
               Curated safaris, luxury stays, seamless flights, and unforgettable local experiences — designed with precision and warmth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center animate-fade-in-up delay-600">
@@ -190,23 +189,29 @@ export default function HomePage() {
       </section>
 
       {/* Intro + Stats */}
-      <section className="bg-luxury-dark-red text-white">
-        <div className="container-luxury py-16 md:py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="relative bg-luxury-dark-red text-white overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/60 to-transparent" />
+        <div className="container-luxury py-20 md:py-28">
+          <div className="grid lg:grid-cols-2 gap-14 items-center">
             <div className="fade-in-scroll">
               <p className="label-text text-gold-300 mb-4">The Intare Difference</p>
-              <h2 className="heading-md mb-6">
+              <h2 className="heading-md mb-6 leading-snug">
                 Journeys crafted with precision, comfort, and local expertise.
               </h2>
-              <p className="text-white/80 leading-relaxed">
+              <div className="gold-divider mb-6" />
+              <p className="text-white/80 leading-relaxed text-lg">
                 From Kigali city escapes to gorilla trekking and lakeside retreats, Intare Travels brings together the finest of Rwanda — refined accommodation, expert guides, and effortless logistics — so every moment feels considered.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-px bg-white/10 rounded-2xl overflow-hidden border border-white/10">
               {stats.map((stat, index) => (
-                <div key={stat.label} className="fade-in-scroll text-center lg:text-left" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <div className="heading-lg text-gold-400 mb-1">{stat.number}</div>
-                  <p className="text-white/70 text-sm tracking-wide uppercase">{stat.label}</p>
+                <div
+                  key={stat.label}
+                  className="fade-in-scroll bg-luxury-dark-red text-center py-10 px-6"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="font-serif text-5xl md:text-6xl font-bold text-luxury-gradient mb-2">{stat.number}</div>
+                  <p className="text-white/65 text-xs tracking-[0.2em] uppercase">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -414,25 +419,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Partners */}
-      <section className="py-16 bg-white border-y border-neutral-100">
-        <div className="container-luxury">
-          <p className="text-center label-text text-neutral-400 mb-10">Our Airline Partners</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
-            {partnerLogos.map((partner) => (
-              <div key={partner.name} className="relative h-12">
-                <Image
-                  src={partner.src}
-                  alt={partner.name}
-                  fill
-                  className="object-contain grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-                  sizes="200px"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Tripadvisor */}
+      <TripAdvisorWidget />
+
+      {/* Partners — sliding marquee */}
+      <PartnersMarquee />
 
       {/* FAQ preview */}
       <section className="section-padding">
@@ -466,20 +457,25 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative section-padding text-white overflow-hidden">
+      <section className="relative py-28 md:py-36 text-white overflow-hidden bg-charcoal-900">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2000"
-            alt="Sunrise over the Rwandan savannah"
+            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2000"
+            alt="Lush green Rwandan landscape at golden hour"
             fill
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-forest-900/80 to-forest-800/70" />
+          <div className="section-overlay-dark" />
         </div>
         <div className="relative z-10 container-luxury text-center">
+          <div className="flex items-center justify-center gap-4 mb-6 fade-in-scroll">
+            <span className="h-px w-10 bg-gold-400/70" />
+            <p className="label-text text-gold-300">Start Planning</p>
+            <span className="h-px w-10 bg-gold-400/70" />
+          </div>
           <h2 className="heading-lg mb-6 text-shadow-luxury">Begin Your Rwandan Journey</h2>
-          <p className="text-lg md:text-xl mb-10 text-white/85 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl mb-10 text-white/85 max-w-2xl mx-auto leading-relaxed">
             Tell us how you love to travel. Our experts will craft a private itinerary — flights, stays, and experiences — tailored entirely to you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">

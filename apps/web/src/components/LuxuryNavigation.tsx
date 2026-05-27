@@ -38,18 +38,19 @@ export function LuxuryNavigation() {
     <>
       <nav className={`nav-fixed ${isScrolled ? 'nav-solid' : 'nav-transparent'}`}>
         <div className="container-luxury">
-          <div className="flex items-center justify-between h-20">
+          <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
             {/* Logo */}
             <Link href="/" className="flex items-center" aria-label="Intare Travels home">
-              <div className="relative w-32 h-12">
+              <div className={`relative transition-all duration-300 ${isScrolled ? 'w-44 h-14' : 'w-52 h-16'}`}>
                 <Image
                   src="/intareTravelslogo.png"
                   alt="Intare Travels"
                   fill
-                  className={`object-contain transition-all duration-300 ${
+                  className={`object-contain object-left transition-all duration-300 ${
                     isScrolled ? 'brightness-100' : 'brightness-0 invert'
                   }`}
                   priority
+                  sizes="220px"
                 />
               </div>
             </Link>

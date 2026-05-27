@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
 
 const interestOptions = [
@@ -86,7 +85,7 @@ export default function ContactPage() {
       <ScrollAnimations />
 
       {/* Hero */}
-      <section className="relative min-h-[72vh] flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center">
         <div className="absolute inset-0">
           <Image
             src="https://images.pexels.com/photos/16122283/pexels-photo-16122283.jpeg?auto=compress&cs=tinysrgb&w=2000"
@@ -100,11 +99,6 @@ export default function ContactPage() {
         </div>
 
         <div className="relative z-10 container-luxury text-center text-white">
-          <nav className="flex items-center justify-center gap-2 text-sm mb-6 animate-fade-in text-white/80">
-            <Link href="/" className="hover:text-gold-300 transition-colors">Home</Link>
-            <span>/</span>
-            <span>Contact</span>
-          </nav>
           <p className="label-text text-gold-300 mb-5 animate-fade-in">We&apos;d Love to Hear From You</p>
           <h1 className="heading-xl mb-6 animate-fade-in-up delay-200">
             Let&apos;s Plan Your

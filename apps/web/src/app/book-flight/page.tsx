@@ -2,7 +2,6 @@
 
 import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Breadcrumb } from '@tourism/ui';
 
 function BookFlightContent() {
   const searchParams = useSearchParams();
@@ -73,15 +72,7 @@ Please contact me to confirm this booking.
       {/* Header */}
       <div className="bg-gradient-to-r from-red-900 to-red-950 text-white pt-28 pb-12">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
-          <Breadcrumb 
-            items={[
-              { label: 'Home', href: '/' }, 
-              { label: 'Flight Deals', href: '/ticketing' },
-              { label: 'Book Flight' }
-            ]} 
-            theme="dark" 
-          />
-          <h1 className="text-4xl md:text-5xl font-bold mt-6 mb-3">Book Your Flight</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3">Book Your Flight</h1>
           <p className="text-red-100 text-lg">Complete the form below to request your booking</p>
         </div>
       </div>

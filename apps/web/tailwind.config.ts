@@ -79,9 +79,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        'serif': ['var(--font-display)', 'Cormorant Garamond', 'serif'],
+        'serif': ['Strichpunkt Sans', 'var(--font-display)', 'Cormorant Garamond', 'sans-serif'],
         'sans': ['var(--font-body)', 'Mulish', 'sans-serif'],
-        'display': ['var(--font-display)', 'Cormorant Garamond', 'serif'],
+        'display': ['Strichpunkt Sans', 'var(--font-display)', 'Cormorant Garamond', 'sans-serif'],
+        'title': ['Strichpunkt Sans', 'var(--font-display)', 'sans-serif'],
       },
       fontSize: {
         'display': ['5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],

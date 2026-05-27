@@ -119,22 +119,16 @@ export default function TicketingPage() {
 
         <div className="relative z-10 container-luxury text-center text-white">
           <div className="max-w-4xl mx-auto">
-            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
-              <Link href="/" className="text-white hover:text-red-200 transition-colors">
-                Home
-              </Link>
-              <span className="text-white">/</span>
-              <span className="text-white">Flight Deals</span>
-            </nav>
-            
-            <p className="label-text text-white mb-6 animate-fade-in">
-              Premium Flight Services
-            </p>
+            <div className="flex items-center justify-center gap-4 mb-6 animate-fade-in">
+              <span className="h-px w-10 bg-gold-400/70" />
+              <p className="label-text text-gold-300">Premium Flight Services</p>
+              <span className="h-px w-10 bg-gold-400/70" />
+            </div>
             <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
               Exclusive Flight
-              <span className="block text-white">Deals & Bookings</span>
+              <span className="block text-gold-300">Deals &amp; Bookings</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
+            <p className="text-lg md:text-2xl mb-12 text-white/85 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
               Partner with top airlines for unbeatable prices across Africa and beyond. Experience luxury travel at exceptional value.
             </p>
           </div>
