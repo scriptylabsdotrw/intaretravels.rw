@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate --schema=../../prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -26,6 +26,7 @@
     "postcss": "^8",
     "autoprefixer": "^10",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^15.1.0"
+    "eslint-config-next": "^15.1.0",
+    "prisma": "^5.9.0"
   }
 }
