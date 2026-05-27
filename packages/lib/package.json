@@ -6,5 +6,15 @@
   "types": "./index.ts",
   "dependencies": {
     "@prisma/client": "^5.22.0"
+  },
+  "peerDependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "@types/react": "^18",
+    "typescript": "^5"
   }
 }

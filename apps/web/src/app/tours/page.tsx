@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
+import { TourCard, type TourCardData } from '../../components/cards/TourCard';
 import toursData from '../../../../../data/tours.json';
 
 const countries = [
@@ -23,10 +23,12 @@ const durations = ['All', '1 day', '3 days', '6 days', '7 days'];
 const priceRanges = [
   { label: 'All Prices', min: 0, max: Infinity },
   { label: 'Under $500', min: 0, max: 500 },
-  { label: '$500 - $1500', min: 500, max: 1500 },
-  { label: '$1500 - $3000', min: 1500, max: 3000 },
-  { label: 'Over $3000', min: 3000, max: Infinity },
+  { label: '$500 – $1,500', min: 500, max: 1500 },
+  { label: '$1,500 – $3,000', min: 1500, max: 3000 },
+  { label: 'Over $3,000', min: 3000, max: Infinity },
 ];
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function ToursPage() {
   const [selectedCountry, setSelectedCountry] = useState('All');
@@ -38,18 +40,15 @@ export default function ToursPage() {
 
   // Filter tours
   let filteredTours = toursData.filter(tour => {
-    // More flexible country matching - default to show all if "All" is selected
-    const countryMatch = selectedCountry === 'All' || 
-      (selectedCountry !== 'All' && (
-        tour.name.toLowerCase().includes(selectedCountry.toLowerCase()) ||
-        tour.description.toLowerCase().includes(selectedCountry.toLowerCase()) ||
-        tour.slug.toLowerCase().includes(selectedCountry.toLowerCase())
-      ));
-    
+    const countryMatch = selectedCountry === 'All' ||
+      tour.name.toLowerCase().includes(selectedCountry.toLowerCase()) ||
+      tour.description.toLowerCase().includes(selectedCountry.toLowerCase()) ||
+      tour.slug.toLowerCase().includes(selectedCountry.toLowerCase());
+
     const durationMatch = selectedDuration === 'All' || tour.duration === selectedDuration;
     const priceRange = priceRanges[selectedPriceRange];
     const priceMatch = tour.price >= priceRange.min && tour.price <= priceRange.max;
-    
+
     return countryMatch && durationMatch && priceMatch;
   });
 
@@ -73,66 +72,75 @@ export default function ToursPage() {
     setCurrentPage(1);
   };
 
+  const isFiltered = selectedCountry !== 'All' || selectedDuration !== 'All' || selectedPriceRange !== 0;
+  const resetFilters = () => {
+    setSelectedCountry('All');
+    setSelectedDuration('All');
+    setSelectedPriceRange(0);
+    setCurrentPage(1);
+  };
+
+  const chip = (active: boolean) =>
+    `px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+      active
+        ? 'bg-forest-800 text-white shadow-sm'
+        : 'bg-white text-neutral-700 border border-neutral-200 hover:border-gold-300 hover:text-forest-800'
+    }`;
+
   return (
     <div className="min-h-screen">
       <ScrollAnimations />
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2000"
-            alt="African Safari Wildlife"
+            src="https://images.pexels.com/photos/35283497/pexels-photo-35283497.jpeg?auto=compress&cs=tinysrgb&w=2000"
+            alt="Giraffe on the African savannah at golden hour"
             fill
             className="object-cover"
             priority
           />
           <div className="hero-overlay" />
         </div>
-        
+
         <div className="relative z-10 container-luxury text-center text-white">
           <div className="max-w-4xl mx-auto">
-            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
-              <Link href="/" className="text-white hover:text-red-200 transition-colors">
-                Home
-              </Link>
-              <span className="text-white">/</span>
-              <span className="text-white">Tours</span>
-            </nav>
-            
-            <p className="label-text text-white mb-6 animate-fade-in">
-              Curated Experiences
-            </p>
+            <div className="flex items-center justify-center gap-4 mb-6 animate-fade-in">
+              <span className="h-px w-10 bg-gold-400/70" />
+              <p className="label-text text-gold-300">Curated Experiences</p>
+              <span className="h-px w-10 bg-gold-400/70" />
+            </div>
             <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
-              Discover Africa's
-              <span className="block text-white">Hidden Treasures</span>
+              Discover Africa&apos;s
+              <span className="block text-gold-300">Hidden Treasures</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
-              Handcrafted luxury tours across East Africa's most spectacular destinations. From Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
+            <p className="text-lg md:text-2xl mb-12 text-white/85 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
+              Handcrafted luxury tours across East Africa&apos;s most spectacular destinations — from Victoria Falls to pristine beaches, cultural heritage to wildlife safaris.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="section-padding bg-luxury-off-white">
+      {/* Filters + Results */}
+      <section className="py-16 md:py-20 bg-luxury-off-white">
         <div className="container-luxury">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
+          {/* Count + Sort bar */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-8">
             <div>
-              <h2 className="heading-md text-neutral-900 mb-2">
+              <h2 className="heading-md text-neutral-900">
                 {filteredTours.length} Luxury {filteredTours.length === 1 ? 'Experience' : 'Experiences'}
               </h2>
-              <p className="text-neutral-600">Discover your perfect African adventure</p>
+              <p className="text-neutral-600 mt-1">Discover your perfect African adventure</p>
             </div>
-            
-            {/* Sort Dropdown */}
+
             <div className="flex items-center gap-3">
-              <span className="label-text text-neutral-700">Sort by:</span>
+              <span className="label-text text-neutral-500">Sort</span>
               <select
+                aria-label="Sort tours"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white min-w-[200px]"
+                className="px-4 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 bg-white text-sm min-w-[190px]"
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -142,85 +150,75 @@ export default function ToursPage() {
             </div>
           </div>
 
-          {/* Filter Tabs */}
-          <div className="space-y-8">
-            {/* Country Filter */}
+          {/* Refined filter panel */}
+          <div className="rounded-2xl border border-neutral-100 bg-white shadow-sm p-6 md:p-8 space-y-7">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-sm font-semibold tracking-widest uppercase text-neutral-900">Refine Your Search</h3>
+              {isFiltered && (
+                <button type="button" onClick={resetFilters} className="text-sm font-medium text-forest-800 hover:text-gold-600 transition-colors inline-flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Clear filters
+                </button>
+              )}
+            </div>
+
+            {/* Destinations */}
             <div>
-              <h3 className="heading-sm text-neutral-900 mb-4">Destinations</h3>
-              <div className="flex flex-wrap gap-4">
+              <p className="label-text text-gold-600 mb-3">Destination</p>
+              <div className="flex flex-wrap gap-2.5">
                 {countries.map((country) => (
                   <button
                     key={country.name}
+                    type="button"
                     onClick={() => handleFilterChange(setSelectedCountry, country.name)}
-                    className={`px-6 py-4 rounded-xl font-medium transition-all flex items-center gap-3 hover-lift ${
-                      selectedCountry === country.name
-                        ? 'bg-red-800 text-white shadow-luxury'
-                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
-                    }`}
+                    className={`flex items-center gap-2 ${chip(selectedCountry === country.name)}`}
                   >
-                    <div className="w-8 h-8 rounded-full overflow-hidden bg-white shadow-sm">
-                      {country.name === 'All' ? (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <svg className="w-5 h-5 text-red-800" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                          </svg>
-                        </div>
-                      ) : (
-                        <Image 
-                          src={country.flagUrl} 
-                          alt={`${country.name} flag`}
-                          width={32}
-                          height={32}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <span>{country.name}</span>
-                    {country.code && (
-                      <span className="text-xs font-bold tracking-wider opacity-75">{country.code}</span>
+                    {country.name !== 'All' && (
+                      <span className="relative w-5 h-5 rounded-full overflow-hidden ring-1 ring-black/5">
+                        <Image src={country.flagUrl} alt="" width={20} height={20} className="w-full h-full object-cover" />
+                      </span>
                     )}
+                    {country.name}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Duration Filter */}
-            <div>
-              <h3 className="heading-sm text-neutral-900 mb-4">Duration</h3>
-              <div className="flex flex-wrap gap-4">
-                {durations.map((duration) => (
-                  <button
-                    key={duration}
-                    onClick={() => handleFilterChange(setSelectedDuration, duration)}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all hover-lift ${
-                      selectedDuration === duration
-                        ? 'bg-red-800 text-white shadow-luxury'
-                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
-                    }`}
-                  >
-                    {duration}
-                  </button>
-                ))}
+            <div className="grid sm:grid-cols-2 gap-7">
+              {/* Duration */}
+              <div>
+                <p className="label-text text-gold-600 mb-3">Duration</p>
+                <div className="flex flex-wrap gap-2.5">
+                  {durations.map((duration) => (
+                    <button
+                      key={duration}
+                      type="button"
+                      onClick={() => handleFilterChange(setSelectedDuration, duration)}
+                      className={chip(selectedDuration === duration)}
+                    >
+                      {duration}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Price Filter */}
-            <div>
-              <h3 className="heading-sm text-neutral-900 mb-4">Price Range</h3>
-              <div className="flex flex-wrap gap-4">
-                {priceRanges.map((range, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleFilterChange(setSelectedPriceRange, index)}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all hover-lift ${
-                      selectedPriceRange === index
-                        ? 'bg-red-800 text-white shadow-luxury'
-                        : 'bg-white text-neutral-700 hover:bg-red-50 hover:text-red-800 border border-neutral-200'
-                    }`}
-                  >
-                    {range.label}
-                  </button>
-                ))}
+              {/* Price */}
+              <div>
+                <p className="label-text text-gold-600 mb-3">Price Range</p>
+                <div className="flex flex-wrap gap-2.5">
+                  {priceRanges.map((range, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleFilterChange(setSelectedPriceRange, index)}
+                      className={chip(selectedPriceRange === index)}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -228,94 +226,49 @@ export default function ToursPage() {
       </section>
 
       {/* Tours Grid */}
-      <section className="section-padding">
+      <section className="pb-20 md:pb-28">
         <div className="container-luxury">
           {filteredTours.length > 0 ? (
             <>
-              <div className="grid-luxury">
-                {currentTours.map((tour, index) => (
-                  <div
-                    key={tour.id}
-                    className="card-luxury rounded-2xl overflow-hidden fade-in-scroll"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <Link href={`/tours/${tour.slug}`} className="block">
-                      <div className="image-hover-zoom relative h-64">
-                        <Image
-                          src={tour.image}
-                          alt={tour.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                        {tour.featured && (
-                          <div className="absolute top-4 right-4 bg-red-800 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            Featured
-                          </div>
-                        )}
-                        <div className="absolute bottom-4 left-4 text-white">
-                          <span className="text-sm font-medium bg-black/30 px-2 py-1 rounded">
-                            {tour.duration}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="p-8">
-                        <h3 className="heading-sm text-neutral-900 mb-4 hover:text-red-800 transition-colors">
-                          {tour.name}
-                        </h3>
-                        <p className="text-neutral-600 mb-6 overflow-hidden" style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: 'vertical'
-                        }}>
-                          {tour.description}
-                        </p>
-                        
-                        <div className="flex items-center justify-between mb-6">
-                          <div className="flex items-center text-red-600">
-                            {[...Array(5)].map((_, i) => (
-                              <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
-                          <div className="text-right">
-                            <p className="text-sm text-neutral-500">From</p>
-                            <p className="text-2xl font-bold text-neutral-900">${tour.price}</p>
-                          </div>
-                        </div>
-                        
-                        <div className="btn-primary w-full text-center rounded-lg block">
-                          View Experience
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              <motion.div layout className="grid-luxury">
+                <AnimatePresence mode="popLayout">
+                  {currentTours.map((tour) => (
+                    <motion.div
+                      key={tour.id}
+                      layout
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.4, ease: EASE }}
+                    >
+                      <TourCard tour={tour as TourCardData} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-16 flex items-center justify-center gap-2">
                   <button
+                    type="button"
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-5 py-2.5 rounded-lg border border-neutral-200 text-neutral-700 hover:border-gold-300 hover:text-forest-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
                   >
                     Previous
                   </button>
-                  
+
                   <div className="flex gap-2">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
+                        type="button"
                         onClick={() => setCurrentPage(page)}
-                        className={`w-12 h-12 rounded-lg font-medium transition-all ${
+                        className={`w-11 h-11 rounded-lg font-medium transition-all text-sm ${
                           currentPage === page
-                            ? 'bg-red-800 text-white shadow-luxury'
-                            : 'border border-neutral-300 text-neutral-700 hover:bg-neutral-50'
+                            ? 'bg-forest-800 text-white shadow-sm'
+                            : 'border border-neutral-200 text-neutral-700 hover:border-gold-300 hover:text-forest-800'
                         }`}
                       >
                         {page}
@@ -324,9 +277,10 @@ export default function ToursPage() {
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
-                    className="px-6 py-3 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-5 py-2.5 rounded-lg border border-neutral-200 text-neutral-700 hover:border-gold-300 hover:text-forest-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
                   >
                     Next
                   </button>
@@ -335,23 +289,16 @@ export default function ToursPage() {
             </>
           ) : (
             <div className="text-center py-24">
-              <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div className="w-20 h-20 rounded-full bg-forest-50 ring-1 ring-gold-200 flex items-center justify-center mx-auto mb-6 text-forest-800">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <h3 className="heading-md text-neutral-900 mb-4">No experiences found</h3>
               <p className="text-neutral-600 mb-8 max-w-md mx-auto">
-                Try adjusting your filters to discover more luxury travel experiences
+                Try adjusting your filters to discover more luxury travel experiences.
               </p>
-              <button
-                onClick={() => {
-                  setSelectedCountry('All');
-                  setSelectedDuration('All');
-                  setSelectedPriceRange(0);
-                }}
-                className="btn-primary rounded-lg"
-              >
+              <button type="button" onClick={resetFilters} className="btn-secondary rounded-lg">
                 Clear All Filters
               </button>
             </div>
@@ -360,26 +307,33 @@ export default function ToursPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-luxury-gradient text-white">
-        <div className="container-luxury text-center">
-          <h2 className="heading-lg mb-6 text-shadow-luxury">
-            Can't Find Your Perfect Experience?
-          </h2>
-          <p className="text-xl mb-12 text-red-100 max-w-2xl mx-auto">
+      <section className="relative py-24 md:py-28 text-white overflow-hidden bg-charcoal-900">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2000"
+            alt="Lush green Rwandan landscape"
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="section-overlay-dark" />
+        </div>
+        <div className="relative z-10 container-luxury text-center">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <span className="h-px w-10 bg-gold-400/70" />
+            <p className="label-text text-gold-300">Bespoke Travel</p>
+            <span className="h-px w-10 bg-gold-400/70" />
+          </div>
+          <h2 className="heading-lg mb-6 text-shadow-luxury">Can&apos;t Find Your Perfect Experience?</h2>
+          <p className="text-lg md:text-xl mb-10 text-white/85 max-w-2xl mx-auto leading-relaxed">
             Our travel experts will craft a bespoke itinerary tailored to your unique preferences and desires.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a href="tel:+250780100064" className="btn-outline rounded-lg">
-              Call +250 780 100 064
-            </a>
-            <a href="mailto:booking@intaretravels.rw" className="btn-primary bg-white text-red-800 hover:bg-red-50 rounded-lg">
-              Email Our Experts
-            </a>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+            <Link href="tel:+250780100064" className="btn-outline rounded-lg">Call +250 780 100 064</Link>
+            <Link href="mailto:booking@intaretravels.rw" className="btn-gold rounded-lg">Email Our Experts</Link>
           </div>
         </div>
       </section>
-
-      <LuxuryFooter />
     </div>
   );
 }

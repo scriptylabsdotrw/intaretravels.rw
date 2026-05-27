@@ -1,9 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
+import { ApartmentCard, type ApartmentCardData } from '../../components/cards/ApartmentCard';
 import apartmentsData from '../../../../../data/apartments.json';
 
 export const metadata: Metadata = {
@@ -16,8 +14,7 @@ export default function AccommodationPage() {
   return (
     <div className="min-h-screen">
       <ScrollAnimations />
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
@@ -33,22 +30,16 @@ export default function AccommodationPage() {
 
         <div className="relative z-10 container-luxury text-center text-white">
           <div className="max-w-4xl mx-auto">
-            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
-              <Link href="/" className="text-white hover:text-red-200 transition-colors">
-                Home
-              </Link>
-              <span className="text-white">/</span>
-              <span className="text-white">Accommodation</span>
-            </nav>
-            
-            <p className="label-text text-white mb-6 animate-fade-in">
-              Premium Properties
-            </p>
+            <div className="flex items-center justify-center gap-4 mb-6 animate-fade-in">
+              <span className="h-px w-10 bg-gold-400/70" />
+              <p className="label-text text-gold-300">Premium Properties</p>
+              <span className="h-px w-10 bg-gold-400/70" />
+            </div>
             <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
               Luxury
-              <span className="block text-white">Accommodation</span>
+              <span className="block text-gold-300">Accommodation</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
+            <p className="text-lg md:text-2xl mb-12 text-white/85 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
               Our exclusive properties offer the perfect blend of comfort, style, and location for your African adventure.
             </p>
             
@@ -90,71 +81,9 @@ export default function AccommodationPage() {
 
           <div className="grid-luxury">
             {apartmentsData.map((apartment, index) => (
-              <Link key={apartment.id} href={`/accommodation/${apartment.slug}`} className="group">
-                <div className="card-luxury rounded-2xl overflow-hidden fade-in-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <div className="aspect-[4/3] relative bg-neutral-200 overflow-hidden image-hover-zoom">
-                    <Image
-                      src={apartment.image}
-                      alt={apartment.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    {apartment.featured && (
-                      <div className="absolute top-4 right-4 bg-red-800 text-white px-3 py-2 rounded-full text-sm font-semibold">
-                        Featured
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="p-8">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-                        {apartment.bedrooms} Bedrooms
-                      </span>
-                      <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-                        {apartment.bathrooms} Bathrooms
-                      </span>
-                    </div>
-                    
-                    <h3 className="heading-sm text-neutral-900 mb-2 group-hover:text-red-800 transition-colors">
-                      {apartment.name}
-                    </h3>
-                    <p className="text-neutral-600 mb-2 text-sm">{apartment.address}</p>
-                    <p className="text-neutral-600 mb-6 overflow-hidden" style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical'
-                    }}>
-                      {apartment.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {apartment.amenities.slice(0, 3).map((amenity, index) => (
-                        <span key={index} className="text-xs bg-neutral-100 text-neutral-700 px-2 py-1 rounded">
-                          {amenity}
-                        </span>
-                      ))}
-                      {apartment.amenities.length > 3 && (
-                        <span className="text-xs text-neutral-500">+{apartment.amenities.length - 3} more</span>
-                      )}
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <span className="text-sm text-neutral-500">From</span>
-                        <div className="text-2xl font-bold text-red-800">
-                          ${apartment.pricePerNight}
-                          <span className="text-sm text-neutral-600 font-normal">/night</span>
-                        </div>
-                      </div>
-                      <div className="btn-primary rounded-lg px-6 py-3">
-                        View Details
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <div key={apartment.id} className="fade-in-scroll" style={{ animationDelay: `${index * 0.08}s` }}>
+                <ApartmentCard apartment={apartment as ApartmentCardData} />
+              </div>
             ))}
           </div>
         </div>
@@ -245,7 +174,6 @@ export default function AccommodationPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }

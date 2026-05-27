@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 
 const cities = [
   'All Cities',
@@ -105,14 +103,13 @@ export default function TicketingPage() {
 
   return (
     <div className="min-h-screen">
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000"
-            alt="Airplane in flight"
+            src="https://images.pexels.com/photos/17481185/pexels-photo-17481185.jpeg?auto=compress&cs=tinysrgb&w=2000"
+            alt="Giraffe against an open African sky"
             fill
             className="object-cover"
             priority
@@ -122,22 +119,16 @@ export default function TicketingPage() {
 
         <div className="relative z-10 container-luxury text-center text-white">
           <div className="max-w-4xl mx-auto">
-            <nav className="flex items-center justify-center space-x-2 text-sm mb-8 animate-fade-in">
-              <Link href="/" className="text-white hover:text-red-200 transition-colors">
-                Home
-              </Link>
-              <span className="text-white">/</span>
-              <span className="text-white">Flight Deals</span>
-            </nav>
-            
-            <p className="label-text text-white mb-6 animate-fade-in">
-              Premium Flight Services
-            </p>
+            <div className="flex items-center justify-center gap-4 mb-6 animate-fade-in">
+              <span className="h-px w-10 bg-gold-400/70" />
+              <p className="label-text text-gold-300">Premium Flight Services</p>
+              <span className="h-px w-10 bg-gold-400/70" />
+            </div>
             <h1 className="heading-xl mb-8 text-shadow-luxury animate-fade-in-up delay-200">
               Exclusive Flight
-              <span className="block text-white">Deals & Bookings</span>
+              <span className="block text-gold-300">Deals &amp; Bookings</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-white max-w-3xl mx-auto animate-fade-in-up delay-400">
+            <p className="text-lg md:text-2xl mb-12 text-white/85 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
               Partner with top airlines for unbeatable prices across Africa and beyond. Experience luxury travel at exceptional value.
             </p>
           </div>
@@ -411,7 +402,7 @@ export default function TicketingPage() {
                         <svg className="w-5 h-5 text-neutral-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                      </div>r
+                      </div>
                     </div>
                   )}
                   {/* Passengers */}
@@ -772,7 +763,6 @@ export default function TicketingPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }

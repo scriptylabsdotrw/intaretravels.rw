@@ -6,3 +6,6 @@ dist
 .DS_Store
 CREDENTIALS.md
 backups/
+*.tsbuildinfo
+next-env.d.ts
+.vercel

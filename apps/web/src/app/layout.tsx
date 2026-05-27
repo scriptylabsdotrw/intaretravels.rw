@@ -1,19 +1,21 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Mulish, Cormorant_Garamond } from 'next/font/google';
 import { ScrollAnimations } from '../components/ScrollAnimations';
+import { LuxuryNavigation } from '../components/LuxuryNavigation';
+import { LuxuryFooter } from '../components/LuxuryFooter';
 import './globals.css';
 
-const inter = Inter({ 
+const body = Mulish({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-body',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+const display = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-display',
   display: 'swap',
 });
 
@@ -33,10 +35,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${body.variable} ${display.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Strichpunkt+Sans:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="font-sans antialiased">
         <ScrollAnimations />
+        <LuxuryNavigation />
         {children}
+        <LuxuryFooter />
       </body>
     </html>
   );

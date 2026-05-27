@@ -17,11 +17,19 @@ export function LuxuryNavigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll while the mobile menu is open.
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Tours', href: '/tours' },
     { name: 'Accommodation', href: '/accommodation' },
-    { name: 'Ticketing', href: '/ticketing' },
+    { name: 'Flights', href: '/ticketing' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -30,18 +38,19 @@ export function LuxuryNavigation() {
     <>
       <nav className={`nav-fixed ${isScrolled ? 'nav-solid' : 'nav-transparent'}`}>
         <div className="container-luxury">
-          <div className="flex items-center justify-between h-20">
+          <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
             {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <div className="relative w-32 h-12">
+            <Link href="/" className="flex items-center" aria-label="Intare Travels home">
+              <div className={`relative transition-all duration-300 ${isScrolled ? 'w-44 h-14' : 'w-52 h-16'}`}>
                 <Image
                   src="/intareTravelslogo.png"
                   alt="Intare Travels"
                   fill
-                  className={`object-contain transition-all duration-300 ${
+                  className={`object-contain object-left transition-all duration-300 ${
                     isScrolled ? 'brightness-100' : 'brightness-0 invert'
                   }`}
                   priority
+                  sizes="220px"
                 />
               </div>
             </Link>
@@ -52,8 +61,8 @@ export function LuxuryNavigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link transition-colors duration-300 ${
-                    isScrolled ? 'text-neutral-800 hover:text-red-800' : 'text-white hover:text-red-200'
+                  className={`nav-link ${
+                    isScrolled ? 'text-neutral-800 hover:text-forest-800' : 'text-white/90 hover:text-gold-300'
                   }`}
                 >
                   {item.name}
@@ -63,43 +72,26 @@ export function LuxuryNavigation() {
 
             {/* CTA Button */}
             <div className="hidden lg:flex items-center">
-              <Link
-                href="/book-flight"
-                className={`btn-primary rounded-lg transition-all duration-300 ${
-                  isScrolled ? '' : 'bg-white text-red-800 hover:bg-red-50'
-                }`}
-              >
-                Book Now
+              <Link href="/contact" className="btn-gold rounded-lg">
+                Plan a Trip
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
               className={`lg:hidden p-2 rounded-lg transition-colors ${
-                isScrolled ? 'text-neutral-800 hover:text-red-800' : 'text-white hover:text-red-200'
+                isScrolled ? 'text-neutral-800 hover:text-forest-800' : 'text-white hover:text-gold-300'
               }`}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -109,25 +101,25 @@ export function LuxuryNavigation() {
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : 'closed'}`}>
-        <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <div className="flex flex-col items-center justify-center h-full space-y-7 px-6">
           {navigation.map((item, index) => (
             <Link
               key={item.name}
               href={item.href}
-              className="nav-link text-white text-xl animate-slide-down"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="text-white text-2xl font-serif hover:text-gold-300 transition-colors animate-slide-down"
+              style={{ animationDelay: `${index * 0.07}s` }}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {item.name}
             </Link>
           ))}
           <Link
-            href="/book-flight"
-            className="btn-outline rounded-lg mt-8 animate-slide-down"
-            style={{ animationDelay: '0.6s' }}
+            href="/contact"
+            className="btn-gold rounded-lg mt-6 animate-slide-down"
+            style={{ animationDelay: '0.5s' }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Book Now
+            Plan a Trip
           </Link>
         </div>
       </div>

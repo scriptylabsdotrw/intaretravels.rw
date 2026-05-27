@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Section, Button, Badge, Breadcrumb } from '@tourism/ui';
+import { Section, Button, Badge } from '@tourism/ui';
 import { generateSEO } from '@tourism/lib/seo';
 import { StructuredData, generateApartmentSchema, generateBreadcrumbSchema } from '@tourism/lib/structured-data';
 import apartmentsData from '../../../../../../data/apartments.json';
@@ -66,15 +66,7 @@ export default async function AccommodationDetailPage({ params }: { params: Prom
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 pb-12">
           <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-            <Breadcrumb 
-              items={[
-                { label: 'Home', href: '/' },
-                { label: 'Accommodation', href: '/accommodation' },
-                { label: apartment.name }
-              ]} 
-              theme="dark"
-            />
-            <h1 className="text-4xl md:text-6xl font-bold text-white mt-6 mb-4">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
               {apartment.name}
             </h1>
             <div className="flex items-center gap-2 text-white">
