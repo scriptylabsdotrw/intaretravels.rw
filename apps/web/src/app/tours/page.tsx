@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
 import toursData from '../../../../../data/tours.json';
 
@@ -76,8 +74,7 @@ export default function ToursPage() {
   return (
     <div className="min-h-screen">
       <ScrollAnimations />
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
@@ -379,7 +376,6 @@ export default function ToursPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }

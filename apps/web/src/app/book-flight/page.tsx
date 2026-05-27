@@ -71,7 +71,7 @@ Please contact me to confirm this booking.
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-900 to-red-950 text-white py-12">
+      <div className="bg-gradient-to-r from-red-900 to-red-950 text-white pt-28 pb-12">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <Breadcrumb 
             items={[

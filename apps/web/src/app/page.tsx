@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../components/LuxuryNavigation';
-import { LuxuryFooter } from '../components/LuxuryFooter';
 import { ScrollAnimations } from '../components/ScrollAnimations';
 import { TourCard, type TourCardData } from '../components/cards/TourCard';
 import { FlightDealCard, type FlightDealData } from '../components/cards/FlightDealCard';
@@ -150,7 +148,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       <ScrollAnimations />
-      <LuxuryNavigation />
 
       {/* Hero */}
       <section className="hero-section">
@@ -495,8 +492,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <LuxuryFooter />
     </div>
   );
 }

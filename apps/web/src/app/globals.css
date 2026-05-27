@@ -3,17 +3,16 @@
 @tailwind utilities;
 
 :root {
-  /* Luxury Rwanda palette */
-  --forest: #134227;
-  --forest-deep: #0f3d29;
-  --emerald: #2f7d4c;
+  /* Luxury red & gold palette */
+  --primary-dark-red: #8B0000;
+  --accent-red: #DC143C;
   --gold: #c9a24b;
   --gold-soft: #e0c47a;
-  --ivory: #faf7f0;
+  --ivory: #fdfaf4;
   --sand: #e8dec9;
-  --charcoal: #1a1f1c;
-  --dark-background: #0c1f17;
-  --dark-black: #06120c;
+  --charcoal: #1a1413;
+  --dark-background: #1A0404;
+  --dark-black: #0D0000;
 }
 
 @layer base {
@@ -23,13 +22,13 @@
   }
 
   body {
-    font-family: var(--font-inter), 'Inter', sans-serif;
+    font-family: var(--font-body), 'Mulish', sans-serif;
     line-height: 1.6;
     @apply bg-white text-neutral-900;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-playfair), 'Playfair Display', serif;
+    font-family: var(--font-display), 'Cormorant Garamond', serif;
     font-weight: 600;
     line-height: 1.2;
   }
@@ -62,22 +61,22 @@
   /* Typography */
   .heading-xl {
     @apply text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold;
-    font-family: var(--font-playfair), 'Playfair Display', serif;
+    font-family: var(--font-display), 'Cormorant Garamond', serif;
   }
 
   .heading-lg {
     @apply text-4xl md:text-5xl lg:text-6xl font-semibold;
-    font-family: var(--font-playfair), 'Playfair Display', serif;
+    font-family: var(--font-display), 'Cormorant Garamond', serif;
   }
 
   .heading-md {
     @apply text-2xl md:text-3xl lg:text-4xl font-semibold;
-    font-family: var(--font-playfair), 'Playfair Display', serif;
+    font-family: var(--font-display), 'Cormorant Garamond', serif;
   }
 
   .heading-sm {
     @apply text-xl md:text-2xl font-medium;
-    font-family: var(--font-playfair), 'Playfair Display', serif;
+    font-family: var(--font-display), 'Cormorant Garamond', serif;
   }
 
   .label-text {
@@ -146,19 +145,19 @@
 
   /* Gradient Backgrounds */
   .bg-luxury-gradient {
-    background: linear-gradient(135deg, #134227 0%, #2f7d4c 100%);
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
   }
 
   .bg-luxury-dark-red {
-    background: linear-gradient(135deg, #0f3d29 0%, #134227 100%);
+    background: linear-gradient(135deg, #8B0000 0%, #7f1d1d 100%);
   }
 
   .bg-luxury-dark-bg {
-    background: linear-gradient(135deg, #0c1f17 0%, #06120c 100%);
+    background: linear-gradient(135deg, #1A0404 0%, #0D0000 100%);
   }
 
   .bg-luxury-off-white {
-    background-color: #faf7f0;
+    background-color: #fdfaf4;
   }
 
   /* Text Effects */
@@ -174,7 +173,7 @@
   }
 
   .text-shadow-luxury {
-    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    text-shadow: none;
   }
 }
 
@@ -266,7 +265,7 @@
   /* Mobile Menu */
   .mobile-menu {
     @apply fixed inset-0 z-50 transform transition-transform duration-300;
-    background: linear-gradient(160deg, #0f3d29 0%, #06120c 100%);
+    background: linear-gradient(160deg, #8B0000 0%, #0D0000 100%);
   }
 
   .mobile-menu.closed {
@@ -305,8 +304,8 @@
 }
 
 @keyframes pulseRed {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(47, 125, 76, 0.6); }
-  70% { box-shadow: 0 0 0 10px rgba(47, 125, 76, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 20, 60, 0); }
 }
 
 @keyframes scrollIndicator {
@@ -340,17 +339,17 @@
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #134227, #2f7d4c);
+  background: linear-gradient(135deg, #8B0000, #DC143C);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #2f7d4c, #134227);
+  background: linear-gradient(135deg, #DC143C, #8B0000);
 }
 
 /* Selection Styles */
 ::selection {
-  background-color: rgba(47, 125, 76, 0.2);
-  color: #134227;
+  background-color: rgba(220, 20, 60, 0.2);
+  color: #8B0000;
 }
 
 /* Focus Styles */

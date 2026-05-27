@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
 import apartmentsData from '../../../../../data/apartments.json';
 
@@ -16,8 +14,7 @@ export default function AccommodationPage() {
   return (
     <div className="min-h-screen">
       <ScrollAnimations />
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
@@ -245,7 +242,6 @@ export default function AccommodationPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }

@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 
 const cities = [
   'All Cities',
@@ -105,8 +103,7 @@ export default function TicketingPage() {
 
   return (
     <div className="min-h-screen">
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
@@ -772,7 +769,6 @@ export default function TicketingPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }

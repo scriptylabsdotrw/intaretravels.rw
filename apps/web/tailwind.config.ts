@@ -1,29 +1,29 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Intare Travels — Luxury Rwanda palette.
+ * Intare Travels — luxury red & gold palette.
  *
- * The public site was originally built on a crimson `red-*` scale and a
- * `primary-*` scale (from the shared UI package). To rebrand the whole site to
- * a premium forest-green identity without churning every page's markup, we keep
- * those class names but map them onto green tones, and expose semantic aliases
- * (forest / emerald / gold / sand / ivory / charcoal) for new components.
+ * The site is built on a `red-*` scale plus a `primary-*` scale (shared UI +
+ * about page). We keep the deep-red brand and pair it with champagne-gold
+ * accents and warm neutral tones (sand / ivory / charcoal). The semantic
+ * aliases (`forest` / `emerald`) used by some components are mapped onto the
+ * red scale so everything stays on-brand.
  */
 
-// Deep forest → emerald. Used for both `red-*` (legacy pages) and `primary-*`
-// (shared UI + about page) so the entire site recolors consistently.
-const forest = {
-  50: '#eef6f0',
-  100: '#d6ebdc',
-  200: '#aed6ba',
-  300: '#7cba90',
-  400: '#4e9b69',
-  500: '#2f7d4c',
-  600: '#226b3f',
-  700: '#1a5733',
-  800: '#134227',
-  900: '#0e331e',
-  950: '#061c10',
+// Deep luxury red. Used for `red-*`, `primary-*`, and the `forest`/`emerald`
+// aliases so the whole site renders in the red brand.
+const brandRed = {
+  50: '#fef2f2',
+  100: '#fee2e2',
+  200: '#fecaca',
+  300: '#fca5a5',
+  400: '#f87171',
+  500: '#ef4444',
+  600: '#dc2626',
+  700: '#b91c1c',
+  800: '#991b1b',
+  900: '#7f1d1d',
+  950: '#450a0a',
 };
 
 // Champagne / gold accent for refined highlights.
@@ -50,19 +50,18 @@ const config: Config = {
     extend: {
       colors: {
         luxury: {
-          'dark-red': '#0f3d29', // legacy key — now deep forest
-          'accent-red': '#2f7d4c', // legacy key — now emerald
-          'off-white': '#faf7f0', // ivory
-          'dark-bg': '#0c1f17', // charcoal-green
-          'dark-black': '#06120c',
+          'dark-red': '#8B0000',
+          'accent-red': '#DC143C',
+          'off-white': '#FDFAF4',
+          'dark-bg': '#1A0404',
+          'dark-black': '#0D0000',
         },
-        // Legacy `red-*` usages across the site now render as forest green.
-        red: forest,
+        red: brandRed,
         // Shared UI package + about page use `primary-*`.
-        primary: forest,
-        // Semantic aliases for new code.
-        forest,
-        emerald: forest,
+        primary: brandRed,
+        // Semantic aliases used by some components — mapped to the red brand.
+        forest: brandRed,
+        emerald: brandRed,
         gold,
         sand: {
           DEFAULT: '#e8dec9',
@@ -72,16 +71,17 @@ const config: Config = {
           300: '#d8c8a6',
           400: '#c4ad7e',
         },
-        ivory: '#faf7f0',
+        ivory: '#fdfaf4',
         charcoal: {
-          DEFAULT: '#1a1f1c',
-          800: '#1a1f1c',
-          900: '#0f1411',
+          DEFAULT: '#1a1413',
+          800: '#1a1413',
+          900: '#0d0606',
         },
       },
       fontFamily: {
-        'serif': ['Playfair Display', 'serif'],
-        'sans': ['Inter', 'sans-serif'],
+        'serif': ['var(--font-display)', 'Cormorant Garamond', 'serif'],
+        'sans': ['var(--font-body)', 'Mulish', 'sans-serif'],
+        'display': ['var(--font-display)', 'Cormorant Garamond', 'serif'],
       },
       fontSize: {
         'display': ['5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
@@ -103,8 +103,8 @@ const config: Config = {
         'luxury': '20px',
       },
       boxShadow: {
-        'luxury': '0 25px 50px -12px rgba(19, 66, 39, 0.25)',
-        'luxury-lg': '0 35px 60px -12px rgba(19, 66, 39, 0.35)',
+        'luxury': '0 25px 50px -12px rgba(139, 0, 0, 0.25)',
+        'luxury-lg': '0 35px 60px -12px rgba(139, 0, 0, 0.35)',
         'gold': '0 10px 30px -10px rgba(201, 162, 75, 0.45)',
       },
     },

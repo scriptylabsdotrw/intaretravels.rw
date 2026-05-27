@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LuxuryNavigation } from '../../components/LuxuryNavigation';
-import { LuxuryFooter } from '../../components/LuxuryFooter';
 import { ScrollAnimations } from '../../components/ScrollAnimations';
 
 const interestOptions = [
@@ -27,8 +25,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen">
-      <LuxuryNavigation />
-      
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="absolute inset-0">
@@ -299,7 +296,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <LuxuryFooter />
     </div>
   );
 }
