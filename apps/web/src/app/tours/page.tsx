@@ -79,8 +79,8 @@ export default function ToursPage() {
       <section className="hero-section">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2000"
-            alt="African Safari Wildlife"
+            src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?q=80&w=2000"
+            alt="Giraffe on the African savannah at golden hour"
             fill
             className="object-cover"
             priority
